@@ -5,9 +5,10 @@
 using namespace std;
 using namespace BoolApp;
 
-int main() {
+int main()
+{
 
     string str = "x1 & x2";
 
-    term* test = parsing(str);
+    term *test = parsing((char *&)str.data());
 }

@@ -29,7 +29,7 @@ namespace BoolApp
         return td.nametovar[varname];
     }
 
-    term *parsing(char *str)
+    term *parsing(char *&str)
     {
         std::string buffer = "";
         term *tprev = 0;

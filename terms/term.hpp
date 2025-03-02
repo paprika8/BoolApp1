@@ -13,7 +13,7 @@ namespace BoolApp
         virtual bool calculate(termData td) = 0;
     };
 
-    term *parsing(std::string str);
+    term *parsing(char *&str);
 
     struct termOR : term
     {
