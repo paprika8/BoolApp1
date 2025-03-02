@@ -48,33 +48,48 @@ namespace BoolApp
                 switch (*str)
                 {
                 case '|':
+                {
                     termOR *t1 = new termOR();
                     t1->t1 = tprev;
                     tprev = t1;
                     t1->t2 = parsing(++str);
                     continue;
+                }
+
                 case '&':
+                {
                     termAND *t1 = new termAND();
                     t1->t1 = tprev;
                     tprev = t1;
                     t1->t2 = parsing(++str);
                     continue;
+                }
+
                 case '!':
+                {
                     termNOT *t1 = new termNOT();
                     t1->t1 = parsing(++str);
                     tprev = t1;
                     continue;
+                }
+
                 case '(':
+                {
                     tprev = parsing(++str);
                     continue;
+                }
                 case ')':
+                {
                     return tprev;
+                }
                 case '=':
+                {
                     termEQUAL *t1 = new termEQUAL();
                     t1->t1 = tprev;
                     tprev = t1;
                     t1->t2 = parsing(++str);
                     continue;
+                }
                 default:
                     continue;
                 }

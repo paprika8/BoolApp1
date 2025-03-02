@@ -37,5 +37,6 @@
 		"xtr1common": "cpp",
 		"xutility": "cpp",
 		"map": "cpp"
-	}
+	},
+	"makefile.makefilePath": "C:\\DiscretProject1\\BoolApp1\\terms\\makefile"
 }
