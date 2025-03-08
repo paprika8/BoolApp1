@@ -38,6 +38,7 @@ namespace BoolApp {
 	struct Padding;
 
 	struct pointUI {
+		using enum CalcType;
 		short value : 14;
 		CalcType type : 2;
 
@@ -111,6 +112,7 @@ namespace BoolApp {
 
 	struct Size
 	{
+		using enum CalcType;
 		pointUI width;
 		pointUI height;
 
@@ -163,10 +165,18 @@ namespace BoolApp {
 
 	struct Padding
 	{
+		using enum CalcType;
 		pointUI left;
 		pointUI top;
 		pointUI right;
 		pointUI bottom;
+
+		Padding(){
+			left = 0;
+			top = 0;
+			right = 0;
+			bottom = 0;
+		}
 
 		virtual void reRect ( Point& point , Size& contentSize )
 		{
@@ -239,10 +249,18 @@ namespace BoolApp {
 	struct Margin
 	{
 	public:
+		using enum CalcType;
 		pointUI left;
 		pointUI top;
 		pointUI right;
 		pointUI bottom;
+
+		Margin(){
+			left = 0;
+			top = 0;
+			right = 0;
+			bottom = 0;
+		}
 
 		Margin ( Margin& orig )
 		{
