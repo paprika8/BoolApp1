@@ -55,6 +55,7 @@ namespace BoolApp{
 		virtual std::string getSzWindowClass() = 0;
 		virtual void Register(WNDCLASSA&){};
 		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){};
+		virtual void childDeleted(View*){};
 		void setBuilder(Builder* abuilder){
 			delete builder;
 			builder = abuilder;
@@ -91,6 +92,9 @@ namespace BoolApp{
 		}
 
 		~View(){
+			if(parent){
+				parent->childDeleted(this);
+			}
 			PV->view = 0;
 			disable();
 		}
