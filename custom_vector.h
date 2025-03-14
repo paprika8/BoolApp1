@@ -25,6 +25,11 @@ struct custom_vector{
 		}
 		return false;
 	}
+	void clean(){
+		free(data);
+		data = malloc(0);
+		size = 0;
+	}
 
 	T& operator[](int i){
 		return data[i];
