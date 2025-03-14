@@ -29,6 +29,9 @@ struct custom_vector{
 		return data[i];
 	}
 
+	~custom_vector(){
+		free(data);
+	}
 private:
 	T* data;
 	size_t size;
