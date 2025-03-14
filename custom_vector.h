@@ -32,6 +32,63 @@ struct custom_vector{
 	~custom_vector(){
 		free(data);
 	}
+
+	iterator begin(){
+		return iterator(data);
+	}
+	iterator end(){
+		return iterator(data + size);
+	}
+
+	struct iterator{
+		iterator(T* ait){
+			it = ait;
+		}
+
+		T& operator*(){
+			return *it;
+		}
+
+		iterator operator+=(int a){
+			it += a;
+			return *this;
+		}
+		iterator operator+(int a){
+			iterator buf(it);
+			buf += a;
+			return buf;
+		}
+
+		iterator operator-=(int a){
+			it -= a;
+			return *this;
+		}
+		iterator operator-(int a){
+			iterator buf(it);
+			buf -= a;
+			return buf;
+		}
+
+		int operator-(iterator b){
+			return it - b.it;
+		}
+
+		bool operator==(iterator b){
+			return it == b.it;
+		}
+		bool operator!=iterator b){
+			return it != b.it;
+		}
+		bool operator<(iterator b){
+			return it < b.it;
+		}
+		bool operator>(iterator b){
+			return it > b.it;
+		}
+		private:
+		T* it;
+	}
+
 private:
 	T* data;
 	size_t size;
