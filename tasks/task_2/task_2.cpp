@@ -6,8 +6,57 @@
 
 using namespace std;
 
-void log_table(int n, vector<bool> &v)
+int countDigits(int number)
 {
+    if (number == 0)
+    {
+        return 1; // Число 0 имеет одну цифру
+    }
+
+    int count = 0;
+    while (number != 0)
+    {
+        number /= 10; // Убираем последнюю цифру
+        count++;
+    }
+    return count;
+}
+
+int twoInPower(int power)
+{
+    if (power == 0)
+        return 1;
+
+    int res = 2;
+    while (power > 1)
+    {
+        res <<= 1;
+        power--;
+    }
+    return res;
+}
+
+int getPowerOfTwo(size_t n)
+{
+    if (n == 0)
+    {
+        return -1;
+    }
+
+    int power = 0;
+    while (n > 1)
+    {
+        n >>= 1;
+        power++;
+    }
+
+    return power;
+}
+
+void log_table(vector<bool> &v)
+{
+    int n = getPowerOfTwo(v.size());
+
     cout << '|';
     for (int i = 1; i <= n; i++)
     {
@@ -23,7 +72,11 @@ void log_table(int n, vector<bool> &v)
             int offs = 1 << j;
             bool t = i & offs;
 
-            cout << "  " << t << " |";
+            for (int k = 0; k < countDigits(n - j) + 1; k++)
+            {
+                cout << ' ';
+            }
+            cout << t << " |";
         }
 
         cout << ' ' << v[i] << " |" << '\n';
@@ -36,19 +89,41 @@ void log_table(int n, vector<bool> &v)
 //|  0 |  0 |  1 | 0 |
 int main()
 {
-    srand(time(NULL));
-
-    int n;
-    cin >> n;
-    int m = 1 << n;
-    vector<bool> f(m);
-    int k = 1 << m;
-    int d = rand() % k;
-
-    for (int i = m - 1; i >= 0; i--)
+    string str;
+    getline(cin, str);
+    vector<bool> f;
+    int i = 0;
+    while (str[i] != ' ')
     {
-        f[i] = d & 1;
-        d >>= 1;
+        // cout << str[i] << endl;
+        f.push_back(bool(str[i] - 48));
+        i++;
     }
-    log_table(n, f);
+    i++;
+    bool ost_val = bool(str[i] - 48);
+    i += 2;
+    int x_num = int(str[i] - 48);
+    int amt_of_x = getPowerOfTwo(f.size());
+
+    int group_amt = twoInPower(x_num - 1);
+    int start_pos = f.size() / twoInPower(x_num);
+    int step = f.size() / group_amt;
+
+    vector<bool> ostat(twoInPower(amt_of_x - 1));
+    int i_ost = 0;
+    for (int i = ost_val * (start_pos); i < f.size(); i += step)
+    {
+        for (int j = 0; j < start_pos; j++)
+        {
+            ostat[i_ost] = f[i + j];
+            i_ost++;
+        }
+    }
+
+    cout << endl;
+    for (auto el : ostat)
+    {
+        cout << el;
+    }
+    cout << endl;
 }

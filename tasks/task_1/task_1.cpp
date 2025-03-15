@@ -5,8 +5,43 @@
 
 using namespace std;
 
-void log_table(int n, vector<bool> &v)
+int countDigits(int number)
 {
+    if (number == 0)
+    {
+        return 1; // Число 0 имеет одну цифру
+    }
+
+    int count = 0;
+    while (number != 0)
+    {
+        number /= 10; // Убираем последнюю цифру
+        count++;
+    }
+    return count;
+}
+
+int getPowerOfTwo(size_t n)
+{
+    if (n == 0)
+    {
+        return -1;
+    }
+
+    int power = 0;
+    while (n > 1)
+    {
+        n >>= 1;
+        power++;
+    }
+
+    return power;
+}
+
+void log_table(vector<bool> &v)
+{
+    int n = getPowerOfTwo(v.size());
+
     cout << '|';
     for (int i = 1; i <= n; i++)
     {
@@ -22,7 +57,11 @@ void log_table(int n, vector<bool> &v)
             int offs = 1 << j;
             bool t = i & offs;
 
-            cout << "  " << t << " |";
+            for (int k = 0; k < countDigits(n - j) + 1; k++)
+            {
+                cout << ' ';
+            }
+            cout << t << " |";
         }
 
         cout << ' ' << v[i] << " |" << '\n';
@@ -54,5 +93,5 @@ int main()
         f[i] = dis(gen);
     }
 
-    log_table(n, f);
+    log_table(f);
 }
