@@ -15,6 +15,39 @@ namespace BoolApp{
 	class pcomponent;
 	class composite;
 	class component;
+
+	class Builder{
+		public:
+		virtual void build(ProcessView* apv) = 0;
+	};
+
+	class SizeBuilder : public Builder{
+	public:
+		void build(ProcessView* apv) override{
+			apv->size = size;
+			apv->margin = margin;
+			apv->padding = padding;
+		}
+
+		SizeBuilder(Size asize, Margin amargin, Padding apadding){
+			size = asize;
+			margin = amargin;
+			padding = apadding;
+		}
+
+	private:
+		Size size;
+		Margin margin;
+		Padding padding;
+
+	};
+
+	class DefaultBuilder : public Builder{
+		public:
+			void build(ProcessView* apv) override{
+				apv->size = (100, 100);
+			}
+		};
 	
 	class View{
 		public:
@@ -22,6 +55,20 @@ namespace BoolApp{
 		virtual std::string getSzWindowClass() = 0;
 		virtual void Register(WNDCLASSA&){};
 		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){};
+		virtual void childDeleted(View*){};
+		void setBuilder(Builder* abuilder){
+			delete builder;
+			builder = abuilder;
+		}
+		void Construct(){
+			if(PV != 0){
+				return;
+			}
+			PV = VConstruct(parent->PV);
+			builder->build(PV);
+		}
+
+		virtual ProcessView* VConstruct(ProcessView* apv) = 0;
 
 		void sregister(){
 			WNDCLASSA wca = {0};
@@ -45,6 +92,9 @@ namespace BoolApp{
 		}
 
 		~View(){
+			if(parent){
+				parent->childDeleted(this);
+			}
 			PV->view = 0;
 			disable();
 		}
@@ -58,6 +108,8 @@ namespace BoolApp{
 
 		private:
 		bool enabled = false;
+		Builder* builder = new DefaultBuilder();
+		View* parent = 0;
 	};
 
 	class ProcessView{
@@ -90,6 +142,7 @@ namespace BoolApp{
 
 		virtual void construction() = 0;
 		private:
+		ProcessView* parent = 0;
 	};
 
 

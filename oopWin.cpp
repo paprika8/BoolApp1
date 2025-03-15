@@ -69,11 +69,18 @@ LRESULT BoolApp::wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam)
 
 void BoolApp::View::enable()
 {
+	if(enable){
+		return;
+	}
 	enabled = true;
+	Construct();
 }
 
 void BoolApp::View::disable()
 {
+	if(!enable){
+		return;
+	}
 	enabled = false;
 	deleteSafely(PV);
 }
