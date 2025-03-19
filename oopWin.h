@@ -54,6 +54,7 @@ namespace BoolApp{
 		ProcessView *PV = 0;
 		virtual std::string getSzWindowClass() = 0;
 		virtual void Register(WNDCLASSA&){};
+		virtual void paint(HDC&, PAINTSTRUCT&){};
 		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){};
 		virtual void childDeleted(View*){};
 		void setBuilder(Builder* abuilder){
