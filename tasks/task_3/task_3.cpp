@@ -82,48 +82,41 @@ void log_table(vector<bool> &v)
         cout << ' ' << v[i] << " |" << '\n';
     }
 }
-//| x1 | x2 | x3 | f |
-//|  0 |  0 |  0 | 0 |
-//|  0 |  0 |  0 | 0 |
-//|  0 |  0 |  1 | 0 |
-//|  0 |  0 |  1 | 0 |
+
 int main()
 {
-    string str;
-    getline(cin, str);
-    vector<bool> f;
-    int i = 0;
-    while (str[i] != ' ')
-    {
-        // cout << str[i] << endl;
-        f.push_back(bool(str[i] - 48));
-        i++;
-    }
-    i++;
-    bool ost_val = bool(str[i] - 48);
-    i += 2;
-    int x_num = int(str[i] - 48);
-    int amt_of_x = getPowerOfTwo(f.size());
+    string ost1, ost2;
+    cin >> ost1 >> ost2;
+    int x_num;
+    cin >> x_num;
 
+    int sz = ost1.size() + ost2.size();
     int group_amt = twoInPower(x_num - 1);
-    int start_pos = f.size() / twoInPower(x_num);
-    int step = f.size() / group_amt;
+    int step = sz / group_amt;
+    int start_pos = sz / twoInPower(x_num);
 
-    vector<bool> ostat(twoInPower(amt_of_x - 1));
     int i_ost = 0;
-    for (int i = ost_val * (start_pos); i < f.size(); i += step)
+    vector<bool> res(sz);
+    for (int i = 0; i < sz; i += step)
     {
         for (int j = 0; j < start_pos; j++)
         {
-            ostat[i_ost] = f[i + j];
+            res[i + j] = ost1[i_ost] - 48;
+            i_ost++;
+        }
+    }
+    i_ost = 0;
+    for (int i = start_pos; i < sz; i += step)
+    {
+        for (int j = 0; j < start_pos; j++)
+        {
+            res[i + j] = ost2[i_ost] - 48;
             i_ost++;
         }
     }
 
-    cout << endl;
-    for (auto el : ostat)
+    for (auto el : res)
     {
-        cout << el;
+        cout << el << ' ';
     }
-    cout << endl;
 }
