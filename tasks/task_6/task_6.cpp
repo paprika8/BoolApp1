@@ -12,20 +12,6 @@ random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 mt19937 gen(seed);
 
-int twoInPower(int power)
-{
-    if (power == 0)
-        return 1;
-
-    int res = 2;
-    while (power > 1)
-    {
-        res <<= 1;
-        power--;
-    }
-    return res;
-}
-
 vector<bool> generate_vf(int n)
 {
     long long k = 1LL << n;
@@ -43,7 +29,19 @@ vector<bool> generate_vf(int n)
 
 int main()
 {
-    vector<bool> v = generate_vf(3); // Система предлагает вектор функции
+    uniform_int_distribution<> dis(1, 4);
+    int amt_x = dis(gen);
+
+    vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
+
+    cout << "Enter a DNF, that would be suitable for this vector: (";
+
+    for (auto el : v)
+    {
+        cout << el;
+    }
+    cout << ")" << endl;
+
     string str;
     getline(cin, str);
     char *ch = str.data();
@@ -55,10 +53,10 @@ int main()
     st.erase(string("0"));
     st.erase(string("1"));
 
-    for (auto el : st)
+    /*for (auto el : st)
     {
         cout << el << endl;
-    }
+    }*/
 
     vector<pair<bool, string>> vf;
     for (auto el : st)
@@ -66,12 +64,36 @@ int main()
         vf.push_back(pair<bool, string>{0, el});
     }
     BoolApp::termData data;
+    vector<bool> res;
     for (int i = 0; i < (1 << vf.size()); i++)
     {
         for (int j = 0; j < vf.size(); j++)
         {
-            data.nametovar[vf[i].second] = i & (1 << j);
+            data.nametovar[vf[j].second] = i & (1 << j);
         }
-        cout << t->calculate(data) << endl;
+        res.push_back(t->calculate(data));
     }
+    cout << endl;
+    if (res.size() != v.size())
+    {
+        cout << "Wrong answer." << endl;
+        return 0;
+    }
+
+    /*for (auto el : res)
+    {
+        cout << el;
+    }
+    cout << endl;*/
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (res[i] != v[i])
+        {
+            cout << "Wrong answer." << endl;
+            return 0;
+        }
+    }
+
+    cout << "Correct answer!" << endl;
 }
