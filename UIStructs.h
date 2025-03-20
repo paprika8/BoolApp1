@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 #include <math.h>
 #include <functional>
@@ -229,13 +230,13 @@ namespace BoolApp {
 			left = aleft;
 			bottom = abottom;
 		}
-		Padding ( ll l )
+		Padding ( ull l )
 		{
-			*( ( ll* ) this ) = l;
+			*( ( ull* ) this ) = l;
 		}
-		ll toLong ()
+		ull toLong ()
 		{
-			return *( ( ll* ) this );
+			return *( ( ull* ) this );
 		}
 
 		Padding toAbsolut ( Size original ) {
@@ -254,6 +255,7 @@ namespace BoolApp {
 		pointUI top;
 		pointUI right;
 		pointUI bottom;
+		MarginType type;
 
 		Margin(){
 			left = 0;
@@ -279,20 +281,22 @@ namespace BoolApp {
 		Margin ( short aleft ,
 			short atop ,
 			short aright ,
-			short abottom )
+			short abottom, 
+			MarginType atype = MarginType::LEFT | MarginType::TOP )
 		{
 			right = aright;
 			top = atop;
 			left = aleft;
 			bottom = abottom;
+			type = atype;
 		}
-		Margin ( ll l )
+		Margin ( ull l )
 		{
-			*( ( ll* ) this ) = l;
+			*( ( ull* ) this ) = l;
 		}
-		ll toLong ()
+		ull toLong ()
 		{
-			return *( ( ll* ) this );
+			return *( ( ull* ) this );
 		}
 		Margin toAbsolut ( Size original ) {
 			return Margin (left.toAbsolut(original.width),

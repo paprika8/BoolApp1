@@ -1,37 +1,71 @@
+#pragma once
 #include <Windows.h>
 #include "UIStructs.h"
 #include <set>
 #include <string>
+#include <functional>
 
 namespace BoolApp
 {
 
 	extern HINSTANCE instance;
-	extern std::set<std::string> isRegistry;
+	extern std::set<std::wstring> isRegistry;
 	class View;
 	class ProcessView;
 	void init(HINSTANCE ainstance);
+	int run();
 	LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam);
-	class pcomposite;
-	class pcomponent;
-	class composite;
-	class component;
+	class PComposite;
+	class PComponent;
+	class Composite;
+	class Component;
 
 	class Builder
 	{
 	public:
 		virtual void build(ProcessView *apv) = 0;
 	};
+	class ProcessView
+	{
+	public:
+		std::function<void(Point, Size)> resize = [](Point, Size) -> void{};
+
+		HWND hwnd;
+		View *view;
+		ProcessView *parent = 0;
+		Point point = Point ( 0 , 0 );
+		Size size = Size(0, 0);
+		Margin margin = Margin(0, 0, 0, 0);
+		Padding padding = Padding(0, 0, 0, 0);
+		ProcessView(HWND ahwnd, View *aview);
+		virtual ~ProcessView();
+
+		virtual void construction() = 0;
+
+		virtual Size GetContentSize ( Size size ) {
+			return size;
+		}
+
+		Size getAbsoluteSize () {
+			LPRECT buf = ( LPRECT ) malloc ( sizeof ( RECT ) );
+			GetClientRect ( hwnd , buf );
+			Size size = Size ( buf->right , buf->bottom );
+			free ( buf );
+			return size;
+		}
+
+		void Move ( Point apoint , Size asize ) {
+			point = apoint;
+			MoveWindow ( hwnd , point.x , point.y , asize.width , asize.height , 1 );
+		}
+	protected:
+		
+	};
 
 	class SizeBuilder : public Builder
 	{
 	public:
-		void build(ProcessView *apv) override
-		{
-			apv->size = size;
-			apv->margin = margin;
-			apv->padding = padding;
-		}
+		void build(ProcessView *apv) override;
 
 		SizeBuilder(Size asize, Margin amargin, Padding apadding)
 		{
@@ -60,8 +94,8 @@ namespace BoolApp
 	public:
 		ProcessView *PV = 0;
 		View *parent = 0;
-		virtual std::string getSzWindowClass() = 0;
-		virtual void Register(WNDCLASSA&){};
+		virtual std::wstring getSzWindowClass() = 0;
+		virtual void Register(WNDCLASS&){};
 		virtual void paint(HDC&, PAINTSTRUCT&){};
 		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){};
 		virtual void childDeleted(View*){};
@@ -75,15 +109,19 @@ namespace BoolApp
 			{
 				return;
 			}
-			PV = VConstruct(parent->PV);
+			if(parent)
+				PV = VConstruct(parent->PV);
+			else
+				PV = VConstruct(0);
 			builder->build(PV);
+			enabled = true;
 		}
 
 		virtual ProcessView *VConstruct(ProcessView *apv) = 0;
 
 		void sregister()
 		{
-			WNDCLASSA wca = {0};
+			WNDCLASS wca = {0};
 			// адрес ф-ции обработки сообщений
 			wca.lpfnWndProc = (WNDPROC)BoolApp::wndProc;
 			// стиль окна
@@ -100,72 +138,32 @@ namespace BoolApp
 			wca.cbWndExtra = sizeof(void *);
 			Register(wca);
 			// регистрация класса
-			RegisterClassA(&wca);
+			RegisterClass(&wca);
 		}
 
-		~View()
+		virtual ~View()
 		{
 			if (parent)
 			{
 				parent->childDeleted(this);
 			}
-			PV->view = 0;
+			if(PV)
+				PV->view = 0;
 			disable();
 		}
 
-		View()
+		View(Builder *abuilder = new DefaultBuilder())
 		{
+			builder = abuilder;
 		}
 
 		virtual void enable();
 		virtual void disable();
 
-	private:
+	protected:
 		bool enabled = false;
-		Builder *builder = new DefaultBuilder();
+		Builder *builder;
 		
-	};
-
-	class ProcessView
-	{
-	public:
-		HWND hwnd;
-		View *view;
-		Size size = Size(0, 0);
-		Margin margin = Margin(0, 0, 0, 0);
-		Padding padding = Padding(0, 0, 0, 0);
-		ProcessView(HWND ahwnd, View *aview)
-		{
-			hwnd = ahwnd;
-
-			if (!isRegistry.contains(aview->getSzWindowClass()))
-			{
-				aview->sregister();
-				isRegistry.insert(aview->getSzWindowClass());
-			}
-			if(aview->parent){
-				parent = aview->parent->PV;
-			}
-		}
-		~ProcessView()
-		{
-			if (view)
-			{
-				view->PV = 0;
-				view = 0;
-			}
-
-			if (hwnd)
-			{
-				SetWindowLongPtr(hwnd, 0, 0);
-				SendMessage(hwnd, WM_CLOSE, 0, 0);
-			}
-		}
-
-		virtual void construction() = 0;
-
-	private:
-		ProcessView *parent = 0;
 	};
 
 }
