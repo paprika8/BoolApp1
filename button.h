@@ -8,12 +8,7 @@ namespace BoolApp
 	{
 	public:
 		bool isDown = 0;
-		PButton(HWND ahwnd, View *aview) : ProcessView(ahwnd, aview) {
-			resize = [=](Point p, Size s) -> void{
-				HRGN rgn = CreateRoundRectRgn(p.x, p.x + s.width, p.y, p.y + s.height, 10, 10);
-				SetWindowRgn(hwnd, rgn, 1);
-			};
-		};
+		PButton(HWND ahwnd, View *aview);
 
 		void construction() override
 		{

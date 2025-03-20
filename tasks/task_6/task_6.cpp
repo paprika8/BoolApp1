@@ -70,7 +70,7 @@ int main()
     {
         for (int j = 0; j < vf.size(); j++)
         {
-            data.nametovar[vf[i].second] = i & (1 << j);
+            data.nametovar[vf[j].second] = i & (1 << j);
         }
         cout << t->calculate(data) << endl;
     }

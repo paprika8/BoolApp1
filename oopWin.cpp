@@ -79,7 +79,7 @@ namespace BoolApp
 				return DefWindowProc(ahwnd, message, wparam, lparam);
 			}
 			Positioning(ptr);
-			ptr->resize(Point(LOWORD(lparam), HIWORD(lparam)), ptr->size);
+			ptr->resize(Point(LOWORD(lparam), HIWORD(lparam)), ptr->getAbsoluteSize());
 			return ptr->view->wndProc(ahwnd, message, wparam, lparam, ptr);
 		}
 		default:
