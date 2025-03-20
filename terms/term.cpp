@@ -3,11 +3,17 @@
 namespace BoolApp
 {
     std::set<char> dict = {'&', '|', '!', '=', '(', ')', ' '};
-    std::map<char, int> prior = {{'&', 2}, {'|', 1}, {'!', 3}, {'=', 2}};//'&', '|', '!', '=', '(', ')', ' '};
+    std::map<char, int> prior = {{'&', 2}, {'|', 1}, {'!', 3}, {'=', 2}}; //'&', '|', '!', '=', '(', ')', ' '};
 
     bool termOR::calculate(termData &td)
     {
         return t1->calculate(td) || t2->calculate(td);
+    }
+
+    void termOR::get_name_list(std::set<std::string> &v)
+    {
+        t1->get_name_list(v);
+        t2->get_name_list(v);
     }
 
     bool termAND::calculate(termData &td)
@@ -15,9 +21,21 @@ namespace BoolApp
         return t1->calculate(td) && t2->calculate(td);
     }
 
+    void termAND::get_name_list(std::set<std::string> &v)
+    {
+        t1->get_name_list(v);
+        t2->get_name_list(v);
+    }
+
     bool termEQUAL::calculate(termData &td)
     {
         return t1->calculate(td) == t2->calculate(td);
+    }
+
+    void termEQUAL::get_name_list(std::set<std::string> &v)
+    {
+        t1->get_name_list(v);
+        t2->get_name_list(v);
     }
 
     bool termNOT::calculate(termData &td)
@@ -25,27 +43,39 @@ namespace BoolApp
         return !t1->calculate(td);
     }
 
+    void termNOT::get_name_list(std::set<std::string> &v)
+    {
+        t1->get_name_list(v);
+    }
+
     bool termVAR::calculate(termData &td)
     {
         return td.nametovar[varname];
     }
 
-    term* parsingVAR(char *&str, int priority = 0){
+    void termVAR::get_name_list(std::set<std::string> &v)
+    {
+        v.insert(varname);
+    }
+
+    term *parsingVAR(char *&str, int priority = 0)
+    {
         std::string buffer = "";
-        char* start_point = str;
+        char *start_point = str;
         for (; *str; str++)
         {
             if (dict.find(*str) != dict.end())
             {
-                if(*str == ' ')
+                if (*str == ' ')
                     continue;
-                if(*str == '(')
+                if (*str == '(')
                     return parsing(str, priority);
-                if(*str == '!')
+                if (*str == '!')
                     return parsing(str, priority);
                 if (buffer.size() > 0)
                 {
-                    if(priority < prior[*str]){
+                    if (priority < prior[*str])
+                    {
                         priority = prior[*str];
                         str = start_point;
                         return parsing(str, priority);
