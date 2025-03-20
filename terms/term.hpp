@@ -1,4 +1,5 @@
 #include <string>
+#include <set>
 #include <map>
 
 namespace BoolApp
@@ -6,7 +7,8 @@ namespace BoolApp
     struct termData
     {
         std::map<std::string, bool> nametovar;
-        termData(){
+        termData()
+        {
             nametovar["0"] = 0;
             nametovar["1"] = 1;
         }
@@ -14,6 +16,8 @@ namespace BoolApp
 
     struct term
     {
+        virtual void get_name_list(std::set<std::string> &v) = 0;
+
         virtual bool calculate(termData &td) = 0;
     };
 
@@ -25,6 +29,7 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
+        void get_name_list(std::set<std::string> &v) override;
     };
 
     struct termAND : term
@@ -33,13 +38,17 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
+
+        void get_name_list(std::set<std::string> &v) override;
     };
 
     struct termNOT : term
     {
         term *t1;
-        
+
         bool calculate(termData &td) override;
+
+        void get_name_list(std::set<std::string> &v) override;
     };
 
     struct termVAR : term
@@ -47,6 +56,8 @@ namespace BoolApp
         std::string varname;
 
         bool calculate(termData &td) override;
+
+        void get_name_list(std::set<std::string> &v) override;
     };
 
     struct termEQUAL : term
@@ -55,5 +66,7 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
+
+        void get_name_list(std::set<std::string> &v) override;
     };
 }
