@@ -20,6 +20,14 @@ void BoolApp::init(HINSTANCE ainstance)
 LRESULT BoolApp::wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	switch (message){
+		case WM_PAINT:{
+			PAINTSTRUCT pstruct;
+			HDC hdc = BeginPaint(ahwnd, &pstruct);
+			ProcessView *ptr = GetWindowLongPtr(ahwnd, 0);
+			ptr->view->paint(hdc, pstruct);
+			EndPaint(ahwnd, &pstruct);
+			return 0;
+		}
 		case WM_NCCREATE:{
 			SetWindowLongPtr(ahwnd, 0, 0);
 			return DefWindowProc(ahwnd, message, wparam, lparam);
@@ -65,6 +73,7 @@ LRESULT BoolApp::wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam)
 			ptr->view->wndProc(ahwnd, message, wparam, lparam, ptr);
 		}
 	}
+	return DefWindowProc(ahwnd, message, wparam, lparam);
 }
 
 void BoolApp::View::enable()
