@@ -1,3 +1,4 @@
+#pragma once
 #include <stdlib.h>
 #include <mem.h>
 
@@ -6,6 +7,10 @@ struct custom_vector{
 	custom_vector(){
 		data = malloc(0);
 		size = 0;
+	}
+
+	int len(){
+		return size;
 	}
 
 	void push(T &a){
@@ -39,13 +44,6 @@ struct custom_vector{
 		free(data);
 	}
 
-	iterator begin(){
-		return iterator(data);
-	}
-	iterator end(){
-		return iterator(data + size);
-	}
-
 	struct iterator{
 		iterator(T* ait){
 			it = ait;
@@ -58,6 +56,15 @@ struct custom_vector{
 		iterator operator+=(int a){
 			it += a;
 			return *this;
+		}
+		iterator operator++(int a){
+			it ++;
+			return *this;
+		}
+		iterator operator++(){
+			iterator buf(it);
+			it++;
+			return buf;
 		}
 		iterator operator+(int a){
 			iterator buf(it);
@@ -82,7 +89,7 @@ struct custom_vector{
 		bool operator==(iterator b){
 			return it == b.it;
 		}
-		bool operator!=iterator b){
+		bool operator!=(iterator b){
 			return it != b.it;
 		}
 		bool operator<(iterator b){
@@ -93,8 +100,14 @@ struct custom_vector{
 		}
 		private:
 		T* it;
-	}
+	};
 
+	iterator begin(){
+		return iterator(data);
+	}
+	iterator end(){
+		return iterator(data + size);
+	}
 private:
 	T* data;
 	size_t size;

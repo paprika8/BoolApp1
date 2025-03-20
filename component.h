@@ -1,7 +1,37 @@
+#pragma once
 #include "oopWin.h"
 #include "custom_vector.h"
 
 namespace BoolApp{
+	
+	class PComponent : public ProcessView{
+		public:
+		ProcessView* child = 0;
+
+		PComponent(HWND ahwnd, View* aview) : ProcessView(ahwnd, aview){
+
+		}
+
+		~PComponent(){
+			delete child;
+		}
+
+		void add (ProcessView* apview);
+
+		void remove (ProcessView* apview){
+			delete child;
+			child = 0;
+		}
+
+		ProcessView* getPView (int i = 0){
+			return child;
+		}
+
+
+
+		private:
+	};
+
 	class Component : public View{
 
 		public:
@@ -10,15 +40,16 @@ namespace BoolApp{
 			((PComponent*)PV)->add(child->PV);
 			
 		}
+		Component(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
+		{
+
+		}
 
 		~Component(){
 			delete child;
 		}
 
-		void add (View* aview){
-			delete child;
-			child = aview;
-		}
+		void add (View* aview);
 
 		void remove (View*){
 			delete child;
@@ -41,38 +72,18 @@ namespace BoolApp{
 
 		void childDeleted(View* aview) override{
 			child = 0;
-			((PComponent*)PV)->remove(aview->PV);
+			if(PV)
+				((PComponent*)PV)->child = 0;
 		}
+
+		void paint(HDC& hdc, PAINTSTRUCT& pstruct) override {
+			if(child)
+				child->paint(hdc, pstruct);
+		};
 
 		private:
 		View* child = 0;
 	};
-
-
-	class PComponent : public ProcessView{
-		public:
-
-		~PComponent(){
-			delete child;
-		}
-
-		void add (ProcessView* apview){
-			delete apview;
-			child = apview;
-		}
-
-		void remove (ProcessView* apview){
-			delete child;
-			child = 0;
-		}
-
-		ProcessView* getPView (int i){
-			return child;
-		}
-
-		private:
-		ProcessView* child = 0;
-	}
 }
 
 
