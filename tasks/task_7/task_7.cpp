@@ -5,7 +5,6 @@
 #include <random>
 #include <chrono>
 #include <utility>
-#include <typeinfo> // Для typeid (может потребоваться)
 
 using namespace std;
 
