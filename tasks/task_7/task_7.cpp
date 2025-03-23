@@ -5,7 +5,6 @@
 #include <random>
 #include <chrono>
 #include <utility>
-#include <typeinfo> // Для typeid (может потребоваться)
 
 using namespace std;
 
@@ -19,53 +18,48 @@ bool is_literal(term *t)
 {
     if (!t)
         return false;
+    // Литерал: переменная или отрицание переменной
     if (dynamic_cast<termVAR *>(t))
-    {
         return true;
-    }
-    else if (auto not_term = dynamic_cast<termNOT *>(t))
+    if (auto not_term = dynamic_cast<termNOT *>(t))
     {
-        return not_term->t1 && dynamic_cast<termVAR *>(not_term->t1);
+        return dynamic_cast<termVAR *>(not_term->t1) != nullptr;
     }
     return false;
 }
 
-bool is_and_child_dnf(term *t);
+bool is_clause(term *t)
+{
+    if (auto or_term = dynamic_cast<termOR *>(t))
+    {
+        // Дизъюнкт: OR литералов или вложенных дизъюнктов
+        return is_clause(or_term->t1) && is_clause(or_term->t2);
+    }
+    return is_literal(t); // Литерал — тривиальный дизъюнкт
+}
 
-bool is_dnf(term *t)
+bool is_cnf(term *t)
 {
     if (!t)
         return false;
 
+    // Запрещённые операторы (например, равенство)
     if (dynamic_cast<termEQUAL *>(t))
-    {
         return false;
-    }
-    else if (auto or_term = dynamic_cast<termOR *>(t))
-    {
-        return is_dnf(or_term->t1) && is_dnf(or_term->t2);
-    }
-    else if (auto and_term = dynamic_cast<termAND *>(t))
-    {
-        return is_and_child_dnf(and_term->t1) && is_and_child_dnf(and_term->t2);
-    }
-    else if (auto not_term = dynamic_cast<termNOT *>(t))
-    {
-        return is_literal(not_term->t1);
-    }
-    else if (dynamic_cast<termVAR *>(t))
-    {
-        return true;
-    }
-    return false;
-}
 
-bool is_and_child_dnf(term *t)
-{
+    // Если текущий узел — AND, проверяем оба поддерева
     if (auto and_term = dynamic_cast<termAND *>(t))
     {
-        return is_dnf(and_term);
+        return is_cnf(and_term->t1) && is_cnf(and_term->t2);
     }
+
+    // Если текущий узел — OR, проверяем, что это допустимый дизъюнкт
+    if (auto or_term = dynamic_cast<termOR *>(t))
+    {
+        return is_clause(or_term);
+    }
+
+    // Литералы разрешены (тривиальная КНФ: один дизъюнкт)
     return is_literal(t);
 }
 
@@ -91,7 +85,7 @@ int main()
 
     vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
-    cout << "Enter a DNF, that would be suitable for this vector: (";
+    cout << "Enter a CNF, that would be suitable for this vector: (";
 
     for (auto el : v)
     {
@@ -104,16 +98,16 @@ int main()
     char *ch = str.data();
     BoolApp::term *t = BoolApp::parsing(ch);
 
-    // Проверка на ДНФ
+    // Проверка на КНФ
     if (!t)
     {
         cout << "Invalid expression." << endl;
         return 0;
     }
 
-    if (!is_dnf(t))
+    if (!is_cnf(t))
     {
-        cout << "Wrong answer. Not a DNF." << endl;
+        cout << "Wrong answer. Not a CNF." << endl;
         return 0;
     }
 
