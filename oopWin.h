@@ -96,26 +96,18 @@ namespace BoolApp
 		View *parent = 0;
 		virtual std::wstring getSzWindowClass() = 0;
 		virtual void Register(WNDCLASS&){};
-		virtual void paint(HDC&, PAINTSTRUCT&){};
-		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){};
+		virtual void paint (HWND hwnd){
+			PAINTSTRUCT pstruct;
+			HDC hdc = BeginPaint ( hwnd , &pstruct );
+			EndPaint(hwnd, &pstruct);
+		};
+		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){ return DefWindowProc(ahwnd, message, wparam, lparam); };
 		virtual void childDeleted(View*){};
 		void setBuilder(Builder* abuilder){
 			delete builder;
 			builder = abuilder;
 		}
-		void Construct()
-		{
-			if (PV != 0)
-			{
-				return;
-			}
-			if(parent)
-				PV = VConstruct(parent->PV);
-			else
-				PV = VConstruct(0);
-			builder->build(PV);
-			enabled = true;
-		}
+		void Construct();
 
 		virtual ProcessView *VConstruct(ProcessView *apv) = 0;
 

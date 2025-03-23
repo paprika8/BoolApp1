@@ -11,6 +11,45 @@ namespace BoolApp
 		ptr = 0;
 		delete buff;
 	}
+	void paint ( HWND hwnd )//зомбикод
+	{
+		PAINTSTRUCT pPaintStruct;
+		HDC hdc = BeginPaint ( hwnd , &pPaintStruct );
+		int cx = pPaintStruct.rcPaint.right - pPaintStruct.rcPaint.left;
+		int cy = pPaintStruct.rcPaint.bottom - pPaintStruct.rcPaint.top;
+		HDC hMemDC;
+		HBITMAP hBmp;
+		HBITMAP hOldBmp;
+		POINT ptOldOrigin;
+
+		ProcessView* pv = GetWindowLongPtr ( hwnd , 0 );
+
+		// Create new bitmap-back device context, large as the dirty rectangle.
+		hMemDC = CreateCompatibleDC ( pPaintStruct.hdc );
+		hBmp = CreateCompatibleBitmap ( pPaintStruct.hdc , cx , cy );
+		hOldBmp = ( HBITMAP ) SelectObject ( hMemDC , hBmp );
+
+		// Do the painting into the memory bitmap.
+		OffsetViewportOrgEx ( hMemDC , -( pPaintStruct.rcPaint.left ) ,
+			-( pPaintStruct.rcPaint.top ) , &ptOldOrigin );
+
+		RECT rcPs = pPaintStruct.rcPaint;
+
+		//pv->view->paint ( hMemDC , pPaintStruct );
+
+		SetViewportOrgEx ( hMemDC , ptOldOrigin.x , ptOldOrigin.y , NULL );
+
+		// Blit the bitmap into the screen. This is really fast operation and although
+		   // the CustomPaint() can be complex and slow there will be no flicker any more.
+		BitBlt ( pPaintStruct.hdc , pPaintStruct.rcPaint.left , pPaintStruct.rcPaint.top ,
+			cx , cy , hMemDC , 0 , 0 , SRCCOPY );
+
+		// Clean up.
+		SelectObject ( hMemDC , hOldBmp );
+		DeleteObject ( hBmp );
+		DeleteDC ( hMemDC );
+		EndPaint(hwnd, &pPaintStruct);
+	}
 
 	HINSTANCE instance = 0;
 	std::set<std::wstring> isRegistry = std::set<std::wstring>();
@@ -26,11 +65,8 @@ namespace BoolApp
 		{
 		case WM_PAINT:
 		{
-			PAINTSTRUCT pstruct;
-			HDC hdc = BeginPaint(ahwnd, &pstruct);
 			ProcessView *ptr = GetWindowLongPtr(ahwnd, 0);
-			ptr->view->paint(hdc, pstruct);
-			EndPaint(ahwnd, &pstruct);
+			ptr->view->paint(ahwnd);
 			return 0;
 		}
 		case WM_NCCREATE:
@@ -104,6 +140,21 @@ namespace BoolApp
 			DispatchMessage(&msg);
 		}
 		return (int)msg.wParam;
+	}
+
+	void View::Construct()
+	{
+		if (PV != 0)
+		{
+			return;
+		}
+		if(parent)
+			PV = VConstruct(parent->PV);
+		else
+			PV = VConstruct(0);
+		builder->build(PV);
+		Positioning(PV);
+		enabled = true;
 	}
 
 	void View::enable()

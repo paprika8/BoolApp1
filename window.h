@@ -10,20 +10,7 @@ namespace BoolApp{
 			
 		};
 
-		void construction() override {
-			hwnd = CreateWindowEx(
-				0,
-				view->getSzWindowClass().c_str(),
-				L"Rect",
-				WS_VISIBLE | (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX) | WS_CLIPCHILDREN | WS_BORDER,
-				0, 0, 500, 500,
-				hwnd,
-				0,
-				instance,
-				0
-			);
-			SetWindowLongPtr(hwnd, 0, (LONG_PTR) this);
-		};
+		void construction() override;
 		~PWindow(){
 			PostQuitMessage ( 0 );
 		}
@@ -50,10 +37,6 @@ namespace BoolApp{
 			return pw;
 		};
 
-		LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView* ptr) override {
-			PWindow* pWindow = (PWindow*)ptr;
-
-			return DefWindowProc(ahwnd, message, wparam, lparam);
-		};
+		LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView* ptr) override;
 	};
 }

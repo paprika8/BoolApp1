@@ -7,6 +7,9 @@ namespace BoolApp{
 	class PComposite : public ProcessView{
 		public:
 		bool is_vert_orientation = 0;
+		PComposite(HWND ahwnd, View* aview) : ProcessView(ahwnd, aview){
+
+		}
 		~PComposite(){
 			for (auto el: children){
 				delete el;
@@ -33,10 +36,11 @@ namespace BoolApp{
 	};
 
 	class Composite : public View{
-
 		public:
-		ProcessView* VConstruct(ProcessView* apview) override{
+		bool is_vert_orientation = 0;
+		void ChildsConstruct(ProcessView* apview) {
 			for (auto el: children){
+				el->parent = this;
 				el->Construct();
 				((PComposite*)PV)->add(el->PV);
 			}
@@ -47,8 +51,8 @@ namespace BoolApp{
 		}
 
 		~Composite(){
-			for (auto el: children){
-				delete el;
+			while (children.len()){
+				delete children[0];
 			}
 		}
 
@@ -80,15 +84,16 @@ namespace BoolApp{
 
 		void childDeleted(View* aview) override{
 			children.remove(aview);
-			((PComposite*)PV)->remove(aview->PV);
+			if(aview->PV)
+				((PComposite*)PV)->remove(aview->PV);
 		}
 
-		void paint(HDC& hdc, PAINTSTRUCT& pstruct) override {
+		void paint(HWND) override {
 			for(auto child : children)
-				child->paint(hdc, pstruct);
+				child->paint(child->PV->hwnd);
 		};
 
-		private:
+		protected:
 		custom_vector<View*> children;
 	};
 

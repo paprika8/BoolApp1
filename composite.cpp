@@ -17,5 +17,8 @@ void Composite::add(View *aview)
 		children.push(apview);
 		apview->parent = this;
 		Positioning(this);
+		InvalidateRect(hwnd, 0, 1);
+		for(auto el: children)
+			InvalidateRect(el->hwnd, 0, 1);
 	}
 }

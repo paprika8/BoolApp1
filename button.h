@@ -13,7 +13,7 @@ namespace BoolApp
 		void construction() override
 		{
 			hwnd = CreateWindowEx(
-				0,
+				WS_EX_TRANSPARENT,
 				view->getSzWindowClass().c_str(),
 				L"",
 				WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
@@ -45,7 +45,7 @@ namespace BoolApp
 
 		void Register(WNDCLASS &wca) override
 		{
-			wca.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(103, 192, 103));
+			wca.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(225, 60, 60));
 		};
 
 		ProcessView *VConstruct(ProcessView *apv) override

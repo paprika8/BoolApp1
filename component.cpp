@@ -9,6 +9,8 @@ namespace BoolApp{
 		child = apview;
 		apview->parent = this;
 		Positioning(this);
+		//InvalidateRect(hwnd, 0, 1);
+		//InvalidateRect(apview->hwnd, 0, 1);
 	}
 	void Component::add(View *aview)
 	{

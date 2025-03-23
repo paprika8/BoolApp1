@@ -76,9 +76,9 @@ namespace BoolApp{
 				((PComponent*)PV)->child = 0;
 		}
 
-		void paint(HDC& hdc, PAINTSTRUCT& pstruct) override {
+		void paint(HWND) override {
 			if(child)
-				child->paint(hdc, pstruct);
+				child->paint(child->PV->hwnd);
 		};
 
 		private:

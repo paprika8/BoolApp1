@@ -2,7 +2,7 @@ SRC  := $(addprefix /,$(wildcard *.cpp)) #$(shell find . -name '*.cpp') #$(addpr
 HDR := $(wildcard *.h) #$(addprefix /,$(wildcard *.h)) #$(shell find . -name '*.h')
 SRC_NAME := $(subst ./,/,$(SRC))
 OBJS  := $(addprefix obj, $(SRC_NAME:.cpp=.o)) 
-LIB := -lgdi32
+LIB := -lgdiplus -lgdi32
 FLAGS := -g -fpermissive -w -fcompare-debug-second -D UNICODE -std=c++20 -Wl,--subsystem,windows
 ARGS := $(FLAGS)
 .PHONY: all clean cleanall

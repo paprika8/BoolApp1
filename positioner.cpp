@@ -18,6 +18,7 @@ namespace BoolApp
 		MarginType marginType = (comp->margin.type & ~MarginType::PARENT) | (comp->getPView()->margin.type & MarginType::PARENT);
 		comp->getPView()->margin.toAbsolut(absolutParentSize).reRect(cord, absolutParentSize, absolutSize, marginType);
 		comp->getPView()->Move(cord, absolutSize);
+		Positioning(comp->getPView());
 	}
 	void PositioningFew(PComposite *compos)
 	
@@ -55,6 +56,8 @@ namespace BoolApp
 			cord.x += amargin.left;
 			cord.y += amargin.top;
 			compos->getPView(cont)->Move(cord, asize);
+			Positioning(compos->getPView(cont));
+
 			if (compos->is_vert_orientation)
 			{
 				if (marginType & MarginType::LEFT)
