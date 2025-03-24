@@ -10,20 +10,7 @@ namespace BoolApp
 		bool isDown = 0;
 		PButton(HWND ahwnd, View *aview);
 
-		void construction() override
-		{
-			hwnd = CreateWindowEx(
-				WS_EX_TRANSPARENT,
-				view->getSzWindowClass().c_str(),
-				L"",
-				WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-				0, 0, 0, 0,
-				hwnd,
-				0,
-				instance,
-				0);
-			SetWindowLongPtr(hwnd, 0, (LONG_PTR)this);
-		};
+		void construction() override;
 
 	private:
 	};
@@ -32,11 +19,35 @@ namespace BoolApp
 	{
 	public:
 		std::wstring text = L"";
+		int flag_format = 0;
 		std::function<void(Button *)> click = [](Button *) -> void {};
+		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
+								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");
 
 		Button(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
 		{
-			
+		}
+
+		void set_font_size(int size)
+		{
+			DeleteObject(font);
+			font = CreateFontA(
+				size,
+				0,
+				0,
+				0,
+				FW_NORMAL,
+				FALSE,
+				FALSE,
+				FALSE,
+				DEFAULT_CHARSET,
+				OUT_DEFAULT_PRECIS,
+				CLIP_DEFAULT_PRECIS,
+				DEFAULT_QUALITY,
+				DEFAULT_PITCH | FF_ROMAN,
+				"Times New Roman");
+			if (PV)
+				SendMessage(PV->hwnd, WM_SETFONT, font, true);
 		}
 
 		std::wstring getSzWindowClass() override
@@ -51,18 +62,30 @@ namespace BoolApp
 
 		ProcessView *VConstruct(ProcessView *apv) override
 		{
-			PButton* pb = new PButton(apv->hwnd, this);
+			PButton *pb = new PButton(apv->hwnd, this);
 			pb->construction();
 			return pb;
 		};
 
-		virtual void paint (HWND hwnd){
+		virtual void paint(HWND hwnd)
+		{
 			PAINTSTRUCT pstruct;
-			HDC hdc = BeginPaint ( hwnd , &pstruct );
+			HDC hdc = BeginPaint(hwnd, &pstruct);
 			SetBkMode(hdc, TRANSPARENT);
+			SelectObject(hdc, font);
 			RECT r = pstruct.rcPaint;
 			PV->padding.reRect(r);
-			DrawText(hdc, text.c_str(), text.size(), &r, 0);
+			RECT rc = r;
+			DrawText(hdc, text.c_str(), text.size(), &rc, flag_format | DT_CALCRECT | DT_WORDBREAK);
+			int textHeight = rc.bottom - rc.top;
+
+			// Корректируем положение
+			int offsetY = (r.bottom - r.top - textHeight) / 2;
+			rc = r;
+			rc.top += offsetY;
+
+			// Рисуем текст
+			DrawText(hdc, text.c_str(), text.size(), &rc, flag_format & ~DT_CALCRECT | DT_WORDBREAK);
 			EndPaint(hwnd, &pstruct);
 		};
 
