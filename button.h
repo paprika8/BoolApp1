@@ -31,6 +31,7 @@ namespace BoolApp
 	class Button : public View
 	{
 	public:
+		std::wstring text = L"";
 		std::function<void(Button *)> click = [](Button *) -> void {};
 
 		Button(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
@@ -53,6 +54,16 @@ namespace BoolApp
 			PButton* pb = new PButton(apv->hwnd, this);
 			pb->construction();
 			return pb;
+		};
+
+		virtual void paint (HWND hwnd){
+			PAINTSTRUCT pstruct;
+			HDC hdc = BeginPaint ( hwnd , &pstruct );
+			SetBkMode(hdc, TRANSPARENT);
+			RECT r = pstruct.rcPaint;
+			PV->padding.reRect(r);
+			DrawText(hdc, text.c_str(), text.size(), &r, 0);
+			EndPaint(hwnd, &pstruct);
 		};
 
 		void Click()
