@@ -102,6 +102,7 @@ namespace BoolApp {
 	{
 		PAINTSTRUCT pstruct;
 		HDC hdc = BeginPaint ( hwnd , &pstruct );
+		SelectObject(hdc, font);
 		PEdit* f = PV;
 		Gdiplus::Graphics g ( hdc );
 		LPRECT rcDirty = &pstruct.rcPaint;
