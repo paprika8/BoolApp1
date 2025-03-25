@@ -25,6 +25,7 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	}
 
 	Window win(new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
+	SendMessage(win.PV->hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	Button* bt = new Button(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
 	bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
 	bt->text = L"dsfdfsfsd fsdfsdf fdsfsdf fsdfsdf";
