@@ -5,9 +5,9 @@ void BoolApp::PWindow::construction()
 	hwnd = CreateWindowEx(
 		WS_EX_TRANSPARENT,
 		view->getSzWindowClass().c_str(),
-		L"Rect",
-		WS_VISIBLE | (WS_OVERLAPPED | /*WS_CAPTION | WS_SYSMENU |*/ WS_THICKFRAME /*| WS_MINIMIZEBOX | WS_MAXIMIZEBOX*/) | WS_CLIPCHILDREN | WS_BORDER,
-		0, 0, 500, 500,
+		L"BoolApp",
+		WS_VISIBLE | (WS_OVERLAPPED | /*WS_CAPTION | WS_SYSMENU |*/ WS_THICKFRAME/* | WS_MINIMIZEBOX*/ | WS_MAXIMIZEBOX) | WS_CLIPCHILDREN | WS_BORDER,
+		CW_USEDEFAULT, CW_USEDEFAULT, 500, 500,
 		hwnd,
 		0,
 		instance,

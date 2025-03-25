@@ -41,6 +41,7 @@ namespace BoolApp {
 		Gdiplus::StringFormat* stringFormat = new Gdiplus::StringFormat ();
 		Gdiplus::Font* font = createFont ( 16 );
 		Gdiplus::Color background;
+		Gdiplus::Color text_color = Gdiplus::Color(0, 0, 0);
 
 		ScrollText ( Builder* abuilder = 0 ) : View ( abuilder ) {
 			background = Gdiplus::Color ( 231 , 237 , 216 );

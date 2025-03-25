@@ -5,6 +5,8 @@
 #include "Text.h"
 #include "Edit.h"
 
+const Gdiplus::Color white (255, 255, 255);
+
 
 using namespace BoolApp;
 
@@ -24,31 +26,39 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 		return -1;
 	}
 
-	// Window win(new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
-	// Button* bt = new Button(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
-	// bt->text = L"Задачи";
-	// bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
-	// Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
-	// text->SetText(L"TEXT УБОГИЙ");
-	// LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
-	// lc->is_vert_orientation = 1;
-	// lc->add(bt);
-	// lc->add(text);
-	// win.add(lc);
-
 	Window win(new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
-	Button* bt = new Button(new SizeBuilder(Size(pointUI(200), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
-	bt->text = L"Задачи";
-	bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
-	bt->text = L"dsfdfsfsd fsdfsdf fdsfsdf fsdfsdf";
-	bt->set_font_size(16);
-	Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
-	text->SetText(L"TEXT УБОГИЙ");
+	win.Show(ShowType::MAXIMIZE);
+
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	lc->is_vert_orientation = 1;
-	lc->add(bt);
-	lc->add(text);
 	win.add(lc);
+
+	ScrollText* app_name = new ScrollText(new SizeBuilder(Size(pointUI(400, percent), pointUI(350, percent)), Margin(0), Padding(pointUI(150, percent), pointUI(100, percent), 0, 0)));
+	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
+	app_name->SetText(L"B001App");
+	app_name->font = createFont(100);
+	app_name->background = Gdiplus::Color(0, 0, 0, 0);
+	app_name->text_color = Gdiplus::Color(255, 255, 255);
+	lc->add(app_name);
+
+	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(200), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
+	exer_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	exer_bt->text = L"Задачи";
+	exer_bt->set_font_size(20);
+	lc->add(exer_bt);
+
+	Button* close_bt = new Button(new SizeBuilder(Size(pointUI(200), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
+	close_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	close_bt->text = L"Выход";
+	close_bt->set_font_size(20);
+	lc->add(close_bt);
+
+	/*
+	Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
+	text->SetText(L"TEXT УБОГИЙ");
+	lc->add(text);
+	*/
+
 
 	int res = run();
 	Gdiplus::GdiplusShutdown ( gdiplusToken );

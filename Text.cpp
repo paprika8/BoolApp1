@@ -48,7 +48,7 @@ namespace BoolApp {
 		RECT r = RECT ( *rcDirty );
 		r.top = -f->WPos;
 		f->padding.reRect ( r );
-		brush = new Gdiplus::SolidBrush ( Gdiplus::Color ( 0 , 0 , 0 ) );
+		brush = new Gdiplus::SolidBrush (text_color);
 		g.DrawString ( text.c_str () , -1 , font , Gdiplus::RectF ( r.left , r.top , r.right - r.left , r.bottom - r.top ) , stringFormat , brush );
 		delete brush;
 		EndPaint(hwnd, &pstruct);
@@ -58,12 +58,15 @@ namespace BoolApp {
 		PScrollText* f = dynamic_cast < PScrollText* > ( pData );
 		switch ( uMsg )
 		{
+		case WM_ERASEBKGND:
+		{
+			return 1;
+		}
 		case WM_PAINT:
 		{
 			this->View::paint(hwnd);
 			break;
 		}
-		break;
 		
 		case WM_LBUTTONDOWN:
 		{
