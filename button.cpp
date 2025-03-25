@@ -29,4 +29,29 @@ namespace BoolApp{
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)this);
 		int res = SendMessage(hwnd, WM_SETFONT, ((Button*)view)->font, true);
 	};
+	void Button::paint(HWND hwnd)
+	{
+		PAINTSTRUCT pstruct;
+		HDC hdc = BeginPaint(hwnd, &pstruct);
+		SetBkMode(hdc, TRANSPARENT);
+		SelectObject(hdc, font);
+		HBRUSH br = CreateSolidBrush(background);
+		RECT r = pstruct.rcPaint;
+        SelectObject(hdc, br);
+		Rectangle(hdc, r.left-5,r.top-5,r.right+5,r.bottom+5);
+		PV->padding.reRect(r);
+		RECT rc = r;
+		DrawText(hdc, text.c_str(), text.size(), &rc, flag_format | DT_CALCRECT | DT_WORDBREAK);
+		int textHeight = rc.bottom - rc.top;
+
+		// Корректируем положение
+		int offsetY = (r.bottom - r.top - textHeight) / 2;
+		rc = r;
+		rc.top += offsetY;
+
+		// Рисуем текст
+		DrawText(hdc, text.c_str(), text.size(), &rc, flag_format & ~DT_CALCRECT | DT_WORDBREAK);
+		DeleteObject(br);
+		EndPaint(hwnd, &pstruct);
+	};
 }

@@ -20,6 +20,7 @@ namespace BoolApp
 	public:
 		std::wstring text = L"";
 		int flag_format = 0;
+		COLORREF background = RGB(225, 60, 60);
 		std::function<void(Button *)> click = [](Button *) -> void {};
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");
@@ -67,27 +68,7 @@ namespace BoolApp
 			return pb;
 		};
 
-		virtual void paint(HWND hwnd)
-		{
-			PAINTSTRUCT pstruct;
-			HDC hdc = BeginPaint(hwnd, &pstruct);
-			SetBkMode(hdc, TRANSPARENT);
-			SelectObject(hdc, font);
-			RECT r = pstruct.rcPaint;
-			PV->padding.reRect(r);
-			RECT rc = r;
-			DrawText(hdc, text.c_str(), text.size(), &rc, flag_format | DT_CALCRECT | DT_WORDBREAK);
-			int textHeight = rc.bottom - rc.top;
-
-			// Корректируем положение
-			int offsetY = (r.bottom - r.top - textHeight) / 2;
-			rc = r;
-			rc.top += offsetY;
-
-			// Рисуем текст
-			DrawText(hdc, text.c_str(), text.size(), &rc, flag_format & ~DT_CALCRECT | DT_WORDBREAK);
-			EndPaint(hwnd, &pstruct);
-		};
+		virtual void paint(HWND hwnd);
 
 		void Click()
 		{

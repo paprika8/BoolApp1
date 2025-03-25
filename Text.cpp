@@ -27,7 +27,6 @@ namespace BoolApp {
 		g.FillRectangle ( brush , rcDirty->left , rcDirty->top , ( int ) ( rcDirty->right - rcDirty->left ) , ( int ) ( rcDirty->bottom - rcDirty->top ) );
 		delete brush;
 
-
 		Size AbsSize = f->getAbsoluteSize ();
 		f->padding.reSize ( AbsSize );
 		if ( AbsSize.height < f->TextHeight ) {
