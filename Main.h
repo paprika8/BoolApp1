@@ -20,4 +20,5 @@ using namespace BoolApp;
 
 const Padding but_pad = Padding(pointUI(10, percent), 0, 0, 0);
 
+extern int DPI;
 
