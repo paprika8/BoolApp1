@@ -2,19 +2,19 @@
 #include "exercises.h"
 
 LinearContainer* create_card(std::wstring number, std::wstring exercise){
-	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0,0,0,0, MarginType::CONTENT), Padding(0)));
+	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0,0,0,0, MarginType::CONTENT), Padding(0, 0, 0, 0)));
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
 
-	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(180, percent), pointUI(80, percent)), Margin(5, 0, 0, 0), Padding(0, 0, 0, 0)));
+	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(120), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
 	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 	exer_number->SetText(number);
-	exer_number->font = createFont(25);
+	exer_number->font = createFont(22);
 	exer_number->background = button;
 	exer_number->text_color = light_t;
 	lc->add(exer_number);
 
-	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 0, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 	//exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
 	exer_bt->text = exercise;
 	exer_bt->set_font_size(20);
@@ -31,7 +31,7 @@ LinearContainer* create_page_exercises(){
 	main_lc->background = bg;
 
 	Button* back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
-	//exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
+	back_bt->click = [&](Button*)->void{win->add(create_page_main());};
 	back_bt->text = L"НАЗАД";
 	back_bt->set_font_size(35);
 	back_bt->background = button;

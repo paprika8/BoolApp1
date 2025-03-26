@@ -7,33 +7,17 @@ UINT GetSystemDpi(){
 	ReleaseDC(NULL, hdc);
 	return dpi;
 }
+Window* win = 0;
 
 ULONG_PTR gdiplusToken = 0;
 
 int DPI = 0;
 
-int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
-
-	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-
-	Gdiplus::Status st = Gdiplus::GdiplusStartup ( &gdiplusToken , &gdiplusStartupInput , NULL );
-	if ( st != Gdiplus::Ok )
-	{
-		MessageBox ( NULL ,
-			L"Call to GdiplusStartup failed!" ,
-			L"GdiplusStartup ist kaputt" ,
-			NULL );
-		return -1;
-	}
-
-	Window win(new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
-	win.Show(ShowType::MAXIMIZE);
-	DPI = GetSystemDpi();
-
+LinearContainer* create_page_main(){
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
-	win.add(lc);
+	
 
 	ScrollText* app_name = new ScrollText(new SizeBuilder(Size(pointUI(400, percent), pointUI(350, percent)), Margin(0), Padding(pointUI(150, percent), pointUI(100, percent), 0, 0)));
 	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
@@ -44,7 +28,7 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	lc->add(app_name);
 
 	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
+	exer_bt->click = [&](Button*)->void{win->add(create_page_exercises());};
 	exer_bt->text = L"ЗАДАЧИ";
 	exer_bt->set_font_size(35);
 	exer_bt->background = button;
@@ -73,6 +57,30 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	lc->add(text);
 	*/
 
+
+	return lc;
+}
+
+int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
+
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+
+	Gdiplus::Status st = Gdiplus::GdiplusStartup ( &gdiplusToken , &gdiplusStartupInput , NULL );
+	if ( st != Gdiplus::Ok )
+	{
+		MessageBox ( NULL ,
+			L"Call to GdiplusStartup failed!" ,
+			L"GdiplusStartup ist kaputt" ,
+			NULL );
+		return -1;
+	}
+
+
+	win = new Window (new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
+	win->Show(ShowType::MAXIMIZE);
+	DPI = GetSystemDpi();
+
+	win->add(create_page_main());
 
 	int res = run();
 	Gdiplus::GdiplusShutdown ( gdiplusToken );
