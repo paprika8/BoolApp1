@@ -16,6 +16,11 @@ namespace BoolApp
         t2->get_name_list(v);
     }
 
+    std::string termOR::to_string()
+    {
+        return t1->to_string() + " | " + t2->to_string();
+    }
+
     bool termAND::calculate(termData &td)
     {
         return t1->calculate(td) && t2->calculate(td);
@@ -25,6 +30,11 @@ namespace BoolApp
     {
         t1->get_name_list(v);
         t2->get_name_list(v);
+    }
+
+    std::string termAND::to_string()
+    {
+        return t1->to_string() + "&" + t2->to_string();
     }
 
     bool termEQUAL::calculate(termData &td)
@@ -38,6 +48,11 @@ namespace BoolApp
         t2->get_name_list(v);
     }
 
+    std::string termEQUAL::to_string()
+    {
+        return t1->to_string() + " = " + t2->to_string();
+    }
+
     bool termNOT::calculate(termData &td)
     {
         return !t1->calculate(td);
@@ -48,6 +63,11 @@ namespace BoolApp
         t1->get_name_list(v);
     }
 
+    std::string termNOT::to_string()
+    {
+        return "!" + t1->to_string();
+    }
+
     bool termVAR::calculate(termData &td)
     {
         return td.nametovar[varname];
@@ -56,6 +76,11 @@ namespace BoolApp
     void termVAR::get_name_list(std::set<std::string> &v)
     {
         v.insert(varname);
+    }
+
+    std::string termVAR::to_string()
+    {
+        return varname;
     }
 
     term *parsingVAR(char *&str, int priority = 0)

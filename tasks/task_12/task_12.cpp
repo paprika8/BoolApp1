@@ -1,15 +1,56 @@
 #include "..\..\terms\term.hpp"
 #include <iostream>
-#include <time.h>
 #include <vector>
 #include <random>
 #include <chrono>
+#include <sstream>
+#include <cmath>
+#include <algorithm>
+#include <set>
 
 using namespace std;
+using namespace BoolApp;
 
 random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 mt19937 gen(seed);
+
+// Литерал: пара (имя переменной, отрицание)
+using Literal = std::pair<std::string, bool>;
+using Conjunct = std::set<Literal>;
+
+// Генерация случайного вектора функции
+vector<bool> generate_vf(int n)
+{
+    vector<bool> f(1 << n);
+    uniform_int_distribution<> dis(0, 1);
+    for (auto b : f)
+        b = dis(gen);
+    return f;
+}
+
+string perfect_dnf(int amt_x, const vector<bool> &vf)
+{
+    string result;
+    for (size_t i = 0; i < vf.size(); ++i)
+    {
+        if (vf[i])
+        {
+            string term;
+            for (int j = 0; j < amt_x; ++j)
+            {
+                bool bit = (i >> (amt_x - j - 1)) & 1;
+                if (!term.empty())
+                    term += "&";
+                term += bit ? "x" + to_string(j + 1) : "!x" + to_string(j + 1);
+            }
+            if (!result.empty())
+                result += " | ";
+            result += term; // Убрать лишние скобки
+        }
+    }
+    return result.empty() ? "0" : result;
+}
 
 int getPowerOfTwo(size_t n)
 {
@@ -28,176 +69,234 @@ int getPowerOfTwo(size_t n)
     return power;
 }
 
-vector<bool> generate_vf(int n)
+// Сбор конъюнктов для минимизации
+void collect_conjunct(const term *t, Conjunct &current)
 {
-    long long k = 1LL << n;
-    vector<bool> f(k); // 2^n
-
-    uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
-
-    for (int i = 0; i < k; i++)
+    if (const auto and_term = dynamic_cast<const termAND *>(t))
     {
-        f[i] = dis(gen);
+        collect_conjunct(and_term->t1, current);
+        collect_conjunct(and_term->t2, current);
     }
-
-    return f;
-}
-
-bool is_in_T0(vector<bool> &vf)
-{
-    return !vf[0];
-}
-
-bool is_in_T1(vector<bool> &vf)
-{
-    return vf[vf.size() - 1];
-}
-
-bool is_in_S(vector<bool> &vf)
-{
-    auto l = vf.begin();
-    auto r = vf.end() - 1;
-    for (int i = 0; i < vf.size() / 2; i++, l++, r--)
+    else if (const auto var = dynamic_cast<const termVAR *>(t))
     {
-        if (*l == *r)
+        current.emplace(var->varname, true);
+    }
+    else if (const auto not_term = dynamic_cast<const termNOT *>(t))
+    {
+        if (const auto var = dynamic_cast<const termVAR *>(not_term->t1))
         {
-            return false;
+            current.emplace(var->varname, false);
         }
     }
+}
+
+vector<Conjunct> collect_conjuncts(const term *t)
+{
+    vector<Conjunct> clauses;
+    if (const auto or_term = dynamic_cast<const termOR *>(t))
+    {
+        auto left = collect_conjuncts(or_term->t1);
+        auto right = collect_conjuncts(or_term->t2);
+        clauses.insert(clauses.end(), left.begin(), left.end());
+        clauses.insert(clauses.end(), right.begin(), right.end());
+    }
+    else
+    {
+        Conjunct c;
+        collect_conjunct(t, c);
+        if (!c.empty())
+            clauses.push_back(c);
+    }
+    return clauses;
+}
+
+// Построение терма через парсинг
+term *build_term(const vector<Conjunct> &conjuncts)
+{
+    if (conjuncts.empty())
+        return nullptr;
+
+    // Обработка случая "1"
+    if (conjuncts.size() == 1 && conjuncts[0].empty())
+    {
+        // cout << "Popali v slucvai 1" << endl;
+        string str = "1";
+        char *cstr = str.data();
+        return BoolApp::parsing(cstr);
+    }
+    stringstream expr;
+    for (size_t i = 0; i < conjuncts.size(); ++i)
+    {
+        Conjunct c = conjuncts[i];
+        string term_str;
+        for (const auto &lit : c)
+        {
+            if (!term_str.empty())
+                term_str += "&";
+            term_str += lit.second ? lit.first : "!" + lit.first;
+        }
+        if (i > 0)
+            expr << "|";
+        expr << term_str; // Без скобок
+    }
+
+    string expr_str = expr.str();
+    // cout << "Parsing expression: " << expr_str << endl; // Отладка
+
+    vector<char> buffer(expr_str.begin(), expr_str.end());
+    buffer.push_back('\0');
+    char *cstr = buffer.data();
+    return BoolApp::parsing(cstr);
+}
+
+// Разбиваем строку СДНФ на конъюнкты вручную
+std::vector<Conjunct> parse_conjuncts_from_string(const std::string &expr)
+{
+    std::vector<Conjunct> conjuncts;
+    std::stringstream ss(expr);
+    std::string token;
+
+    // Разделяем по '|'
+    while (getline(ss, token, '|'))
+    {
+        Conjunct c;
+        std::stringstream ss_term(token);
+        std::string lit;
+
+        // Разделяем по '&'
+        while (getline(ss_term, lit, '&'))
+        {
+            // Удаляем пробелы и скобки
+            lit.erase(remove_if(lit.begin(), lit.end(),
+                                [](char ch)
+                                { return ch == ' ' || ch == '(' || ch == ')'; }),
+                      lit.end());
+
+            // Обработка отрицаний
+            bool is_neg = (lit.find('!') == 0);
+            std::string var = is_neg ? lit.substr(1) : lit;
+            c.emplace(var, !is_neg);
+        }
+
+        if (!c.empty())
+        {
+            conjuncts.push_back(c);
+        }
+    }
+
+    return conjuncts;
+}
+
+// Функция для проверки, можно ли склеить два конъюнкта
+bool can_merge(const Conjunct &a, const Conjunct &b, Conjunct &merged)
+{
+    std::vector<Literal> diff;
+    std::set_symmetric_difference(
+        a.begin(), a.end(),
+        b.begin(), b.end(),
+        std::back_inserter(diff));
+
+    if (diff.size() != 2)
+        return false;
+    if (diff[0].first != diff[1].first)
+        return false;
+
+    merged = a;
+    merged.erase(diff[0]);
     return true;
 }
 
-bool is_in_M(vector<bool> &vf)
+// Алгоритм Квайна-МакКласки (упрощённая версия)
+std::vector<Conjunct> quine_minimization(const std::vector<Conjunct> &terms)
 {
-    int amt_x = getPowerOfTwo(vf.size());
+    std::vector<Conjunct> prime;
+    std::vector<bool> used(terms.size(), false);
 
-    for (int i = 0; i < vf.size() - 1; i++)
+    // Поиск склеивающихся термов
+    for (size_t i = 0; i < terms.size(); ++i)
     {
-        for (int j = i + 1; j < vf.size(); j++)
+        for (size_t j = i + 1; j < terms.size(); ++j)
         {
-            bool more = 0, less = 0;
-            for (int k = 1; k <= amt_x; k++)
+            Conjunct merged;
+            if (can_merge(terms[i], terms[j], merged))
             {
-                bool first_bit = ((i >> amt_x - k) & 1);
-                bool second_bit = ((j >> amt_x - k) & 1);
-
-                if (first_bit < second_bit)
-                {
-                    less = true;
-                }
-                if (first_bit > second_bit)
-                {
-                    more = true;
-                }
-            }
-            if (more && less)
-            {
-                continue;
-            }
-            if (less)
-            {
-                if (vf[i] > vf[j])
-                {
-                    return false;
-                }
+                prime.push_back(merged);
+                used[i] = used[j] = true;
             }
         }
+        if (!used[i])
+            prime.push_back(terms[i]);
     }
-    return true;
+
+    // Удаление дубликатов
+    std::sort(prime.begin(), prime.end());
+    prime.erase(std::unique(prime.begin(), prime.end()), prime.end());
+
+    // Рекурсия, если были изменения
+    if (prime.size() != terms.size())
+    {
+        return quine_minimization(prime);
+    }
+    return prime;
 }
 
-bool is_in_L(vector<bool> &vf)
+// Проверка, является ли ДНФ тавтологией (покрывает все 2^n комбинаций)
+bool is_tautology(const vector<Conjunct> &minimized, int var_count)
 {
-    int amt_x = getPowerOfTwo(vf.size());
-    vector<bool> buf = vf;
-    for (int i = 1; i < buf.size(); i++)
+    return minimized.size() == (1 << var_count); // 2^var_count
+}
+
+// Обновлённая функция минимизации
+vector<Conjunct> minimize_dnf(const vector<Conjunct> &conjuncts, int var_count)
+{
+    auto minimized = quine_minimization(conjuncts);
+
+    if (is_tautology(minimized, var_count))
     {
-        for (int j = i; j < buf.size(); j++)
-        {
-            buf[j] = (!buf[j - 1] && buf[j] || buf[j - 1] && !buf[j]); // Сложение по модулю два
-            if (buf[j] && j == i)
-            {
-                int cnt = 0;
-                for (int k = 1; k <= amt_x; k++) // смотрим на количество
-                {
-                    if (((i >> amt_x - k) & 1)) // если один
-                    {
-                        cnt++;
-                    }
-                }
-                if (cnt > 1)
-                {
-                    return false;
-                }
-            }
-        }
+        return {Conjunct()}; // Пустой конъюнкт = 1
     }
 
-    return true;
+    return minimized;
 }
 
 int main()
 {
-    uniform_int_distribution<> dis_amt_sets(1, 5);
-    int amt_vec = dis_amt_sets(gen);
-
-    // T0, T1, S, M, L - классы
-    //  0,  1, 2, 3, 4 - индексы
-    vector<bool> f_types(5, 1);
-
-    while (amt_vec--)
+    uniform_int_distribution<> dis(2, 4);
+    int amt_x = dis(gen);
+    // auto vf =
+    //  Для отладки
+    cout << "Enter a vector of function, or enter 'Generate' if you want to generate vector randomly" << endl;
+    string input;
+    cin >> input;
+    vector<bool> vf;
+    if (input == "Generate")
     {
-
-        /*uniform_int_distribution<> dis(1, 4);
-        int amt_x = dis(gen);
-
-        vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
-*/
-        // Для отладки:
-        string input;
-        cin >> input;
-        vector<bool> vf;
+        vf = generate_vf(amt_x);
+    }
+    else
+    {
+        amt_x = getPowerOfTwo(input.size());
         for (auto el : input)
         {
             vf.push_back(el - 48);
         }
-
-        cout << "Vector of function: (";
-        for (auto el : vf)
-        {
-            cout << el;
-        }
-        cout << ")\n";
-
-        if (!is_in_T0(vf))
-        {
-            f_types[0] = false;
-        }
-        if (!is_in_T1(vf))
-        {
-            f_types[1] = false;
-        }
-        if (!is_in_S(vf))
-        {
-            f_types[2] = false;
-        }
-        if (!is_in_M(vf))
-        {
-            f_types[3] = false;
-        }
-        if (!is_in_L(vf))
-        {
-            f_types[4] = false;
-        }
     }
 
-    if (f_types[0] && f_types[1] && f_types[2] && f_types[3] && f_types[4])
-    {
-        cout << "System is complete.\n";
-        return 0;
-    }
-    else
-    {
-        cout << "System is incomplete.\nEnter the enclosed class which the function is in.\n";
-        }
+    string dnf_str = perfect_dnf(amt_x, vf);
+    cout << "Generated SDNF: " << dnf_str << endl;
+
+    // Парсим конъюнкты из строки вручную
+    auto conjuncts = parse_conjuncts_from_string(dnf_str);
+    // cout << "Collected " << conjuncts.size() << " terms\n"; // 3
+
+    // Минимизируем
+    auto minimized = minimize_dnf(conjuncts, amt_x);
+    // cout << "After minimization: " << minimized.size() << " terms\n"; // 2
+
+    // Собираем результат
+    term *simplified = build_term(minimized);
+
+    cout << "After minimization: " << simplified->to_string() << endl;
+
+    return 0;
 }

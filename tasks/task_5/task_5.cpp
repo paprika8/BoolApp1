@@ -61,15 +61,11 @@ int main()
 
     uniform_int_distribution<> dis_x(2, 3); // количество переменных
     int amt_x = dis_x(gen);
-    // Для отладки:
-    amt_x = 4;
-    //
+
     cout << "Amt of vars: " << amt_x << endl;
     uniform_int_distribution<> dis_of_dum(0, amt_x); // количество фиктивных переменных
     int amt_dum = dis_of_dum(gen);
-    // Для отладки:
-    amt_dum = 2;
-    //
+
     cout << "Amt of dum vars: " << amt_dum << endl;
     uniform_int_distribution<> num_of_x(1, amt_x); // рандомайзер для номера переменной
     uniform_int_distribution<> z_or_o(0, 1);       // рандомайзер для 0 и 1
@@ -79,9 +75,6 @@ int main()
 
     uniform_int_distribution<> name_of_fun(1, two_in_pow_sig_x - 2); // рандомайзер номера имени функции
     int num_name_f = name_of_fun(gen);
-
-    // для отладки
-    num_name_f = 11;
 
     vector<bool> vf_buf(two_in_pow_sig_x); // Буферный вектор переменной только с существенными переменными
     vector<bool> vf(twoInPower(amt_x));    // Полный, итоговый вектор переменной

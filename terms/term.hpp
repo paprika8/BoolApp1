@@ -19,6 +19,8 @@ namespace BoolApp
         virtual void get_name_list(std::set<std::string> &v) = 0;
 
         virtual bool calculate(termData &td) = 0;
+
+        virtual std::string to_string() = 0;
     };
 
     term *parsing(char *&str, int priority = 0);
@@ -30,6 +32,8 @@ namespace BoolApp
 
         bool calculate(termData &td) override;
         void get_name_list(std::set<std::string> &v) override;
+
+        std::string to_string() override;
     };
 
     struct termAND : term
@@ -40,6 +44,8 @@ namespace BoolApp
         bool calculate(termData &td) override;
 
         void get_name_list(std::set<std::string> &v) override;
+
+        std::string to_string() override;
     };
 
     struct termNOT : term
@@ -49,6 +55,8 @@ namespace BoolApp
         bool calculate(termData &td) override;
 
         void get_name_list(std::set<std::string> &v) override;
+
+        std::string to_string() override;
     };
 
     struct termVAR : term
@@ -58,6 +66,8 @@ namespace BoolApp
         bool calculate(termData &td) override;
 
         void get_name_list(std::set<std::string> &v) override;
+
+        std::string to_string() override;
     };
 
     struct termEQUAL : term
@@ -68,5 +78,7 @@ namespace BoolApp
         bool calculate(termData &td) override;
 
         void get_name_list(std::set<std::string> &v) override;
+
+        std::string to_string() override;
     };
 }
