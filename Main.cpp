@@ -1,29 +1,5 @@
-#include <Windows.h>
-#include "window.h"
-#include "LinearContainer.h"
-#include "button.h"
-#include "Text.h"
-#include "Edit.h"
-
-const Gdiplus::Color bg (255, 244, 204);
-const Gdiplus::Color confirm (127, 176, 105);
-const Gdiplus::Color in (230, 170, 104);
-const Gdiplus::Color button (183, 54, 34);
-const Gdiplus::Color out (29, 26, 5);
-const Gdiplus::Color trans (0, 0, 0, 0);
-
-const Gdiplus::Color dark_t = out;
-const Gdiplus::Color light_t (255, 255, 255);
-
-
-
-
-
-using namespace BoolApp;
-
-const Padding but_pad = Padding(pointUI(10, percent), 0, 0, 0);
-
-
+#include "Main.h"
+#include "exercises.h"
 
 ULONG_PTR gdiplusToken = 0;
 
@@ -46,6 +22,7 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	lc->is_vert_orientation = 1;
+	lc->background = bg;
 	win.add(lc);
 
 	ScrollText* app_name = new ScrollText(new SizeBuilder(Size(pointUI(400, percent), pointUI(350, percent)), Margin(0), Padding(pointUI(150, percent), pointUI(100, percent), 0, 0)));
@@ -57,18 +34,27 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	lc->add(app_name);
 
 	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	exer_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
 	exer_bt->text = L"ЗАДАЧИ";
 	exer_bt->set_font_size(35);
 	exer_bt->background = button;
-	//exer_bt->font color
+	exer_bt->text_color = light_t;
 	lc->add(exer_bt);
+
+	Button* games_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	games_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	games_bt->text = L"ИГРЫ";
+	games_bt->set_font_size(35);
+	games_bt->background = button;
+	games_bt->text_color = light_t;
+	lc->add(games_bt);
 
 	Button* close_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 	close_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
 	close_bt->text = L"ВЫХОД";
 	close_bt->set_font_size(35);
 	close_bt->background = button;
+	close_bt->text_color = light_t;
 	lc->add(close_bt);
 
 	/*
