@@ -31,7 +31,7 @@ namespace BoolApp
 		};
 		
 		void Register(WNDCLASS& wca) override {
-			wca.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(100, 193, 193));
+			wca.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(255, 244, 204));
 		};
 
 		ProcessView* VConstruct(ProcessView* apv) override {

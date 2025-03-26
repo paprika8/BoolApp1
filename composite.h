@@ -88,7 +88,8 @@ namespace BoolApp{
 				((PComposite*)PV)->remove(aview->PV);
 		}
 
-		void paint(HWND) override {
+		void paint(HWND hwnd) override {
+			this->View::paint(hwnd);
 			for(auto child : children)
 				child->paint(child->PV->hwnd);
 		};

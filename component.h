@@ -76,7 +76,8 @@ namespace BoolApp{
 				((PComponent*)PV)->child = 0;
 		}
 
-		void paint(HWND) override {
+		void paint(HWND hwnd) override {
+			this->View::paint(hwnd);
 			if(child)
 				child->paint(child->PV->hwnd);
 		};

@@ -1,12 +1,5 @@
-#include <Windows.h>
-#include "window.h"
-#include "LinearContainer.h"
-#include "button.h"
-#include "Text.h"
-#include "Edit.h"
-
-
-using namespace BoolApp;
+#include "Main.h"
+#include "exercises.h"
 
 ULONG_PTR gdiplusToken = 0;
 
@@ -25,15 +18,51 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	}
 
 	Window win(new SizeBuilder(Size(500, 500), Margin(0,0,0,0, MarginType::TOP | MarginType::LEFT), Padding(0)));
-	Button* bt = new Button(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0)));
-	bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
-	Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
-	text->SetText(L"TEXT УБОГИЙ sdadasdasdasdasdG");
+	win.Show(ShowType::MAXIMIZE);
+
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	lc->is_vert_orientation = 1;
-	lc->add(bt);
-	lc->add(text);
+	lc->background = bg;
 	win.add(lc);
+
+	ScrollText* app_name = new ScrollText(new SizeBuilder(Size(pointUI(400, percent), pointUI(350, percent)), Margin(0), Padding(pointUI(150, percent), pointUI(100, percent), 0, 0)));
+	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
+	app_name->SetText(L"B001App");
+	app_name->font = createFont(100);
+	app_name->background = trans;
+	app_name->text_color = dark_t;
+	lc->add(app_name);
+
+	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
+	exer_bt->text = L"ЗАДАЧИ";
+	exer_bt->set_font_size(35);
+	exer_bt->background = button;
+	exer_bt->text_color = light_t;
+	lc->add(exer_bt);
+
+	Button* games_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	games_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	games_bt->text = L"ИГРЫ";
+	games_bt->set_font_size(35);
+	games_bt->background = button;
+	games_bt->text_color = light_t;
+	lc->add(games_bt);
+
+	Button* close_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	close_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	close_bt->text = L"ВЫХОД";
+	close_bt->set_font_size(35);
+	close_bt->background = button;
+	close_bt->text_color = light_t;
+	lc->add(close_bt);
+
+	/*
+	Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
+	text->SetText(L"TEXT УБОГИЙ");
+	lc->add(text);
+	*/
+
 
 	int res = run();
 	Gdiplus::GdiplusShutdown ( gdiplusToken );
