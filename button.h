@@ -20,7 +20,6 @@ namespace BoolApp
 	public:
 		std::wstring text = L"";
 		int flag_format = 0;
-		COLORREF background = RGB(225, 60, 60);
 		std::function<void(Button *)> click = [](Button *) -> void {};
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");

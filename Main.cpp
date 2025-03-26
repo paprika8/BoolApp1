@@ -30,10 +30,13 @@ int WinMain(HINSTANCE instance, HINSTANCE, LPSTR lpCmdLine, int nshow) {
 	bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
 	bt->text = L"dsfdfsfsd fsdfsdf fdsfsdf fsdfsdf";
 	bt->set_font_size(16);
+	bt->background = Gdiplus::Color(99,99,200);
 	Edit* text = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,20,0)));
 	text->SetText(L"TEXT УБОГИЙ sdadasdasdasdasdG");
+	text->SetUnEditText(L"TEXT УБОГИЙ sdadasdasdasdasdG");
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	lc->is_vert_orientation = 1;
+	lc->background = Gdiplus::Color(100, 193, 193);
 	lc->add(bt);
 	lc->add(text);
 	win.add(lc);

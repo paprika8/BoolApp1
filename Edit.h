@@ -33,8 +33,9 @@ namespace BoolApp
 	class Edit : public View
 	{
 	public:
-		Gdiplus::Color background;
+		
 		int text_cursor = 0;
+		int untext_cursor = 0;
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");
 
@@ -95,6 +96,15 @@ namespace BoolApp
 		std::wstring GetText()
 		{
 			return std::wstring(text.data);
+		}
+		void SetUnEditText(std::wstring atext)
+		{
+			text = atext.c_str();
+			untext_cursor = atext.size();
+			if (enabled)
+			{
+				SendMessage(PV->hwnd, WM_SETSCROLLEDTEXT, 0, 0);
+			}
 		}
 
 	private:

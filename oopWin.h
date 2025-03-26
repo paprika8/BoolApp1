@@ -4,6 +4,10 @@
 #include <set>
 #include <string>
 #include <functional>
+#include <gdiplus.h>
+//using namespace Gdiplus;
+
+#pragma comment (lib, "Gdiplus.lib")
 
 namespace BoolApp
 {
@@ -94,11 +98,17 @@ namespace BoolApp
 	public:
 		ProcessView *PV = 0;
 		View *parent = 0;
+		Gdiplus::Color background = Gdiplus::Color(255,0,0,0);
 		virtual std::wstring getSzWindowClass() = 0;
 		virtual void Register(WNDCLASS&){};
 		virtual void paint (HWND hwnd){
 			PAINTSTRUCT pstruct;
 			HDC hdc = BeginPaint ( hwnd , &pstruct );
+			Gdiplus::Graphics g(hdc);
+			auto rcDirty = pstruct.rcPaint;
+			Gdiplus::SolidBrush* brush = new Gdiplus::SolidBrush ( background );
+			g.FillRectangle ( brush , rcDirty.left , rcDirty.top , ( int ) ( rcDirty.right - rcDirty.left ) , ( int ) ( rcDirty.bottom - rcDirty.top ) );
+			delete brush;
 			EndPaint(hwnd, &pstruct);
 		};
 		virtual LRESULT wndProc(HWND ahwnd, UINT message, WPARAM wparam, LPARAM lparam, ProcessView *ptr){ return DefWindowProc(ahwnd, message, wparam, lparam); };

@@ -48,7 +48,7 @@ namespace BoolApp {
 			r.bottom = rect.Y + rect.Height;
 			DrawTextW(hdc, it, 1, &r, 0);
 			cursor += abc.abcB;
-			if(it - text.data == text_cursor)
+			if(it - text.data == text_cursor+untext_cursor)
 			{
 				cursorX = cursor - abc.abcB - abc.abcA;
 				cursorY = row;
@@ -56,7 +56,7 @@ namespace BoolApp {
 			cursor += abc.abcC;
 			it++;
 		}
-		if(it - text.data == text_cursor)
+		if(it - text.data == text_cursor+untext_cursor)
 		{
 			cursorX = cursor;
 			cursorY = row;
@@ -83,11 +83,11 @@ namespace BoolApp {
 				//	return;
 			}
 			cursor += abc.abcB;
-			if(it - text.data == text_cursor)
+			/*if(it - text.data == text_cursor + untext_cursor)
 			{
 				MoveToEx(hdc, cursor, row, NULL);
 				LineTo(hdc, cursor, row + stepY);
-			}
+			}*/
 			cursor += abc.abcC;
 			it++;
 		}
@@ -252,7 +252,7 @@ namespace BoolApp {
 			wchar_t ch = wParam;
 			if(ch == L'\b')
 				return 0;
-			text.add(ch, text_cursor);
+			text.add(ch, text_cursor + untext_cursor);
 			text_cursor++;
 			SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );
 			return 0;
@@ -261,7 +261,7 @@ namespace BoolApp {
             // Обрабатываем нажатия стрелочек
             switch (wParam) {
                 case VK_RIGHT:
-					if(text_cursor != text.size)
+					if(text_cursor + untext_cursor != text.size)
 						text_cursor++;
 					InvalidateRect(hwnd, 0, 1);
                     break;
@@ -271,14 +271,15 @@ namespace BoolApp {
 					InvalidateRect(hwnd, 0, 1);
                     break;
 				case VK_BACK:
-					text.del(text_cursor);
+					if(text_cursor)
+						text.del(text_cursor + untext_cursor);
 					if(text_cursor)
 						text_cursor--;
 					SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );
                     break;
 				case VK_RETURN:
 					wchar_t c = L'\n';
-					text.add(c, text_cursor);
+					text.add(c, text_cursor + untext_cursor);
 					text_cursor++;
 					SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );
                     break;
