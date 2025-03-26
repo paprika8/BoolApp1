@@ -19,6 +19,7 @@ namespace BoolApp
 	{
 	public:
 		std::wstring text = L"";
+		Gdiplus::Color text_color = Gdiplus::Color(0, 0, 0);
 		int flag_format = 0;
 		std::function<void(Button *)> click = [](Button *) -> void {};
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
