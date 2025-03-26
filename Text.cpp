@@ -28,7 +28,7 @@ namespace BoolApp {
 		delete brush;
 
 		Size AbsSize = f->getAbsoluteSize ();
-		f->padding.reSize ( AbsSize );
+		f->padding.toAbsolut(AbsSize).reSize ( AbsSize );
 		if ( AbsSize.height < f->TextHeight ) {
 			//Фон ползунка
 			brush = new Gdiplus::SolidBrush ( background - 18 );
