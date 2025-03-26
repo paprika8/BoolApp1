@@ -63,6 +63,21 @@ namespace BoolApp
 	{
 		switch (message)
 		{
+		case WM_ERASEBKGND:
+		/*if(GetWindowLongPtr(ahwnd, 0)){
+			ProcessView *ptr = GetWindowLongPtr(ahwnd, 0);
+			if(!ptr->view)
+				return 1;
+			PAINTSTRUCT pstruct;
+			HDC hdc = BeginPaint ( ahwnd , &pstruct );
+			Gdiplus::Graphics g(hdc);
+			auto rcDirty = pstruct.rcPaint;
+			Gdiplus::SolidBrush* brush = new Gdiplus::SolidBrush ( ptr->view->background );
+			g.FillRectangle ( brush , rcDirty.left , rcDirty.top , ( int ) ( rcDirty.right - rcDirty.left ) , ( int ) ( rcDirty.bottom - rcDirty.top ) );
+			delete brush;
+			EndPaint(ahwnd, &pstruct);
+		}*/
+    		return 1;
 		case WM_PAINT:
 		{
 			ProcessView *ptr = GetWindowLongPtr(ahwnd, 0);
@@ -174,7 +189,8 @@ namespace BoolApp
 			return;
 		}
 		enabled = false;
-		deleteSafely(PV);
+		if(PV)
+			deleteSafely(PV);
 	}
 
 	ProcessView::ProcessView(HWND ahwnd, View *aview)

@@ -1,10 +1,10 @@
 #pragma once
 #include "component.h"
 #include "composite.h"
-#include <gdiplus.h>
+//#include <gdiplus.h>
 //using namespace Gdiplus;
 
-#pragma comment (lib, "Gdiplus.lib")
+//#pragma comment (lib, "Gdiplus.lib")
 
 namespace BoolApp {
 

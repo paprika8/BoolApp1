@@ -35,11 +35,13 @@ namespace BoolApp{
 		HDC hdc = BeginPaint(hwnd, &pstruct);
 		SetBkMode(hdc, TRANSPARENT);
 		SelectObject(hdc, font);
-		HBRUSH br = CreateSolidBrush(background);
+		Gdiplus::Graphics g(hdc);
+		auto rcDirty = pstruct.rcPaint;
+		Gdiplus::SolidBrush* brush = new Gdiplus::SolidBrush ( background );
+		g.FillRectangle ( brush , rcDirty.left , rcDirty.top , ( int ) ( rcDirty.right - rcDirty.left ) , ( int ) ( rcDirty.bottom - rcDirty.top ) );
+		delete brush;
 		RECT r = pstruct.rcPaint;
-        SelectObject(hdc, br);
-		Rectangle(hdc, r.left-5,r.top-5,r.right+5,r.bottom+5);
-		PV->padding.reRect(r);
+		PV->padding.toAbsolut(PV->getAbsoluteSize()).reRect(r);
 		RECT rc = r;
 		DrawText(hdc, text.c_str(), text.size(), &rc, flag_format | DT_CALCRECT | DT_WORDBREAK);
 		int textHeight = rc.bottom - rc.top;
@@ -51,7 +53,6 @@ namespace BoolApp{
 
 		// Рисуем текст
 		DrawText(hdc, text.c_str(), text.size(), &rc, flag_format & ~DT_CALCRECT | DT_WORDBREAK);
-		DeleteObject(br);
 		EndPaint(hwnd, &pstruct);
 	};
 }
