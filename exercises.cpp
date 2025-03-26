@@ -2,7 +2,7 @@
 #include "exercises.h"
 
 LinearContainer* create_card(std::wstring number, std::wstring exercise){
-	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0), Padding(0)));
+	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0,0,0,0, MarginType::CONTENT), Padding(0)));
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
 

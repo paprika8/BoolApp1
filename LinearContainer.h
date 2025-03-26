@@ -15,11 +15,13 @@ namespace BoolApp
 		void construction() override;
 
 		virtual Size GetContentSize ( Size size ) {
+			if(!(margin.type & MarginType::CONTENT))
+				return this->size;
 			Size res;
 			Size asize;
 			Margin amargin ( 0 , 0 , 0 , 0 );
 			for ( int i = 0; i < len (); i++ ) {
-				asize = getPView ( i )->size.toAbsolut ( size );
+				asize = getPView ( i )->GetContentSize(getPView ( i )->size).toAbsolut ( size );
 				amargin = getPView ( i )->margin.toAbsolut ( size );
 				if ( !is_vert_orientation )
 					res = res.plusRight ( asize, amargin );

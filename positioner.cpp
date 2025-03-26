@@ -49,7 +49,8 @@ namespace BoolApp
 		for (int cont = 0; cont < compos->len(); cont++)
 		{
 			Margin amargin = compos->getPView(cont)->margin.toAbsolut(size);
-			Size asize = compos->getPView(cont)->size.toAbsolut(size);
+			//Size asize = compos->getPView(cont)->size.toAbsolut(size);
+			Size asize = compos->getPView(cont)->GetContentSize(compos->getPView(cont)->size).toAbsolut(size);
 			Point cord = cursor;
 			MarginType marginType = MBuffer & ~MarginType::PARENT | (compos->getPView(cont)->margin.type & MarginType::PARENT);
 			// amargin.reRect ( cord , contentSize , asize , marginType);
