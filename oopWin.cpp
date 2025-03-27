@@ -231,3 +231,23 @@ namespace BoolApp
 		Positioning(apv);
 	}
 }
+
+Gdiplus::Color operator-( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () - DeltaColor.GetR () , start.GetG () - DeltaColor.GetG () , start.GetB () - DeltaColor.GetB () );
+	return finish;
+}
+
+Gdiplus::Color operator+( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () + DeltaColor.GetR () , start.GetG () + DeltaColor.GetG () , start.GetB () + DeltaColor.GetB () );
+	return finish;
+}
+
+Gdiplus::Color operator-( Gdiplus::Color start , int Delta ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () - Delta , start.GetG () - Delta , start.GetB () - Delta );
+	return finish;
+}
+
+Gdiplus::Color operator+( Gdiplus::Color start , int Delta ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () + Delta , start.GetG () + Delta , start.GetB () + Delta );
+	return finish;
+}

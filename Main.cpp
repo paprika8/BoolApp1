@@ -1,5 +1,6 @@
 #include "Main.h"
 #include "exercises.h"
+#include "games.h"
 #include <winuser.h>
 UINT GetSystemDpi(){
 	HDC hdc = GetDC(NULL);
@@ -36,7 +37,7 @@ LinearContainer* create_page_main(){
 	lc->add(exer_bt);
 
 	Button* games_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	games_bt->click = [](Button*)->void{PostQuitMessage ( 0 );};
+	games_bt->click = [&](Button*)->void{win->add(create_page_games());};
 	games_bt->text = L"ИГРЫ";
 	games_bt->set_font_size(35);
 	games_bt->background = button;

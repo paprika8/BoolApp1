@@ -9,6 +9,11 @@
 
 #pragma comment (lib, "Gdiplus.lib")
 
+Gdiplus::Color operator-( Gdiplus::Color start , Gdiplus::Color DeltaColor );
+Gdiplus::Color operator+( Gdiplus::Color start , Gdiplus::Color DeltaColor );
+Gdiplus::Color operator-( Gdiplus::Color start , int Delta );
+Gdiplus::Color operator+( Gdiplus::Color start , int Delta );
+
 namespace BoolApp
 {
 

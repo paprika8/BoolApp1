@@ -1,31 +1,31 @@
 #include "Main.h"
-#include "exercises.h"
+#include "games.h"
 
-LinearContainer* create_exer_card(std::wstring number, std::wstring exercise){
+LinearContainer* create_game_card(std::wstring number, std::wstring game){
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0,0,0,0, MarginType::CONTENT), Padding(0, 0, 0, 0)));
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
 
-	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(120), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
+	ScrollText* game_number = new ScrollText(new SizeBuilder(Size(pointUI(120), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
 	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-	exer_number->SetText(number);
-	exer_number->font = createFont(22);
-	exer_number->background = button;
-	exer_number->text_color = light_t;
-	lc->add(exer_number);
+	game_number->SetText(number);
+	game_number->font = createFont(22);
+	game_number->background = button;
+	game_number->text_color = light_t;
+	lc->add(game_number);
 
-	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+	Button* game_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 	//exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
-	exer_bt->text = exercise;
-	exer_bt->set_font_size(20);
-	exer_bt->background = out;
-	exer_bt->text_color = light_t;
-	lc->add(exer_bt);
+	game_bt->text = game;
+	game_bt->set_font_size(20);
+	game_bt->background = out;
+	game_bt->text_color = light_t;
+	lc->add(game_bt);
 
 	return lc;
 }
 
-LinearContainer* create_page_exercises(){
+LinearContainer* create_page_games(){
 	LinearContainer* main_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 	main_lc->is_vert_orientation = 1;
 	main_lc->background = bg;
@@ -47,12 +47,12 @@ LinearContainer* create_page_exercises(){
 	secondrow_lc->background = bg;
 	
 
-	firstrow_lc->add(create_exer_card(L"Задача 1", L"булевая функция от n аргументов"));
-	firstrow_lc->add(create_exer_card(L"Задача 2", L"нулевая/единичная остаточная"));
-	firstrow_lc->add(create_exer_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу"));
-	secondrow_lc->add(create_exer_card(L"Задача 4", L"СДНФ"));
-	secondrow_lc->add(create_exer_card(L"Задача 5", L"СКНФ"));
-	secondrow_lc->add(create_exer_card(L"Задача 6", L"ДНФ"));
+	firstrow_lc->add(create_game_card(L"Игра 1", L"имя функции"));
+	firstrow_lc->add(create_game_card(L"Игра 2", L"существенные и фиктивные переменные"));
+	firstrow_lc->add(create_game_card(L"Игра 3", L"ДНФ"));
+	secondrow_lc->add(create_game_card(L"Игра 4", L"КНФ"));
+	secondrow_lc->add(create_game_card(L"Игра 5", L"предполные классы"));
+	secondrow_lc->add(create_game_card(L"Игра 6", L"полные системы"));
 
 	main_lc->add(firstrow_lc);
 	main_lc->add(secondrow_lc);

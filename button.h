@@ -84,6 +84,7 @@ namespace BoolApp
 			case WM_LBUTTONDBLCLK:
 			{
 				pButton->isDown = true;
+				background = background - 30;
 				InvalidateRect(ahwnd, 0, 0);
 
 				SetCapture(ahwnd);
@@ -107,6 +108,7 @@ namespace BoolApp
 				if (pButton->isDown)
 					Click();
 				pButton->isDown = false;
+				background = background + 30;
 				InvalidateRect(ahwnd, 0, 0);
 
 				ReleaseCapture();
