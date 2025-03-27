@@ -105,14 +105,19 @@ namespace BoolApp
 			}
 			case WM_LBUTTONUP:
 			{
-				if (pButton->isDown)
-					Click();
+				bool event = pButton->isDown;
+				
 				pButton->isDown = false;
 				background = background + 30;
 				InvalidateRect(ahwnd, 0, 0);
 
 				ReleaseCapture();
-				return DefWindowProc(ahwnd, message, wparam, lparam);
+
+				if (event)
+					Click();
+
+				return 1;
+				//return DefWindowProc(ahwnd, message, wparam, lparam);
 			}
 			default:
 				return DefWindowProc(ahwnd, message, wparam, lparam);
