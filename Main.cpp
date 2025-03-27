@@ -29,7 +29,7 @@ LinearContainer* create_page_main(){
 	lc->add(app_name);
 
 	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	exer_bt->click = [&](Button*)->void{win->add(create_page_exercises());};
+	exer_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};
 	exer_bt->text = L"ЗАДАЧИ";
 	exer_bt->set_font_size(35);
 	exer_bt->background = button;
@@ -37,7 +37,7 @@ LinearContainer* create_page_main(){
 	lc->add(exer_bt);
 
 	Button* games_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	games_bt->click = [&](Button*)->void{win->add(create_page_games());};
+	games_bt->click = [&](Button*)->void{win->add(games_page::create_page());};
 	games_bt->text = L"ИГРЫ";
 	games_bt->set_font_size(35);
 	games_bt->background = button;
