@@ -120,7 +120,7 @@ namespace BoolApp
 				ptr->size.height = HIWORD(lparam);
 				ptr->size.width = LOWORD(lparam);
 			}
-			ptr->resize(ptr->point, Size(LOWORD(lparam), HIWORD(lparam)));
+			ptr->view->resize(ptr, ptr->point, Size(LOWORD(lparam), HIWORD(lparam)));
 		}
 		case WM_MOVE:
 		{
@@ -130,7 +130,7 @@ namespace BoolApp
 				return DefWindowProc(ahwnd, message, wparam, lparam);
 			}
 			Positioning(ptr);
-			ptr->resize(Point(LOWORD(lparam), HIWORD(lparam)), ptr->getAbsoluteSize());
+			ptr->view->resize(ptr, Point(LOWORD(lparam), HIWORD(lparam)), ptr->getAbsoluteSize());
 			return ptr->view->wndProc(ahwnd, message, wparam, lparam, ptr);
 		}
 		default:
@@ -230,4 +230,35 @@ namespace BoolApp
 		apv->padding = padding;
 		Positioning(apv);
 	}
+}
+template<typename T>
+T max(T a, T b){
+	if(a > b)
+	return a;
+	return b;
+}
+template<typename T>
+T min(T a, T b){
+	if(a < b)
+	return a;
+	return b;
+}
+Gdiplus::Color operator-( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , max(0, start.GetR () - DeltaColor.GetR ()) , max(0, start.GetG () - DeltaColor.GetG ()) , max(0, start.GetB () - DeltaColor.GetB ()) );
+	return finish;
+}
+
+Gdiplus::Color operator+( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , min(255, start.GetR () + DeltaColor.GetR ()) , min(255, start.GetG () + DeltaColor.GetG ()) , min(255, start.GetB () + DeltaColor.GetB ()) );
+	return finish;
+}
+
+Gdiplus::Color operator-( Gdiplus::Color start , int Delta ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , max(0, start.GetR () - Delta) , max(0, start.GetG () - Delta) , max(0, start.GetB () - Delta) );
+	return finish;
+}
+
+Gdiplus::Color operator+( Gdiplus::Color start , int Delta ) {
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , min(255, start.GetR () + Delta) , min(255, start.GetG () + Delta) , min(255, start.GetB () + Delta));
+	return finish;
 }

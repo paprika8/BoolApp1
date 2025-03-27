@@ -1,5 +1,5 @@
 #pragma once
-#include "oopWin.h"
+#include "../oopWin.h"
 #include <functional>
 namespace BoolApp
 {
@@ -27,6 +27,7 @@ namespace BoolApp
 
 		Button(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
 		{
+			resize = right_form;
 		}
 
 		void set_font_size(int size)
@@ -84,6 +85,7 @@ namespace BoolApp
 			case WM_LBUTTONDBLCLK:
 			{
 				pButton->isDown = true;
+				background = background - 30;
 				InvalidateRect(ahwnd, 0, 0);
 
 				SetCapture(ahwnd);
@@ -104,13 +106,19 @@ namespace BoolApp
 			}
 			case WM_LBUTTONUP:
 			{
-				if (pButton->isDown)
-					Click();
+				bool event = pButton->isDown;
+				
 				pButton->isDown = false;
+				background = background + 30;
 				InvalidateRect(ahwnd, 0, 0);
 
 				ReleaseCapture();
-				return DefWindowProc(ahwnd, message, wparam, lparam);
+
+				if (event)
+					Click();
+
+				return 1;
+				//return DefWindowProc(ahwnd, message, wparam, lparam);
 			}
 			default:
 				return DefWindowProc(ahwnd, message, wparam, lparam);

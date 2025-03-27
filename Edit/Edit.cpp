@@ -69,6 +69,7 @@ namespace BoolApp {
 	void Edit::rect_text(HDC hdc, Gdiplus::Rect rect, Gdiplus::Rect &res){
 		wchar_t* it = text.data;
 		int row = rect.Y, cursor = rect.X;
+		SelectObject(hdc, font);
 		TEXTMETRIC tm;
 		GetTextMetrics(hdc, &tm);
 		int stepY = tm.tmHeight;
@@ -102,6 +103,8 @@ namespace BoolApp {
 	{
 		PAINTSTRUCT pstruct;
 		HDC hdc = BeginPaint ( hwnd , &pstruct );
+		SetBkMode(hdc, TRANSPARENT);
+		SetTextColor(hdc, RGB(text_color.GetR(), text_color.GetG(), text_color.GetB()));
 		SelectObject(hdc, font);
 		PEdit* f = PV;
 		Gdiplus::Graphics g ( hdc );

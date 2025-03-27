@@ -1,6 +1,6 @@
 #pragma once
-#include "Text.h"
-#include "custom_wstr.h"
+#include "../Text/Text.h"
+#include "../custom_wstr.h"
 
 namespace BoolApp
 {
@@ -33,7 +33,7 @@ namespace BoolApp
 	class Edit : public View
 	{
 	public:
-		
+		Gdiplus::Color text_color = Gdiplus::Color(0, 0, 0);
 		int text_cursor = 0;
 		int untext_cursor = 0;
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,

@@ -1,6 +1,6 @@
 #pragma once
-#include "component.h"
-#include "composite.h"
+#include "../component/component.h"
+#include "../composite/composite.h"
 
 namespace BoolApp
 {
@@ -13,6 +13,9 @@ namespace BoolApp
 		};
 
 		void construction() override;
+
+		virtual Size GetContentSize ( Size size );
+
 		~PLContainer()
 		{
 			

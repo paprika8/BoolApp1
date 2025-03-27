@@ -1,10 +1,10 @@
 #pragma once
 #include <Windows.h>
-#include "window.h"
-#include "LinearContainer.h"
-#include "button.h"
-#include "Text.h"
-#include "Edit.h"
+#include "window/window.h"
+#include "LinearContainer/LinearContainer.h"
+#include "button/button.h"
+#include "Text/Text.h"
+#include "Edit/Edit.h"
 
 const Gdiplus::Color bg (255, 244, 204);
 const Gdiplus::Color confirm (127, 176, 105);
@@ -20,4 +20,8 @@ using namespace BoolApp;
 
 const Padding but_pad = Padding(pointUI(10, percent), 0, 0, 0);
 
+extern int DPI;
+extern Window* win;
+
+LinearContainer* create_page_main();
 

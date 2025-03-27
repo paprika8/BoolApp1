@@ -1,6 +1,6 @@
 #pragma once
-#include "oopWin.h"
-#include "custom_vector.h"
+#include "../oopWin.h"
+#include "../custom_vector.h"
 
 namespace BoolApp{
 	
@@ -14,6 +14,15 @@ namespace BoolApp{
 
 		~PComponent(){
 			delete child;
+		}
+		virtual Size GetContentSize ( Size size ) {
+			Size res;
+			Size asize;
+			Margin amargin (0, 0, 0, 0);
+			asize = getPView ()->size.toAbsolut (size);
+			amargin = getPView ()->margin.toAbsolut (size);
+			res = res.plusRight (asize, amargin);
+			return res;
 		}
 
 		void add (ProcessView* apview);

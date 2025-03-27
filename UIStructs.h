@@ -11,7 +11,7 @@ typedef unsigned short ushort;
 namespace BoolApp {
 	enum MarginType : char
 	{
-		CONTENT = 0b00000000 ,
+		CONTENT = 0b01000000 ,
 		HPARENT = 0b00000001 ,
 		VPARENT = 0b00000010 ,
 		PARENT = 0b00000011 ,
@@ -255,7 +255,7 @@ namespace BoolApp {
 		pointUI top;
 		pointUI right;
 		pointUI bottom;
-		MarginType type;
+		MarginType type = MarginType::LEFT | MarginType::TOP ;
 
 		Margin(){
 			left = 0;

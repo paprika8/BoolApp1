@@ -1,6 +1,6 @@
 #pragma once
-#include "component.h"
-#include "composite.h"
+#include "../component/component.h"
+#include "../composite/composite.h"
 //#include <gdiplus.h>
 //using namespace Gdiplus;
 
@@ -82,10 +82,7 @@ namespace BoolApp {
 		std::wstring text = L"";
 	};
 
-	Gdiplus::Color operator-( Gdiplus::Color start , Gdiplus::Color DeltaColor );
-	Gdiplus::Color operator+( Gdiplus::Color start , Gdiplus::Color DeltaColor );
-	Gdiplus::Color operator-( Gdiplus::Color start , int Delta );
-	Gdiplus::Color operator+( Gdiplus::Color start , int Delta );
+
 
 }
 

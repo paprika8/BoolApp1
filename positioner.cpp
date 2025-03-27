@@ -27,7 +27,10 @@ namespace BoolApp
 		Size size = compos->getAbsoluteSize();
 		compos->padding.reRect(cursor, size);
 
+		MarginType buf = compos->margin.type & MarginType::CONTENT;
+		compos->margin.type = compos->margin.type | MarginType::CONTENT;
 		Size contSize = compos->GetContentSize(size);
+		compos->margin.type = compos->margin.type & ~MarginType::CONTENT | buf;
 		Margin tempMargin = Margin(0, 0, 0, 0);
 		Point start = (0, 0);
 		Size buffer = Size(size);
@@ -49,7 +52,8 @@ namespace BoolApp
 		for (int cont = 0; cont < compos->len(); cont++)
 		{
 			Margin amargin = compos->getPView(cont)->margin.toAbsolut(size);
-			Size asize = compos->getPView(cont)->size.toAbsolut(size);
+			//Size asize = compos->getPView(cont)->size.toAbsolut(size);
+			Size asize = compos->getPView(cont)->GetContentSize(compos->getPView(cont)->size).toAbsolut(size);
 			Point cord = cursor;
 			MarginType marginType = MBuffer & ~MarginType::PARENT | (compos->getPView(cont)->margin.type & MarginType::PARENT);
 			// amargin.reRect ( cord , contentSize , asize , marginType);
