@@ -5,8 +5,13 @@
 #include <random>
 #include <chrono>
 #include <utility>
+#include <sstream>
+#include <string>
 
 using namespace std;
+
+wstringstream out;
+wstringstream in;
 
 int twoInPower(int power)
 {
@@ -30,7 +35,7 @@ int getPowerOfTwo(size_t n)
     return power;
 }
 
-vector<bool> makeVecFromOstat(string ost1, string ost2, int x_num)
+vector<bool> makeVecFromOstat(wstring ost1, wstring ost2, int x_num)
 {
     int sz = ost1.size() + ost2.size();
     int group_amt = twoInPower(x_num - 1);
@@ -44,7 +49,7 @@ vector<bool> makeVecFromOstat(string ost1, string ost2, int x_num)
     {
         for (int j = 0; j < start_pos; j++)
         {
-            res[i + j] = ost1[i_ost] - 48;
+            res[i + j] = ost1[i_ost] - L'0';
             i_ost++;
         }
     }
@@ -53,7 +58,7 @@ vector<bool> makeVecFromOstat(string ost1, string ost2, int x_num)
     {
         for (int j = 0; j < start_pos; j++)
         {
-            res[i + j] = ost2[i_ost] - 48;
+            res[i + j] = ost2[i_ost] - L'0';
             i_ost++;
         }
     }
@@ -109,17 +114,17 @@ int main()
     int amt_x = dis_x(gen);
 
     // Для отладки
-    /*cout << "Enter amt_x: ";
-    cin >> amt_x;
-    cout << "Amt of vars: " << amt_x << endl;*/
+    /*out << "Enter amt_x: ";
+    in >> amt_x;
+    out << "Amt of vars: " << amt_x << endl;*/
 
     uniform_int_distribution<> dis_of_dum(0, amt_x); // количество фиктивных переменных
     int amt_dum = dis_of_dum(gen);
 
     // Для отладки
-    /*cout << "Enter amt_dum: ";
-    cin >> amt_dum;
-    cout << "Amt of dum vars: " << amt_dum << endl;*/
+    /*out << "Enter amt_dum: ";
+    in >> amt_dum;
+    out << "Amt of dum vars: " << amt_dum << endl;*/
 
     uniform_int_distribution<> num_of_x(1, amt_x); // рандомайзер для номера переменной
     uniform_int_distribution<> z_or_o(0, 1);       // рандомайзер для 0 и 1
@@ -147,12 +152,12 @@ int main()
     }
 
     // Для отладки
-    /*cout << "Enter significant or dum val is:\n";
+    /*out << "Enter significant or dum val is:\n";
     for (int i = 1; i < vars.size(); i++)
     {
-        cout << i << ": ";
+        out << i << ": ";
         bool t;
-        cin >> t;
+        in >> t;
         vars[i] = t;
     }*/
 
@@ -163,10 +168,10 @@ int main()
     {
         int num_name_f = name_of_fun(gen);
         // Для отладки
-        /*cout << "Enter num of fun: ";
-        cin >> num_name_f;
+        /*out << "Enter num of fun: ";
+        in >> num_name_f;
 
-        cout << "Num_name_f = " << num_name_f << endl;*/
+        out << "Num_name_f = " << num_name_f << endl;*/
 
         // Создали вектор использующий все существ переменые
         for (int i = two_in_pow_sig_x - 1; i >= 0; --i)
@@ -179,9 +184,9 @@ int main()
 
     /*for (auto el : vf_sig)
     {
-        cout << el << ' ';
+        out << el << ' ';
     }*/
-    cout << endl;
+    out << endl;
     int t_amt_x = amt_x - amt_dum; // Текущее количество переменных (количество существенных)
     // Расширяем вектор фиктивными переменными
     vf = vf_sig;
@@ -189,7 +194,7 @@ int main()
     {
         if (!vars[num_x])
             continue; // проверка на фиктивность переменной
-        // cout << "For 1: num_x = " << num_x << endl;
+        // out << "For 1: num_x = " << num_x << endl;
         t_amt_x++;
         int group_amt = twoInPower(num_x - 1); // группы из 0, которые идут подряд (например 00 и 00, или 0, 0, 0 ,0)
         // Объяснение формулы: длина вектора (2^amt_x) / 2^(amt_x - num_x + 1) = 2^(amt - amt + num - 1)
@@ -210,21 +215,21 @@ int main()
         }
         vf = buf;
     }
-    cout << "Determine from the function vector which variables are dummy and significant:\n";
-    cout << "Vector of function: (";
+    out << "Determine from the function vector which variables are dummy and significant:\n";
+    out << "Vector of function: (";
     for (auto el : vf)
     {
-        cout << el;
+        out << el;
     }
-    cout << ")" << endl;
+    out << ")" << endl;
 
-    cout << "Enter '1' if dum and '0' if significant\n";
+    out << "Enter '1' if dum and '0' if significant\n";
     vector<bool> ans_vars(vars.size());
     for (int i = 1; i < ans_vars.size(); i++)
     {
-        cout << "x" << i << ": ";
+        out << "x" << i << ": ";
         bool t;
-        cin >> t;
+        in >> t;
         ans_vars[i] = t;
     }
 
@@ -232,10 +237,10 @@ int main()
     {
         if (ans_vars[i] != vars[i])
         {
-            cout << "Wrong answer! Game over.";
+            out << "Wrong answer! Game over.";
             return 0;
         }
     }
 
-    cout << "You're right! Game over.";
+    out << "You're right! Game over.";
 }

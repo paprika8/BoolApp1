@@ -2,8 +2,13 @@
 #include <random>
 #include <vector>
 #include <chrono>
+#include <sstream>
+#include <string>
 
 using namespace std;
+
+wstringstream out;
+wstringstream in;
 
 int countDigits(int number)
 {
@@ -42,15 +47,15 @@ void log_table(vector<bool> &v)
 {
     int n = getPowerOfTwo(v.size());
 
-    cout << '|';
+    out << L'|';
     for (int i = 1; i <= n; i++)
     {
-        cout << " x" << i << " |";
+        out << L" x" << i << L" |";
     }
-    cout << " f |" << '\n';
+    out << L" f |" << L'\n';
     for (int i = 0; i < v.size(); i++)
     {
-        cout << '|';
+        out << L'|';
 
         for (int j = n - 1; j >= 0; j--)
         {
@@ -59,12 +64,12 @@ void log_table(vector<bool> &v)
 
             for (int k = 0; k < countDigits(n - j) + 1; k++)
             {
-                cout << ' ';
+                out << L' ';
             }
-            cout << t << " |";
+            out << t << L" |";
         }
 
-        cout << ' ' << v[i] << " |" << '\n';
+        out << L' ' << v[i] << L" |" << L'\n';
     }
 }
 //| x1 | x2 | f |
@@ -75,7 +80,7 @@ void log_table(vector<bool> &v)
 int main()
 {
     int n;
-    cin >> n;
+    in >> n;
 
     long long k = 1LL << n;
     vector<bool> f(k); // 2^n
