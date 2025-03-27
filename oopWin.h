@@ -37,10 +37,6 @@ namespace BoolApp
 	class ProcessView
 	{
 	public:
-		std::function<void(ProcessView*, Point, Size)> resize = [](ProcessView*, Point, Size) -> void{};
-
-		
-
 		HWND hwnd;
 		View *view;
 		ProcessView *parent = 0;
@@ -106,6 +102,7 @@ namespace BoolApp
 		ProcessView *PV = 0;
 		View *parent = 0;
 		Gdiplus::Color background = Gdiplus::Color(255,0,0,0);
+		std::function<void(ProcessView*, Point, Size)> resize = [](ProcessView*, Point, Size) -> void{};
 		virtual std::wstring getSzWindowClass() = 0;
 		virtual void Register(WNDCLASS&){};
 		virtual void paint (HWND hwnd){

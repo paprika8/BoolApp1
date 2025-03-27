@@ -120,7 +120,7 @@ namespace BoolApp
 				ptr->size.height = HIWORD(lparam);
 				ptr->size.width = LOWORD(lparam);
 			}
-			ptr->resize(ptr, ptr->point, Size(LOWORD(lparam), HIWORD(lparam)));
+			ptr->view->resize(ptr, ptr->point, Size(LOWORD(lparam), HIWORD(lparam)));
 		}
 		case WM_MOVE:
 		{
@@ -130,7 +130,7 @@ namespace BoolApp
 				return DefWindowProc(ahwnd, message, wparam, lparam);
 			}
 			Positioning(ptr);
-			ptr->resize(ptr, Point(LOWORD(lparam), HIWORD(lparam)), ptr->getAbsoluteSize());
+			ptr->view->resize(ptr, Point(LOWORD(lparam), HIWORD(lparam)), ptr->getAbsoluteSize());
 			return ptr->view->wndProc(ahwnd, message, wparam, lparam, ptr);
 		}
 		default:

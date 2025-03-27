@@ -27,6 +27,7 @@ namespace BoolApp
 
 		Button(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
 		{
+			resize = right_form;
 		}
 
 		void set_font_size(int size)
