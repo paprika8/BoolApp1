@@ -11,6 +11,7 @@ namespace games_page{
 	game_number->font = createFont(22);
 	game_number->background = button;
 	game_number->text_color = light_t;
+	game_number->resize = right_form;
 	lc->add(game_number);
 
 	Button* game_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
@@ -19,6 +20,7 @@ namespace games_page{
 	game_bt->set_font_size(20);
 	game_bt->background = out;
 	game_bt->text_color = light_t;
+	game_bt->resize = right_form;
 	lc->add(game_bt);
 
 	return lc;
@@ -29,12 +31,13 @@ namespace games_page{
 		main_lc->is_vert_orientation = 1;
 		main_lc->background = bg;
 
-		Button* back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
+		Button* back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(100, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
 		back_bt->click = [&](Button*)->void{win->add(create_page_main());};
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
 		back_bt->text_color = light_t;
+		back_bt->resize = right_form;
 		main_lc->add(back_bt);
 
 		LinearContainer* firstrow_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
