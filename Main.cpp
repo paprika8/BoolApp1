@@ -1,6 +1,6 @@
 #include "Main.h"
-#include "exercises.h"
-#include "games.h"
+#include "design/exercises.h"
+#include "design/games.h"
 #include <winuser.h>
 UINT GetSystemDpi(){
 	HDC hdc = GetDC(NULL);
