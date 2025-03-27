@@ -231,23 +231,34 @@ namespace BoolApp
 		Positioning(apv);
 	}
 }
-
+template<typename T>
+T max(T a, T b){
+	if(a > b)
+	return a;
+	return b;
+}
+template<typename T>
+T min(T a, T b){
+	if(a < b)
+	return a;
+	return b;
+}
 Gdiplus::Color operator-( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
-	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () - DeltaColor.GetR () , start.GetG () - DeltaColor.GetG () , start.GetB () - DeltaColor.GetB () );
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , max(0, start.GetR () - DeltaColor.GetR ()) , max(0, start.GetG () - DeltaColor.GetG ()) , max(0, start.GetB () - DeltaColor.GetB ()) );
 	return finish;
 }
 
 Gdiplus::Color operator+( Gdiplus::Color start , Gdiplus::Color DeltaColor ) {
-	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () + DeltaColor.GetR () , start.GetG () + DeltaColor.GetG () , start.GetB () + DeltaColor.GetB () );
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , min(255, start.GetR () + DeltaColor.GetR ()) , min(255, start.GetG () + DeltaColor.GetG ()) , min(255, start.GetB () + DeltaColor.GetB ()) );
 	return finish;
 }
 
 Gdiplus::Color operator-( Gdiplus::Color start , int Delta ) {
-	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () - Delta , start.GetG () - Delta , start.GetB () - Delta );
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , max(0, start.GetR () - Delta) , max(0, start.GetG () - Delta) , max(0, start.GetB () - Delta) );
 	return finish;
 }
 
 Gdiplus::Color operator+( Gdiplus::Color start , int Delta ) {
-	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , start.GetR () + Delta , start.GetG () + Delta , start.GetB () + Delta );
+	Gdiplus::Color finish = Gdiplus::Color ( start.GetA () , min(255, start.GetR () + Delta) , min(255, start.GetG () + Delta) , min(255, start.GetB () + Delta));
 	return finish;
 }

@@ -27,7 +27,10 @@ namespace BoolApp
 		Size size = compos->getAbsoluteSize();
 		compos->padding.reRect(cursor, size);
 
+		MarginType buf = compos->margin.type & MarginType::CONTENT;
+		compos->margin.type = compos->margin.type | MarginType::CONTENT;
 		Size contSize = compos->GetContentSize(size);
+		compos->margin.type = compos->margin.type & ~MarginType::CONTENT | buf;
 		Margin tempMargin = Margin(0, 0, 0, 0);
 		Point start = (0, 0);
 		Size buffer = Size(size);
