@@ -1,5 +1,8 @@
 #include "exercises.h"
 #include "first.h"
+#include "second.h"
+#include "third.h"
+#include "fourth.h"
 
 namespace exercises_page{
 	LinearContainer* create_card(std::wstring number, std::wstring exercise, std::function<LinearContainer*()> func){
@@ -13,6 +16,7 @@ namespace exercises_page{
 	exer_number->font = createFont(22);
 	exer_number->background = button;
 	exer_number->text_color = light_t;
+	exer_number->resize = right_form;
 	lc->add(exer_number);
 
 	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
@@ -21,6 +25,7 @@ namespace exercises_page{
 	exer_bt->set_font_size(20);
 	exer_bt->background = out;
 	exer_bt->text_color = light_t;
+	exer_bt->resize = right_form;
 	lc->add(exer_bt);
 
 	return lc;
@@ -31,12 +36,13 @@ namespace exercises_page{
 		main_lc->is_vert_orientation = 1;
 		main_lc->background = bg;
 
-		Button* back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
+		Button* back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(100, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
 		back_bt->click = [&](Button*)->void{win->add(create_page_main());};
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
 		back_bt->text_color = light_t;
+		back_bt->resize = right_form;
 		
 
 		LinearContainer* firstrow_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
@@ -51,9 +57,9 @@ namespace exercises_page{
 
 		main_lc->add(back_bt);
 		firstrow_lc->add(create_card(L"Задача 1", L"булевая функция от n аргументов", first_page::create_page));
-		firstrow_lc->add(create_card(L"Задача 2", L"нулевая/единичная остаточная", first_page::create_page));
-		firstrow_lc->add(create_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу", first_page::create_page));
-		secondrow_lc->add(create_card(L"Задача 4", L"СДНФ", first_page::create_page));
+		firstrow_lc->add(create_card(L"Задача 2", L"нулевая/единичная остаточная", second_page::create_page));
+		firstrow_lc->add(create_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу", third_page::create_page));
+		secondrow_lc->add(create_card(L"Задача 4", L"СДНФ", fourth_page::create_page));
 		secondrow_lc->add(create_card(L"Задача 5", L"СКНФ", first_page::create_page));
 		secondrow_lc->add(create_card(L"Задача 6", L"ДНФ", first_page::create_page));
 
