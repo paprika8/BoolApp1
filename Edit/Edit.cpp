@@ -69,6 +69,7 @@ namespace BoolApp {
 	void Edit::rect_text(HDC hdc, Gdiplus::Rect rect, Gdiplus::Rect &res){
 		wchar_t* it = text.data;
 		int row = rect.Y, cursor = rect.X;
+		SelectObject(hdc, font);
 		TEXTMETRIC tm;
 		GetTextMetrics(hdc, &tm);
 		int stepY = tm.tmHeight;
