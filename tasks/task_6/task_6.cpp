@@ -30,8 +30,6 @@ bool is_literal(term *t)
     return false;
 }
 
-bool is_and_child_dnf(term *t);
-
 bool is_dnf(term *t)
 {
     if (!t)
