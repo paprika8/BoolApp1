@@ -16,7 +16,7 @@ namespace exercises_page{
 	lc->add(exer_number);
 
 	Button* exer_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	exer_bt->click = [&](Button*)->void{win->add(func());};
+	exer_bt->click = [=](Button*)->void{win->add(func());};
 	exer_bt->text = exercise;
 	exer_bt->set_font_size(20);
 	exer_bt->background = out;
@@ -37,7 +37,7 @@ namespace exercises_page{
 		back_bt->set_font_size(35);
 		back_bt->background = button;
 		back_bt->text_color = light_t;
-		main_lc->add(back_bt);
+		
 
 		LinearContainer* firstrow_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
 		firstrow_lc->is_vert_orientation = 0;
@@ -49,7 +49,7 @@ namespace exercises_page{
 		
 
 
-
+		main_lc->add(back_bt);
 		firstrow_lc->add(create_card(L"Задача 1", L"булевая функция от n аргументов", first_page::create_page));
 		firstrow_lc->add(create_card(L"Задача 2", L"нулевая/единичная остаточная", first_page::create_page));
 		firstrow_lc->add(create_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу", first_page::create_page));

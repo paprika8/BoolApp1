@@ -13,7 +13,6 @@ namespace first_page{
 		back_bt->set_font_size(35);
 		back_bt->background = button;
 		back_bt->text_color = light_t;
-		main_lc->add(back_bt);
 
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(600), pointUI(100)), Margin(0), Padding(0, 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
@@ -21,13 +20,12 @@ namespace first_page{
 		statement->font = createFont(30);
 		statement->background = out;
 		statement->text_color = light_t;
-		main_lc->add(statement);
 
 		Edit* input = new Edit(new SizeBuilder(Size(pointUI(100), pointUI(60)), Margin(5, 5, 5, 5), Padding(0,0,0,0)));
 		input->SetUnEditText(L"Введите n:");
 		input->background = in;
-		//input->font_color = light_t;
-		main_lc->add(input);
+		input->text_color = light_t;
+		input->set_font_size(30);
 
 		ScrollText* output = new ScrollText(new SizeBuilder(Size(pointUI(600, percent), pointUI(100)), Margin(0), Padding(0, 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
@@ -35,7 +33,6 @@ namespace first_page{
 		output->font = createFont(30);
 		output->background = out;
 		output->text_color = light_t;
-		main_lc->add(output);
 
 		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		statement_lc->is_vert_orientation = 0;
