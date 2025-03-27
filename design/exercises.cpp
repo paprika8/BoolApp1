@@ -2,8 +2,8 @@
 #include "first.h"
 #include "second.h"
 #include "third.h"
-#include "fourth.h"
-#include "fifth.h"
+#include "eighth.h"
+#include "nineth.h"
 
 namespace exercises_page{
 	LinearContainer* create_card(std::wstring number, std::wstring exercise, std::function<LinearContainer*()> func){
@@ -60,8 +60,8 @@ namespace exercises_page{
 		firstrow_lc->add(create_card(L"Задача 1", L"булевая функция от n аргументов", first_page::create_page));
 		firstrow_lc->add(create_card(L"Задача 2", L"нулевая/единичная остаточная", second_page::create_page));
 		firstrow_lc->add(create_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу", third_page::create_page));
-		secondrow_lc->add(create_card(L"Задача 4", L"СДНФ", fourth_page::create_page));
-		secondrow_lc->add(create_card(L"Задача 5", L"СКНФ", fifth_page::create_page));
+		secondrow_lc->add(create_card(L"Задача 4", L"СДНФ", eighth_page::create_page));
+		secondrow_lc->add(create_card(L"Задача 5", L"СКНФ", nineth_page::create_page));
 		secondrow_lc->add(create_card(L"Задача 6", L"ДНФ", first_page::create_page));
 
 		main_lc->add(firstrow_lc);

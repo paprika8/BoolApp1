@@ -1,6 +1,11 @@
 #include "games.h"
+#include "fourth.h"
+#include "fifth.h"
+#include "sixth.h"
+#include "seventh.h"
+
 namespace games_page{
-	LinearContainer* create_card(std::wstring number, std::wstring game){
+	LinearContainer* create_card(std::wstring number, std::wstring game, std::function<LinearContainer*()> func){
 	LinearContainer* lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000/3, percent), pointUI(1000/2, percent)), Margin(0,0,0,0, MarginType::CONTENT), Padding(0, 0, 0, 0)));
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
@@ -15,7 +20,7 @@ namespace games_page{
 	lc->add(game_number);
 
 	Button* game_bt = new Button(new SizeBuilder(Size(pointUI(260), pointUI(90)), Margin(5, 0, 95, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-	//exer_bt->click = [&](Button*)->void{win.add(create_page_exercises());};
+	game_bt->click = [=](Button*)->void{win->add(func());};
 	game_bt->text = game;
 	game_bt->set_font_size(20);
 	game_bt->background = out;
@@ -49,12 +54,12 @@ namespace games_page{
 		secondrow_lc->background = bg;
 		
 
-		firstrow_lc->add(create_card(L"Игра 1", L"имя функции"));
-		firstrow_lc->add(create_card(L"Игра 2", L"существенные и фиктивные переменные"));
-		firstrow_lc->add(create_card(L"Игра 3", L"ДНФ"));
-		secondrow_lc->add(create_card(L"Игра 4", L"КНФ"));
-		secondrow_lc->add(create_card(L"Игра 5", L"предполные классы"));
-		secondrow_lc->add(create_card(L"Игра 6", L"полные системы"));
+		firstrow_lc->add(create_card(L"Игра 1", L"имя функции", fourth_page::create_page));
+		firstrow_lc->add(create_card(L"Игра 2", L"существенные и фиктивные переменные", fifth_page::create_page));
+		firstrow_lc->add(create_card(L"Игра 3", L"ДНФ", sixth_page::create_page));
+		secondrow_lc->add(create_card(L"Игра 4", L"КНФ", seventh_page::create_page));
+		secondrow_lc->add(create_card(L"Игра 5", L"предполные классы", fourth_page::create_page));
+		secondrow_lc->add(create_card(L"Игра 6", L"полные системы", fourth_page::create_page));
 
 		main_lc->add(firstrow_lc);
 		main_lc->add(secondrow_lc);
