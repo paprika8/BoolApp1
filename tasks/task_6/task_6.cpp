@@ -6,8 +6,13 @@
 #include <chrono>
 #include <utility>
 #include <typeinfo> // Для typeid (может потребоваться)
+#include <sstream>
+#include <string>
 
 using namespace std;
+
+wstringstream out;
+wstringstream in;
 
 random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
@@ -89,48 +94,48 @@ int main()
 
     vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
-    cout << "Enter a DNF, that would be suitable for this vector: (";
+    out << L"Enter a DNF, that would be suitable for this vector: (";
 
     for (auto el : v)
     {
-        cout << el;
+        out << el;
     }
-    cout << ")" << endl;
+    out << L")" << endl;
 
-    string str;
-    getline(cin, str);
-    char *ch = str.data();
+    wstring str;
+    getline(in, str);
+    wchar_t *ch = str.data();
     BoolApp::term *t = BoolApp::parsing(ch);
 
     // Проверка на ДНФ
     if (!t)
     {
-        cout << "Invalid expression." << endl;
+        out << L"Invalid expression." << endl;
         return 0;
     }
 
     if (!is_dnf(t))
     {
-        cout << "Wrong answer. Not a DNF." << endl;
+        out << L"Wrong answer. Not a DNF." << endl;
         return 0;
     }
 
     BoolApp::termData td;
-    set<string> st;
+    set<wstring> st;
     t->get_name_list(st);
 
-    st.erase(string("0"));
-    st.erase(string("1"));
+    st.erase(wstring(L"0"));
+    st.erase(wstring(L"1"));
 
     /*for (auto el : st)
     {
-        cout << el << endl;
+        out << el << endl;
     }*/
 
-    vector<pair<bool, string>> vf;
+    vector<pair<bool, wstring>> vf;
     for (auto el : st)
     {
-        vf.push_back(pair<bool, string>{0, el});
+        vf.push_back(pair<bool, wstring>{0, el});
     }
     BoolApp::termData data;
     vector<bool> res;
@@ -143,27 +148,27 @@ int main()
         }
         res.push_back(t->calculate(data));
     }
-    cout << endl;
+    out << endl;
     if (res.size() != v.size())
     {
-        cout << "Wrong answer." << endl;
+        out << L"Wrong answer." << endl;
         return 0;
     }
 
     /*for (auto el : res)
     {
-        cout << el;
+        out << el;
     }
-    cout << endl;*/
+    out << endl;*/
 
     for (int i = 0; i < v.size(); i++)
     {
         if (res[i] != v[i])
         {
-            cout << "Wrong answer." << endl;
+            out << L"Wrong answer." << endl;
             return 0;
         }
     }
 
-    cout << "Correct answer!" << endl;
+    out << L"Correct answer!" << endl;
 }

@@ -6,24 +6,24 @@ namespace BoolApp
 {
     struct termData
     {
-        std::map<std::string, bool> nametovar;
+        std::map<std::wstring, bool> nametovar;
         termData()
         {
-            nametovar["0"] = 0;
-            nametovar["1"] = 1;
+            nametovar[L"0"] = 0;
+            nametovar[L"1"] = 1;
         }
     };
 
     struct term
     {
-        virtual void get_name_list(std::set<std::string> &v) = 0;
+        virtual void get_name_list(std::set<std::wstring> &v) = 0;
 
         virtual bool calculate(termData &td) = 0;
 
-        virtual std::string to_string() = 0;
+        virtual std::wstring to_string() = 0;
     };
 
-    term *parsing(char *&str, int priority = 0);
+    term *parsing(wchar_t *&str, int priority = 0);
 
     struct termOR : term
     {
@@ -31,9 +31,9 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
-        void get_name_list(std::set<std::string> &v) override;
+        void get_name_list(std::set<std::wstring> &v) override;
 
-        std::string to_string() override;
+        std::wstring to_string() override;
     };
 
     struct termAND : term
@@ -43,9 +43,9 @@ namespace BoolApp
 
         bool calculate(termData &td) override;
 
-        void get_name_list(std::set<std::string> &v) override;
+        void get_name_list(std::set<std::wstring> &v) override;
 
-        std::string to_string() override;
+        std::wstring to_string() override;
     };
 
     struct termNOT : term
@@ -54,20 +54,20 @@ namespace BoolApp
 
         bool calculate(termData &td) override;
 
-        void get_name_list(std::set<std::string> &v) override;
+        void get_name_list(std::set<std::wstring> &v) override;
 
-        std::string to_string() override;
+        std::wstring to_string() override;
     };
 
     struct termVAR : term
     {
-        std::string varname;
+        std::wstring varname;
 
         bool calculate(termData &td) override;
 
-        void get_name_list(std::set<std::string> &v) override;
+        void get_name_list(std::set<std::wstring> &v) override;
 
-        std::string to_string() override;
+        std::wstring to_string() override;
     };
 
     struct termEQUAL : term
@@ -77,8 +77,8 @@ namespace BoolApp
 
         bool calculate(termData &td) override;
 
-        void get_name_list(std::set<std::string> &v) override;
+        void get_name_list(std::set<std::wstring> &v) override;
 
-        std::string to_string() override;
+        std::wstring to_string() override;
     };
 }

@@ -4,8 +4,13 @@
 #include <vector>
 #include <random>
 #include <chrono>
+#include <sstream>
+#include <string>
 
 using namespace std;
+
+wstringstream out;
+wstringstream in;
 
 int main()
 {
@@ -17,8 +22,8 @@ int main()
 
     int num = dis(gen);
 
-    cout << "Guess the name of the function by its vector. Name from 1 to 16.\nYou have three attempts\n";
-    cout << "\nVector of function: (";
+    out << L"Guess the name of the function by its vector. Name from 1 to 16.\nYou have three attempts\n";
+    out << L"\nVector of function: (";
 
     vector<bool> vf(4);
     for (int i = 3; i >= 0; --i)
@@ -29,25 +34,25 @@ int main()
     }
     for (auto el : vf)
     {
-        cout << el;
+        out << el;
     }
-    cout << ')' << endl;
+    out << L')' << endl;
     int i = 0;
     int ans;
-    cout << "\nEnter the function name:\n";
+    out << L"\nEnter the function name:\n";
     while (i < 3)
     {
-        cin >> ans;
+        in >> ans;
         i++;
         if (ans != num + 1)
         {
-            cout << "Incorrect.\n";
+            out << L"Incorrect.\n";
         }
         else
         {
-            cout << "That's right! Well done, take a pie from the shelf!";
+            out << L"That's right! Well done, take a pie from the shelf!";
             break;
         }
     }
-    cout << "Game over";
+    out << L"Game over";
 }
