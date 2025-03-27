@@ -102,6 +102,8 @@ namespace BoolApp {
 	{
 		PAINTSTRUCT pstruct;
 		HDC hdc = BeginPaint ( hwnd , &pstruct );
+		SetBkMode(hdc, TRANSPARENT);
+		SetTextColor(hdc, RGB(text_color.GetR(), text_color.GetG(), text_color.GetB()));
 		SelectObject(hdc, font);
 		PEdit* f = PV;
 		Gdiplus::Graphics g ( hdc );

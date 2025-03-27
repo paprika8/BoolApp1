@@ -37,7 +37,9 @@ namespace BoolApp
 	class ProcessView
 	{
 	public:
-		std::function<void(Point, Size)> resize = [](Point, Size) -> void{};
+		std::function<void(ProcessView*, Point, Size)> resize = [](ProcessView*, Point, Size) -> void{};
+
+		
 
 		HWND hwnd;
 		View *view;
@@ -172,5 +174,26 @@ namespace BoolApp
 		Builder *builder;
 		
 	};
-
+	const std::function<void(ProcessView*, Point, Size)> right_form = [](ProcessView* pv, Point p, Size s) -> void{
+		HRGN rgn = CreateRectRgn(0, 0, s.width, s.height);
+		HRGN rgn2 = CreateRectRgn(0, 0, s.width - s.height, s.height);
+		HRGN round_rgn = 	CreateEllipticRgn(s.width - s.height * 2, - s.height * 0.5, s.width, s.height * 1.5);
+		CombineRgn(rgn, rgn, round_rgn, RGN_AND);
+		CombineRgn(rgn, rgn, rgn2, RGN_OR);
+		DeleteObject(round_rgn);
+		pv->padding.right = s.width / 8;
+		//HRGN rgn = CreateRectRgn(0, 0, 0 + s.width, 0 + s.height);
+		SetWindowRgn(pv->hwnd, rgn, 1);
+	};
+	const std::function<void(ProcessView*, Point, Size)> left_form = [](ProcessView* pv, Point p, Size s) -> void{
+		HRGN rgn = CreateRectRgn(0, 0, s.width, s.height);
+		HRGN rgn2 = CreateRectRgn(s.height, 0, s.width, s.height);
+		HRGN round_rgn = 	CreateEllipticRgn(0, -s.height * 0.5, s.height * 2, s.height * 1.5);
+		CombineRgn(rgn, rgn, round_rgn, RGN_AND);
+		CombineRgn(rgn, rgn, rgn2, RGN_OR);
+		DeleteObject(round_rgn);
+		pv->padding.right = s.width / 8;
+		//HRGN rgn = CreateRectRgn(0, 0, 0 + s.width, 0 + s.height);
+		SetWindowRgn(pv->hwnd, rgn, 1);
+	};
 }
