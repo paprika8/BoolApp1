@@ -1,7 +1,7 @@
-#include "fifth.h"
+#include "sixth.h"
 #include "games.h"
 
-namespace fifth_page{
+namespace sixth_page{
 	LinearContainer* create_page(){
 		LinearContainer* main_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 		main_lc->is_vert_orientation = 1;
@@ -17,14 +17,14 @@ namespace fifth_page{
 
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: ");
+		statement->SetText(L"Дан вектор функции, определить ДНФ: ");
 		statement->font = createFont(30);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = left_form;
 
 		Edit* input = new Edit(new SizeBuilder(Size(pointUI(450), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		input->SetUnEditText(L"Перечислите\nсущественные переменные: ");
+		input->SetUnEditText(L"Введите ДНФ: ");
 		input->background = in;
 		input->text_color = light_t;
 		input->set_font_size(30);

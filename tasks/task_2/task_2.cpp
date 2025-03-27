@@ -3,8 +3,12 @@
 #include <string>
 #include <time.h>
 #include <vector>
+#include <sstream>
 
 using namespace std;
+
+wstringstream out;
+wstringstream in;
 
 int countDigits(int number)
 {
@@ -24,16 +28,7 @@ int countDigits(int number)
 
 int twoInPower(int power)
 {
-    if (power == 0)
-        return 1;
-
-    int res = 2;
-    while (power > 1)
-    {
-        res <<= 1;
-        power--;
-    }
-    return res;
+    return 1 << power;
 }
 
 int getPowerOfTwo(size_t n)
@@ -57,15 +52,15 @@ void log_table(vector<bool> &v)
 {
     int n = getPowerOfTwo(v.size());
 
-    cout << '|';
+    out << L'|';
     for (int i = 1; i <= n; i++)
     {
-        cout << " x" << i << " |";
+        out << L" x" << i << L" |";
     }
-    cout << " f |" << '\n';
+    out << L" f |" << L'\n';
     for (int i = 0; i < v.size(); i++)
     {
-        cout << '|';
+        out << L'|';
 
         for (int j = n - 1; j >= 0; j--)
         {
@@ -74,12 +69,12 @@ void log_table(vector<bool> &v)
 
             for (int k = 0; k < countDigits(n - j) + 1; k++)
             {
-                cout << ' ';
+                out << L' ';
             }
-            cout << t << " |";
+            out << t << L" |";
         }
 
-        cout << ' ' << v[i] << " |" << '\n';
+        out << L' ' << v[i] << L" |" << L'\n';
     }
 }
 //| x1 | x2 | x3 | f |
@@ -89,20 +84,20 @@ void log_table(vector<bool> &v)
 //|  0 |  0 |  1 | 0 |
 int main()
 {
-    string str;
-    getline(cin, str);
+    wstring str;
+    getline(in, str);
     vector<bool> f;
     int i = 0;
-    while (str[i] != ' ')
+    while (str[i] != L' ')
     {
-        // cout << str[i] << endl;
-        f.push_back(bool(str[i] - 48));
+        // out << str[i] << endl;
+        f.push_back(bool(str[i] - L'0'));
         i++;
     }
     i++;
-    bool ost_val = bool(str[i] - 48);
+    bool ost_val = bool(str[i] - L'0');
     i += 2;
-    int x_num = int(str[i] - 48);
+    int x_num = int(str[i] - L'0');
     int amt_of_x = getPowerOfTwo(f.size());
 
     int group_amt = twoInPower(x_num - 1);
@@ -120,10 +115,10 @@ int main()
         }
     }
 
-    cout << endl;
+    out << endl;
     for (auto el : ostat)
     {
-        cout << el;
+        out << el;
     }
-    cout << endl;
+    out << endl;
 }

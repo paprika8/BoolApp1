@@ -1,5 +1,5 @@
 #pragma once
 #include "../Main.h"
-namespace games_page{
+namespace sixth_page{
 	LinearContainer* create_page();
-}
+};
