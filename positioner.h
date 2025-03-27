@@ -4,8 +4,8 @@
 #include "UIStructs.h"
 #include <set>
 #include <string>
-#include "component.h"
-#include "composite.h"
+#include "component/component.h"
+#include "composite/composite.h"
 namespace BoolApp
 {
 	class Positionable

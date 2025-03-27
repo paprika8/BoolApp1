@@ -1,6 +1,6 @@
 #pragma once
-#include "oopWin.h"
-#include "custom_vector.h"
+#include "../oopWin.h"
+#include "../custom_vector.h"
 
 namespace BoolApp{
 	
