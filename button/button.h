@@ -1,5 +1,5 @@
 #pragma once
-#include "oopWin.h"
+#include "../oopWin.h"
 #include <functional>
 namespace BoolApp
 {

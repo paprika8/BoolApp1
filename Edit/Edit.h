@@ -1,6 +1,6 @@
 #pragma once
-#include "Text.h"
-#include "custom_wstr.h"
+#include "../Text/Text.h"
+#include "../custom_wstr.h"
 
 namespace BoolApp
 {

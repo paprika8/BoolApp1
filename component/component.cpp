@@ -1,5 +1,5 @@
 #include "component.h"
-#include "positioner.h"
+#include "../positioner.h"
 
 
 namespace BoolApp{
