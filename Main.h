@@ -16,8 +16,6 @@ const Gdiplus::Color trans (0, 0, 0, 0);
 const Gdiplus::Color dark_t = out;
 const Gdiplus::Color light_t (255, 255, 255);
 
-
-
 using namespace BoolApp;
 
 const Padding but_pad = Padding(pointUI(10, percent), 0, 0, 0);
