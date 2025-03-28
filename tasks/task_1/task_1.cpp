@@ -94,7 +94,11 @@ namespace task1
             f[i] = dis(gen);
         }
 
-        log_table(f, out);
+        // log_table(f, out);
+        for (auto el : f)
+        {
+            out << el;
+        }
         wstring res;
         res = out.str();
         return res;
