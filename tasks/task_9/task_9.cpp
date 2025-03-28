@@ -4,13 +4,12 @@
 #include <vector>
 #include <random>
 #include <chrono>
-
-using namespace std;
-namespace tasks
+#include <sstream>
+#include <string>
+namespace task9
 {
+    using namespace std;
 
-    wstringstream cout;
-    wstringstream cin;
     int getPowerOfTwo(size_t n)
     {
         if (n == 0)
@@ -28,18 +27,20 @@ namespace tasks
         return power;
     }
 
-    int main()
+    wstringstream main(wstringstream in)
     {
+        wstringstream out;
+
         wstring input, result = L"";
-        cin >> input;
+        in >> input;
         vector<bool> vf;
         int amt_x = getPowerOfTwo(input.size());
         bool is_full = true;
 
         if (input.size() != 1 << amt_x)
         {
-            cout << L"Incorrect vector of function!" << endl;
-            return 0;
+            out << L"Incorrect vector of function!" << endl;
+            return out;
         }
 
         for (auto el : input)
@@ -50,8 +51,8 @@ namespace tasks
 
         if (is_full)
         {
-            cout << L"Since this is a all-ones vector, there is no CNF." << endl;
-            return 0;
+            out << L"Since this is a all-ones vector, there is no CNF." << endl;
+            return out;
         }
 
         for (int i = 0; i < vf.size(); i++)
@@ -61,8 +62,8 @@ namespace tasks
                 result += L"(";
                 for (int j = 1; j <= amt_x; j++)
                 {
-                    // cout << L"i = " << ((i >> 0) & 1) << L' ' << ((i >> 1) & 1) << endl;
-                    // cout << L"(i << amt_x - j) & 1 = " << ((i << j) & 1) << endl;
+                    // out << L"i = " << ((i >> 0) & 1) << L' ' << ((i >> 1) & 1) << endl;
+                    // out << L"(i << amt_x - j) & 1 = " << ((i << j) & 1) << endl;
                     if (!((i >> amt_x - j) & 1)) // если ноль
                     {                            // Проверяем значение переменной на 0 или 1
                         result += L"x" + to_wstring(j);
@@ -80,6 +81,7 @@ namespace tasks
             }
         }
         result.erase(result.end() - 3, result.end());
-        cout << result;
+        out << result;
+        return out;
     }
 }

@@ -7,18 +7,15 @@
 #include <cmath>
 #include <algorithm>
 #include <set>
-
-using namespace std;
-using namespace BoolApp;
-
-namespace tasks
+#include <string>
+namespace task12
 {
+    using namespace std;
+    using namespace BoolApp;
+
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
-
-    wstringstream cout;
-    wstringstream cin;
 
     // Литерал: пара (имя переменной, отрицание)
     using Literal = std::pair<std::wstring, bool>;
@@ -47,7 +44,7 @@ namespace tasks
                     bool bit = (i >> (amt_x - j - 1)) & 1;
                     if (!term.empty())
                         term += L"&";
-                    term += bit ? "x" + to_wstring(j + 1) : L"!x" + to_wstring(j + 1);
+                    term += bit ? L"x" + to_wstring(j + 1) : L"!x" + to_wstring(j + 1);
                 }
                 if (!result.empty())
                     result += L" | ";
@@ -124,12 +121,12 @@ namespace tasks
         // Обработка случая "1"
         if (conjuncts.size() == 1 && conjuncts[0].empty())
         {
-            // cout << "Popali v slucvai 1" << endl;
+            // out << "Popali v slucvai 1" << endl;
             wstring str = L"1";
             wchar_t *cstr = str.data();
             return BoolApp::parsing(cstr);
         }
-        stringstream expr;
+        wstringstream expr;
         for (size_t i = 0; i < conjuncts.size(); ++i)
         {
             Conjunct c = conjuncts[i];
@@ -146,40 +143,40 @@ namespace tasks
         }
 
         wstring expr_str = expr.str();
-        // cout << L"Parsing expression: " << expr_str << endl; // Отладка
+        // out << L"Parsing expression: " << expr_str << endl; // Отладка
 
         vector<wchar_t> buffer(expr_str.begin(), expr_str.end());
-        buffer.push_back('\0');
+        buffer.push_back(L'\0');
         wchar_t *cstr = buffer.data();
         return BoolApp::parsing(cstr);
     }
 
     // Разбиваем строку СДНФ на конъюнкты вручную
-    std::vector<Conjunct> parse_conjuncts_from_string(const std::wstring &expr)
+    vector<Conjunct> parse_conjuncts_from_string(const wstring &expr)
     {
-        std::vector<Conjunct> conjuncts;
-        std::stringstream ss(expr);
-        std::wstring token;
+        vector<Conjunct> conjuncts;
+        wstringstream ss(expr);
+        wstring token;
 
         // Разделяем по '|'
-        while (getline(ss, token, '|'))
+        while (getline(ss, token, L'|'))
         {
             Conjunct c;
-            std::stringstream ss_term(token);
-            std::wstring lit;
+            wstringstream ss_term(token);
+            wstring lit;
 
             // Разделяем по '&'
-            while (getline(ss_term, lit, '&'))
+            while (getline(ss_term, lit, L'&'))
             {
                 // Удаляем пробелы и скобки
                 lit.erase(remove_if(lit.begin(), lit.end(),
                                     [](wchar_t ch)
-                                    { return ch == ' ' || ch == '(' || ch == ')'; }),
+                                    { return ch == L' ' || ch == L'(' || ch == L')'; }),
                           lit.end());
 
                 // Обработка отрицаний
-                bool is_neg = (lit.find('!') == 0);
-                std::wstring var = is_neg ? lit.substr(1) : lit;
+                bool is_neg = (lit.find(L'!') == 0);
+                wstring var = is_neg ? lit.substr(1) : lit;
                 c.emplace(var, !is_neg);
             }
 
@@ -195,8 +192,8 @@ namespace tasks
     // Функция для проверки, можно ли склеить два конъюнкта
     bool can_merge(const Conjunct &a, const Conjunct &b, Conjunct &merged)
     {
-        std::vector<Literal> diff;
-        std::set_symmetric_difference(
+        vector<Literal> diff;
+        set_symmetric_difference(
             a.begin(), a.end(),
             b.begin(), b.end(),
             std::back_inserter(diff));
@@ -212,10 +209,10 @@ namespace tasks
     }
 
     // Алгоритм Квайна-МакКласки (упрощённая версия)
-    std::vector<Conjunct> quine_minimization(const std::vector<Conjunct> &terms)
+    vector<Conjunct> quine_minimization(const vector<Conjunct> &terms)
     {
-        std::vector<Conjunct> prime;
-        std::vector<bool> used(terms.size(), false);
+        vector<Conjunct> prime;
+        vector<bool> used(terms.size(), false);
 
         // Поиск склеивающихся термов
         for (size_t i = 0; i < terms.size(); ++i)
@@ -234,8 +231,8 @@ namespace tasks
         }
 
         // Удаление дубликатов
-        std::sort(prime.begin(), prime.end());
-        prime.erase(std::unique(prime.begin(), prime.end()), prime.end());
+        sort(prime.begin(), prime.end());
+        prime.erase(unique(prime.begin(), prime.end()), prime.end());
 
         // Рекурсия, если были изменения
         if (prime.size() != terms.size())
@@ -264,15 +261,16 @@ namespace tasks
         return minimized;
     }
 
-    int main()
+    wstringstream main(wstringstream in)
     {
+        wstringstream out;
         uniform_int_distribution<> dis(2, 4);
         int amt_x = dis(gen);
         // auto vf =
         //  Для отладки
-        cout << L"Enter a vector of function, or enter 'Generate' if you want to generate vector randomly" << endl;
+        out << L"Enter a vector of function, or enter 'Generate' if you want to generate vector randomly" << endl;
         wstring input;
-        cin >> input;
+        in >> input;
         vector<bool> vf;
         if (input == L"Generate")
         {
@@ -288,21 +286,21 @@ namespace tasks
         }
 
         wstring dnf_str = perfect_dnf(amt_x, vf);
-        cout << L"Generated SDNF: " << dnf_str << endl;
+        out << L"Generated SDNF: " << dnf_str << endl;
 
         // Парсим конъюнкты из строки вручную
         auto conjuncts = parse_conjuncts_from_string(dnf_str);
-        // cout << L"Collected " << conjuncts.size() << L" terms\n"; // 3
+        // out << L"Collected " << conjuncts.size() << L" terms\n"; // 3
 
         // Минимизируем
         auto minimized = minimize_dnf(conjuncts, amt_x);
-        // cout << L"After minimization: " << minimized.size() << L" terms\n"; // 2
+        // out << L"After minimization: " << minimized.size() << L" terms\n"; // 2
 
         // Собираем результат
         term *simplified = build_term(minimized);
 
-        cout << L"After minimization: " << simplified->to_string() << endl;
+        out << L"After minimization: " << simplified->to_string() << endl;
 
-        return 0;
+        return out;
     }
 }

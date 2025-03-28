@@ -4,12 +4,11 @@
 #include <vector>
 #include <random>
 #include <chrono>
-
-using namespace std;
-namespace tasks
+#include <sstream>
+#include <string>
+namespace task8
 {
-    wstringstream cout;
-    wstringstream cin;
+    using namespace std;
 
     int getPowerOfTwo(size_t n)
     {
@@ -28,18 +27,19 @@ namespace tasks
         return power;
     }
 
-    int main()
+    wstringstream main(wstringstream in)
     {
+        wstringstream out;
         wstring input, result = L"";
-        cin >> input;
+        in >> input;
         vector<bool> vf;
         int amt_x = getPowerOfTwo(input.size());
         bool is_not_null_vec = false;
 
         if (input.size() != 1 << amt_x)
         {
-            cout << L"Incorrect vector of function!" << endl;
-            return 0;
+            out << L"Incorrect vector of function!" << endl;
+            return out;
         }
 
         for (auto el : input)
@@ -50,8 +50,8 @@ namespace tasks
 
         if (!is_not_null_vec)
         {
-            cout << L"Since this is zero vector, there is no DNF." << endl;
-            return 0;
+            out << L"Since this is zero vector, there is no DNF." << endl;
+            return out;
         }
 
         for (int i = 0; i < vf.size(); i++)
@@ -60,8 +60,8 @@ namespace tasks
             { // Если единичный бит
                 for (int j = 1; j <= amt_x; j++)
                 {
-                    // cout << L"i = " << ((i >> 0) & 1) << ' ' << ((i >> 1) & 1) << endl;
-                    // cout << L"(i << amt_x - j) & 1 = " << ((i << j) & 1) << endl;
+                    // out << L"i = " << ((i >> 0) & 1) << ' ' << ((i >> 1) & 1) << endl;
+                    // out << L"(i << amt_x - j) & 1 = " << ((i << j) & 1) << endl;
                     if ((i >> amt_x - j) & 1)
                     { // Проверяем значение переменной на 0 или 1
                         result += L"x" + to_wstring(j);
@@ -79,6 +79,7 @@ namespace tasks
             }
         }
         result.erase(result.end() - 3, result.end());
-        cout << result;
+        out << result;
+        return out;
     }
 }

@@ -7,9 +7,6 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
 int countDigits(int number)
 {
     if (number == 0)
@@ -43,8 +40,9 @@ int getPowerOfTwo(size_t n)
     return power;
 }
 
-void log_table(vector<bool> &v)
+wstringstream log_table(vector<bool> &v)
 {
+    wstringstream out;
     int n = getPowerOfTwo(v.size());
 
     out << L'|';
@@ -71,14 +69,17 @@ void log_table(vector<bool> &v)
 
         out << L' ' << v[i] << L" |" << L'\n';
     }
+
+    return out;
 }
 //| x1 | x2 | f |
 //|  0 |  0 | 1 |
 //|  0 |  1 | 0 |
 //|  1 |  0 | 1 |
 //|  1 |  1 | 0 |
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     int n;
     in >> n;
 
@@ -90,7 +91,7 @@ int main()
     // Используем текущее время как дополнительный источник энтропии
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 
-    mt19937 gen(seed);                    // Генератор случайных чисел (Mersenne Twister)
+    mt19937 gen(seed);                    // Генератор случайных чисел
     uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
 
     for (int i = 0; i < k; i++)
@@ -98,5 +99,5 @@ int main()
         f[i] = dis(gen);
     }
 
-    log_table(f);
+    return log_table(f);
 }

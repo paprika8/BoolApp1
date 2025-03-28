@@ -4,16 +4,15 @@
 #include <vector>
 #include <random>
 #include <chrono>
-
-using namespace std;
-namespace tasks
+#include <sstream>
+#include <string>
+namespace task11
 {
+    using namespace std;
+
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
-
-    wstringstream cout;
-    wstringstream cin;
 
     int getPowerOfTwo(size_t n)
     {
@@ -140,8 +139,9 @@ namespace tasks
         return true;
     }
 
-    int main()
+    wstringstream main(wstringstream in)
     {
+        wstringstream out;
         uniform_int_distribution<> dis_amt_sets(1, 5);
         int amt_vec = dis_amt_sets(gen);
 
@@ -159,19 +159,19 @@ namespace tasks
 
             // Для отладки:
             /*wstring input;
-            cin >> input;
+            in >> input;
             vector<bool> vf;
             for (auto el : input)
             {
                 vf.push_back(el - 48);
             }*/
 
-            cout << L"Vector of function: (";
+            out << L"Vector of function: (";
             for (auto el : vf)
             {
-                cout << el;
+                out << el;
             }
-            cout << L")\n";
+            out << L")\n";
 
             if (!is_in_T0(vf))
             {
@@ -197,56 +197,56 @@ namespace tasks
 
         if (f_types[0] && f_types[1] && f_types[2] && f_types[3] && f_types[4])
         {
-            cout << L"System is complete.\n";
-            return 0;
+            out << L"System is complete.\n";
+            return out;
         }
         else
         {
             bool answered = 0;
-            cout << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
+            out << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
             int miss_cnt = 0;
             while (true)
             {
                 if (answered)
                 {
-                    cout << L"Good job! That's all.\nGame over.";
-                    return 0;
+                    out << L"Good job! That's all.\nGame over.";
+                    return out;
                 }
                 wstring input;
-                cin >> input;
+                in >> input;
                 if (input != L"S" && input != L"M" && input != L"L" && input != L"T1" && input != L"T0")
                 {
-                    cout << L"Wrong input. You can enter only T0, T1, S, M, L.\nTry again." << endl;
+                    out << L"Wrong input. You can enter only T0, T1, S, M, L.\nTry again." << endl;
                     continue;
                 }
 
                 if (input == L"T0" && f_types[0])
                 {
-                    cout << L"Well done!" << endl;
+                    out << L"Well done!" << endl;
                     answered = true;
                     continue;
                 }
                 if (input == L"T1" && f_types[1])
                 {
-                    cout << L"Well done!" << endl;
+                    out << L"Well done!" << endl;
                     answered = true;
                     continue;
                 }
                 if (input == L"S" && f_types[2])
                 {
-                    cout << L"Well done!" << endl;
+                    out << L"Well done!" << endl;
                     answered = true;
                     continue;
                 }
                 if (input == L"M" && f_types[3])
                 {
-                    cout << L"Well done!" << endl;
+                    out << L"Well done!" << endl;
                     answered = true;
                     continue;
                 }
                 if (input == L"L" && f_types[4])
                 {
-                    cout << L"Well done!" << endl;
+                    out << L"Well done!" << endl;
                     answered = true;
                     continue;
                 }
@@ -254,11 +254,12 @@ namespace tasks
                 miss_cnt++;
                 if (miss_cnt >= 3)
                 {
-                    cout << L"Wrong answer. You lose.\nGame over." << endl;
-                    return 0;
+                    out << L"Wrong answer. You lose.\nGame over." << endl;
+                    return out;
                 }
-                cout << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
+                out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
             }
         }
+        return out;
     }
 }

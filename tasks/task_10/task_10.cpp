@@ -4,16 +4,15 @@
 #include <vector>
 #include <random>
 #include <chrono>
-
-using namespace std;
-namespace tasks
+#include <sstream>
+#include <string>
+namespace task10
 {
+    using namespace std;
+
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
-
-    wstringstream cout;
-    wstringstream cin;
 
     int getPowerOfTwo(size_t n)
     {
@@ -132,19 +131,20 @@ namespace tasks
         return true;
     }
 
-    int main()
+    wstringstream main(wstringstream in)
     {
+        wstringstream out;
         uniform_int_distribution<> dis(1, 4);
         int amt_x = dis(gen);
 
         vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
 
-        cout << "Vector of function: (";
+        out << L"Vector of function: (";
         for (auto el : vf)
         {
-            cout << el;
+            out << el;
         }
-        cout << ")\n";
+        out << L")\n";
 
         // T0, T1, S, M, L - классы
         //  0,  1, 2, 3, 4 - индексы
@@ -181,92 +181,93 @@ namespace tasks
         vector<bool> answers(5, 0);
         int ans_cnt = 0;
 
-        cout << "Enter in which semi-full classes the vector of function is included (T0, T1, S, M, L).\nOne class at a time" << endl;
+        out << L"Enter in which semi-full classes the vector of function is included (T0, T1, S, M, L).\nOne class at a time" << endl;
         int miss_cnt = 0;
         while (miss_cnt < 3)
         {
             if (ans_cnt == types_cnt)
             {
-                cout << "Good job! That's all.\nGame over.";
-                return 0;
+                out << L"Good job! That's all.\nGame over.";
+                return out;
             }
             wstring input;
-            cin >> input;
-            if (input != "S" && input != "M" && input != "L" && input != "T1" && input != "T0")
+            in >> input;
+            if (input != L"S" && input != L"M" && input != L"L" && input != L"T1" && input != L"T0")
             {
-                cout << "Wrong input. You can enter only T0, T1, S, M, L.\nTry again." << endl;
+                out << L"Wrong input. You can enter only T0, T1, S, M, L.\nTry again." << endl;
                 continue;
             }
 
-            if (input == "T0" && f_types[0] && !answers[0])
+            if (input == L"T0" && f_types[0] && !answers[0])
             {
-                cout << "Well done!" << endl;
+                out << L"Well done!" << endl;
                 answers[0] = true;
                 ans_cnt++;
                 continue;
             }
-            if (input == "T1" && f_types[1] && !answers[1])
+            if (input == L"T1" && f_types[1] && !answers[1])
             {
-                cout << "Well done!" << endl;
+                out << L"Well done!" << endl;
                 answers[1] = true;
                 ans_cnt++;
                 continue;
             }
-            if (input == "S" && f_types[2] && !answers[2])
+            if (input == L"S" && f_types[2] && !answers[2])
             {
-                cout << "Well done!" << endl;
+                out << L"Well done!" << endl;
                 answers[2] = true;
                 ans_cnt++;
                 continue;
             }
-            if (input == "M" && f_types[3] && !answers[3])
+            if (input == L"M" && f_types[3] && !answers[3])
             {
-                cout << "Well done!" << endl;
+                out << L"Well done!" << endl;
                 answers[3] = true;
                 ans_cnt++;
                 continue;
             }
-            if (input == "L" && f_types[4] && !answers[4])
+            if (input == L"L" && f_types[4] && !answers[4])
             {
-                cout << "Well done!" << endl;
+                out << L"Well done!" << endl;
                 answers[4] = true;
                 ans_cnt++;
                 continue;
             }
 
-            if (input == "T0" && answers[0])
+            if (input == L"T0" && answers[0])
             {
-                cout << "Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
+                out << L"Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
                 continue;
             }
-            if (input == "T1" && answers[1])
+            if (input == L"T1" && answers[1])
             {
-                cout << "Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
+                out << L"Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
                 continue;
             }
-            if (input == "S" && answers[2])
+            if (input == L"S" && answers[2])
             {
-                cout << "Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
+                out << L"Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
                 continue;
             }
-            if (input == "M" && answers[3])
+            if (input == L"M" && answers[3])
             {
-                cout << "Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
+                out << L"Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
                 continue;
             }
-            if (input == "L" && answers[4])
+            if (input == L"L" && answers[4])
             {
-                cout << "Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
+                out << L"Yeah, I know that you know it, but may be anything else?\nTry again." << endl;
                 continue;
             }
 
             miss_cnt++;
             if (miss_cnt >= 3)
             {
-                cout << "Wrong answer. You lose.\nGame over." << endl;
-                return 0;
+                out << L"Wrong answer. You lose.\nGame over." << endl;
+                return out;
             }
-            cout << "Wrong answer, you have " << 3 - miss_cnt << " attemps.\nTry again." << endl;
+            out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
         }
+        return out;
     }
 }
