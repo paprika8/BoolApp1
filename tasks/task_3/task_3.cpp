@@ -78,7 +78,7 @@ namespace task3
 
         for (auto el : res)
         {
-            out << el << L' ';
+            out << el;
         }
         wstring res2;
         res2 = out.str();
