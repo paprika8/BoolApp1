@@ -82,14 +82,14 @@ namespace task7
 
         vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
-        out << L"Enter a CNF, that would be suitable for this vector: (";
+        // out << L"Enter a CNF, that would be suitable for this vector: (";
 
         for (auto el : v)
         {
             out << el;
         }
-        out << L")" << endl;
-
+        // out << L")" << endl;
+        out << L" ";
         wstring str;
         getline(in, str);
         wchar_t *ch = str.data();
@@ -140,10 +140,10 @@ namespace task7
             }
             res.push_back(t->calculate(data));
         }
-        out << endl;
+        // out << endl;
         if (res.size() != v.size())
         {
-            out << L"Wrong answer." << endl;
+            out << L"0" << endl; // Неправильный ответ
             wstring res;
             res = out.str();
             return res;
@@ -159,14 +159,14 @@ namespace task7
         {
             if (res[i] != v[i])
             {
-                out << L"Wrong answer." << endl;
+                out << L"0" << endl; // Неправильный ответ
                 wstring res;
                 res = out.str();
                 return res;
             }
         }
 
-        out << L"Correct answer!" << endl;
+        out << L"1" << endl; // Правильный ответ
         wstring res;
         res = out.str();
         return res;
