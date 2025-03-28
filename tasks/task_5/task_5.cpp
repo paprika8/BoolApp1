@@ -1,12 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <utility>
-#include <sstream>
-#include <string>
+#include "task_5.h"
 namespace task5
 {
     using namespace std;
@@ -102,8 +94,9 @@ namespace task5
         return true;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         random_device rd;
         auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
@@ -237,11 +230,15 @@ namespace task5
             if (ans_vars[i] != vars[i])
             {
                 out << "Wrong answer! Game over.";
-                return out;
+                wstring res;
+                res = out.str();
+                return res;
             }
         }
 
         out << "You're right! Game over.";
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }

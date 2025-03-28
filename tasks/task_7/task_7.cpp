@@ -1,12 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <utility>
-#include <sstream>
-#include <string>
+#include "task_7.h"
 namespace task7
 {
     using namespace std;
@@ -81,8 +73,9 @@ namespace task7
         return f;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         uniform_int_distribution<> dis(1, 4);
         int amt_x = dis(gen);
@@ -106,13 +99,17 @@ namespace task7
         if (!t)
         {
             out << L"Invalid expression." << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         if (!is_cnf(t))
         {
             out << L"Wrong answer. Not a CNF." << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         BoolApp::termData td;
@@ -147,7 +144,9 @@ namespace task7
         if (res.size() != v.size())
         {
             out << L"Wrong answer." << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         /*for (auto el : res)
@@ -161,11 +160,15 @@ namespace task7
             if (res[i] != v[i])
             {
                 out << L"Wrong answer." << endl;
-                return out;
+                wstring res;
+                res = out.str();
+                return res;
             }
         }
 
         out << L"Correct answer!" << endl;
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }

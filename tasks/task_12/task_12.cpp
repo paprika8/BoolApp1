@@ -1,13 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <sstream>
-#include <cmath>
-#include <algorithm>
-#include <set>
-#include <string>
+#include "task_12.h"
 namespace task12
 {
     using namespace std;
@@ -261,8 +252,9 @@ namespace task12
         return minimized;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         uniform_int_distribution<> dis(2, 4);
         int amt_x = dis(gen);
@@ -301,6 +293,8 @@ namespace task12
 
         out << L"After minimization: " << simplified->to_string() << endl;
 
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }

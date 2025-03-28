@@ -1,5 +1,7 @@
+#pragma once 
 #include "first.h"
 #include "exercises.h"
+#include "../tasks/task_1/task_1.h"
 
 namespace first_page{
 	LinearContainer* create_page(){
@@ -23,13 +25,6 @@ namespace first_page{
 		statement->text_color = light_t;
 		statement->resize = left_form;
 
-		Edit* input = new Edit(new SizeBuilder(Size(pointUI(250), pointUI(60)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		input->SetUnEditText(L"Введите n: ");
-		input->background = in;
-		input->text_color = light_t;
-		input->set_font_size(30);
-		input->resize = right_form;
-
 		ScrollText* output = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		output->SetText(L"*булевая ф-я от n переменных*");
 		output->font = createFont(30);
@@ -44,10 +39,23 @@ namespace first_page{
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;
+		
 		LinearContainer* confirm_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		confirm_lc->is_vert_orientation = 0;
 		confirm_lc->background = bg;
 		confirm_lc->add(confirm_bt);
+
+		Edit* input = new Edit(new SizeBuilder(Size(pointUI(250), pointUI(60)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+		input->SetUnEditText(L"Введите n: ");
+		input->background = in;
+		input->text_color = light_t;
+		input->set_font_size(30);
+		input->resize = right_form;
+		input->enter = [=](Edit*)->void{
+			std::wstring res = L""; 
+			std::wstring in = input->GetText();
+			output->SetText(task1::main(in));
+		};
 
 		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		statement_lc->is_vert_orientation = 0;

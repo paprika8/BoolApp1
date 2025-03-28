@@ -1,11 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <sstream>
-#include <string>
+#include "task_9.h"
 namespace task9
 {
     using namespace std;
@@ -27,8 +20,9 @@ namespace task9
         return power;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
 
         wstring input, result = L"";
@@ -40,7 +34,9 @@ namespace task9
         if (input.size() != 1 << amt_x)
         {
             out << L"Incorrect vector of function!" << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         for (auto el : input)
@@ -52,7 +48,9 @@ namespace task9
         if (is_full)
         {
             out << L"Since this is a all-ones vector, there is no CNF." << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         for (int i = 0; i < vf.size(); i++)
@@ -82,6 +80,8 @@ namespace task9
         }
         result.erase(result.end() - 3, result.end());
         out << result;
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }

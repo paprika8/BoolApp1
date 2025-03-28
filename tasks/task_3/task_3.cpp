@@ -1,9 +1,5 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <string>
-#include <time.h>
-#include <vector>
-#include <sstream>
+#include "task_3.h"
+
 namespace task3
 {
     using namespace std;
@@ -46,8 +42,9 @@ namespace task3
         return power;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         wstring ost1, ost2;
         in >> ost1 >> ost2;
@@ -83,6 +80,8 @@ namespace task3
         {
             out << el << L' ';
         }
-        return out;
+        wstring res2;
+        res2 = out.str();
+        return res2;
     }
 }

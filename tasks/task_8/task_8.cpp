@@ -1,11 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <sstream>
-#include <string>
+#include "task_8.h"
 namespace task8
 {
     using namespace std;
@@ -27,8 +20,9 @@ namespace task8
         return power;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         wstring input, result = L"";
         in >> input;
@@ -39,7 +33,9 @@ namespace task8
         if (input.size() != 1 << amt_x)
         {
             out << L"Incorrect vector of function!" << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         for (auto el : input)
@@ -51,7 +47,9 @@ namespace task8
         if (!is_not_null_vec)
         {
             out << L"Since this is zero vector, there is no DNF." << endl;
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
 
         for (int i = 0; i < vf.size(); i++)
@@ -80,6 +78,8 @@ namespace task8
         }
         result.erase(result.end() - 3, result.end());
         out << result;
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }
