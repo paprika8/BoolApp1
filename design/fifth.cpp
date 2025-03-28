@@ -49,6 +49,13 @@ namespace fifth_page{
 		confirm_lc->background = bg;
 		confirm_lc->add(confirm_bt);
 
+		
+		// confirm_bt->click = [=](Button*)->void{
+		// std::wstring answer = input->GetText();
+		// ...
+		// };
+		
+
 
 		main_lc->add(back_bt);
 		main_lc->add(statement_lc);
