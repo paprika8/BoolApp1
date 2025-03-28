@@ -18,7 +18,7 @@ namespace eleventh_page{
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(900), pointUI(100)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 		statement->SetText(L"Дан вектор функции, определить каким предполным классам принадлежит функция: ");
-		statement->font = createFont(30);
+		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = left_form;
@@ -69,7 +69,7 @@ namespace eleventh_page{
 		Button* full_bt = new Button(new SizeBuilder(Size(pointUI(270), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		full_bt->text = L"система полна";
-		full_bt->set_font_size(30);
+		full_bt->set_font_size(25);
 		full_bt->background = in;
 		full_bt->text_color = light_t;
 		full_bt->resize = right_form;
@@ -78,7 +78,7 @@ namespace eleventh_page{
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ответ";
-		confirm_bt->set_font_size(30);
+		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;

@@ -18,7 +18,7 @@ namespace second_page{
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(850), pointUI(110)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 		statement->SetText(L"На вход - вектор функции, 0 или 1, номер агрумента, на выходе - соответствующая остаточная");
-		statement->font = createFont(30);
+		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = left_form;
@@ -26,7 +26,7 @@ namespace second_page{
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ввод";
-		confirm_bt->set_font_size(30);
+		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;
@@ -39,26 +39,26 @@ namespace second_page{
 		input1->SetUnEditText(L"Вектор функции: ");
 		input1->background = in;
 		input1->text_color = light_t;
-		input1->set_font_size(30);
+		input1->set_font_size(25);
 		input1->resize = right_form;
 		
 		Edit* input2 = new Edit(new SizeBuilder(Size(pointUI(350), pointUI(60)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		input2->SetUnEditText(L"0 или 1: ");
 		input2->background = in;
 		input2->text_color = light_t;
-		input2->set_font_size(30);
+		input2->set_font_size(25);
 		input2->resize = right_form;
 
 		Edit* input3 = new Edit(new SizeBuilder(Size(pointUI(350), pointUI(60)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		input3->SetUnEditText(L"Номер аргумента: ");
 		input3->background = in;
 		input3->text_color = light_t;
-		input3->set_font_size(30);
+		input3->set_font_size(25);
 		input3->resize = right_form;
 
 		ScrollText* output = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		output->SetText(L"*соответствующая остаточная*");
-		output->font = createFont(30);
+		output->font = createFont(25);
 		output->background = out;
 		output->text_color = light_t;
 		output->resize = right_form;

@@ -1,5 +1,5 @@
 #pragma once
 #include "../Main.h"
-namespace tvelvth_page{
+namespace twelfth_page{
 	LinearContainer* create_page();
 };

@@ -18,7 +18,7 @@ namespace nineth_page{
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(700), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 		statement->SetText(L"СКНФ функции: ");
-		statement->font = createFont(30);
+		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = right_form;
@@ -27,7 +27,7 @@ namespace nineth_page{
 		input->SetUnEditText(L"Введите вектор функции для получения его СКНФ:\n ");
 		input->background = in;
 		input->text_color = light_t;
-		input->set_font_size(30);
+		input->set_font_size(25);
 		input->resize = left_form;
 
 		LinearContainer* input_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
@@ -38,7 +38,7 @@ namespace nineth_page{
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ввод";
-		confirm_bt->set_font_size(30);
+		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;

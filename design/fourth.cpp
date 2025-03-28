@@ -37,7 +37,7 @@ namespace fourth_page{
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(850), pointUI(110)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 		statement->SetText(L"Дан вектор функции, определите имя: ");
-		statement->font = createFont(30);
+		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = left_form;
@@ -58,7 +58,7 @@ namespace fourth_page{
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ввод";
-		confirm_bt->set_font_size(30);
+		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;
@@ -90,7 +90,7 @@ namespace fourth_page{
 				Button* answer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 10, 5, 10), Padding(pointUI(10, percent), 0, 0, 0)));
 				answer_bt->click = [&](Button*)->void{win->add(fourth_page::create_page());};
 				answer_bt->text = int_to_string(j + i*4);
-				answer_bt->set_font_size(35);
+				answer_bt->set_font_size(25);
 				answer_bt->background = in;
 				answer_bt->text_color = light_t;
 				answer_bt->resize = right_form;
