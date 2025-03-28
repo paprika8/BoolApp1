@@ -10,9 +10,6 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
 random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 mt19937 gen(seed);
@@ -83,8 +80,9 @@ vector<bool> generate_vf(int n)
     return f;
 }
 
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     uniform_int_distribution<> dis(1, 4);
     int amt_x = dis(gen);
 
@@ -107,13 +105,13 @@ int main()
     if (!t)
     {
         out << L"Invalid expression." << endl;
-        return 0;
+        return out;
     }
 
     if (!is_cnf(t))
     {
         out << L"Wrong answer. Not a CNF." << endl;
-        return 0;
+        return out;
     }
 
     BoolApp::termData td;
@@ -148,7 +146,7 @@ int main()
     if (res.size() != v.size())
     {
         out << L"Wrong answer." << endl;
-        return 0;
+        return out;
     }
 
     /*for (auto el : res)
@@ -162,9 +160,10 @@ int main()
         if (res[i] != v[i])
         {
             out << L"Wrong answer." << endl;
-            return 0;
+            return out;
         }
     }
 
     out << L"Correct answer!" << endl;
+    return out;
 }

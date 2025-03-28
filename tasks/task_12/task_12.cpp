@@ -16,9 +16,6 @@ random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 mt19937 gen(seed);
 
-wostringstream out;
-wistringstream in;
-
 // Литерал: пара (имя переменной, отрицание)
 using Literal = std::pair<std::wstring, bool>;
 using Conjunct = std::set<Literal>;
@@ -263,8 +260,9 @@ vector<Conjunct> minimize_dnf(const vector<Conjunct> &conjuncts, int var_count)
     return minimized;
 }
 
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     uniform_int_distribution<> dis(2, 4);
     int amt_x = dis(gen);
     // auto vf =
@@ -302,5 +300,5 @@ int main()
 
     out << L"After minimization: " << simplified->to_string() << endl;
 
-    return 0;
+    return out;
 }

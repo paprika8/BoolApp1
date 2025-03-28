@@ -9,9 +9,6 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
 int getPowerOfTwo(size_t n)
 {
     if (n == 0)
@@ -29,8 +26,9 @@ int getPowerOfTwo(size_t n)
     return power;
 }
 
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     wstring input, result = L"";
     in >> input;
     vector<bool> vf;
@@ -40,7 +38,7 @@ int main()
     if (input.size() != 1 << amt_x)
     {
         out << L"Incorrect vector of function!" << endl;
-        return 0;
+        return out;
     }
 
     for (auto el : input)
@@ -52,7 +50,7 @@ int main()
     if (!is_not_null_vec)
     {
         out << L"Since this is zero vector, there is no DNF." << endl;
-        return 0;
+        return out;
     }
 
     for (int i = 0; i < vf.size(); i++)
@@ -81,4 +79,5 @@ int main()
     }
     result.erase(result.end() - 3, result.end());
     out << result;
+    return out;
 }

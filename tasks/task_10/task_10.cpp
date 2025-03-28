@@ -13,9 +13,6 @@ random_device rd;
 auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 mt19937 gen(seed);
 
-wstringstream out;
-wstringstream in;
-
 int getPowerOfTwo(size_t n)
 {
     if (n == 0)
@@ -133,8 +130,9 @@ bool is_in_L(vector<bool> &vf)
     return true;
 }
 
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     uniform_int_distribution<> dis(1, 4);
     int amt_x = dis(gen);
 
@@ -189,7 +187,7 @@ int main()
         if (ans_cnt == types_cnt)
         {
             out << L"Good job! That's all.\nGame over.";
-            return 0;
+            return out;
         }
         wstring input;
         in >> input;
@@ -265,8 +263,9 @@ int main()
         if (miss_cnt >= 3)
         {
             out << L"Wrong answer. You lose.\nGame over." << endl;
-            return 0;
+            return out;
         }
         out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
     }
+    return out;
 }
