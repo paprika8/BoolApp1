@@ -95,6 +95,12 @@ namespace twelfth_page{
 		bottom_lc->add(bot_vert_lc1);
 		bottom_lc->add(bot_vert_lc2);
 
+		// confirm_bt->click = [=](Button*)->void{
+		// 	std::wstring in = input->GetText();
+		// 	...
+
+
+		// };
 
 		main_lc->add(back_bt);
 		main_lc->add(upper_lc);
