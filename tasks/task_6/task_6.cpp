@@ -85,13 +85,13 @@ namespace task6
 
         vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
-        out << L"Enter a DNF, that would be suitable for this vector: (";
+        // out << L"Enter a DNF, that would be suitable for this vector: (";
 
         for (auto el : v)
         {
             out << el;
         }
-        out << L")" << endl;
+        // out << L")" << endl;
 
         wstring str;
         getline(in, str);
@@ -146,7 +146,7 @@ namespace task6
         out << endl;
         if (res.size() != v.size())
         {
-            out << L"Wrong answer." << endl;
+            out << L"0" << endl; // Неправильный ответ
             wstring res2;
             res2 = out.str();
             return res2;
@@ -162,14 +162,14 @@ namespace task6
         {
             if (res[i] != v[i])
             {
-                out << L"Wrong answer." << endl;
+                out << L"0" << endl; // Неправильный ответ
                 wstring res2;
                 res2 = out.str();
                 return res2;
             }
         }
 
-        out << L"Correct answer!" << endl;
+        out << L"1" << endl; // Правильный ответ
         wstring res2;
         res2 = out.str();
         return res2;
