@@ -80,7 +80,7 @@ namespace BoolApp {
 			int pos = pData->padding.top + ( ( double ) f->WPos ) / f->MaxTextHeight * ( pData->getAbsoluteSize ().height - c );
 			int xPos = LOWORD ( lParam );
 			int yPos = HIWORD ( lParam );
-			if ( pos < yPos && yPos < pos + c && xPos > width-18 && xPos < width-2) {
+			if ( pos < yPos && yPos < pos + c && xPos > width-pData->padding.right && xPos < width-2) {
 				f->isDown = 1;
 				SetCapture ( hwnd );
 				f->oldY = yPos;
@@ -162,6 +162,7 @@ namespace BoolApp {
 			{
 				f->WPos = 0;
 			}
+			InvalidateRect ( hwnd, 0, 0 );
 			return 0;
 		}
 		default:
@@ -173,7 +174,8 @@ namespace BoolApp {
 	}
 	Gdiplus::Font *createFont(int size)
 	{
-		Gdiplus::FontFamily family ( L"Times New Roman" );
+		//Gdiplus::FontFamily family ( L"Times New Roman" );
+		Gdiplus::FontFamily family ( L"Consolas" );
 		return new Gdiplus::Font ( &family , size , Gdiplus::FontStyleRegular , Gdiplus::UnitPixel );
 	}
 

@@ -281,10 +281,11 @@ namespace BoolApp {
 					SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );
                     break;
 				case VK_RETURN:
-					wchar_t c = L'\n';
+					/*wchar_t c = L'\n';
 					text.add(c, text_cursor + untext_cursor);
 					text_cursor++;
-					SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );
+					SendMessage ( PV->hwnd , WM_SETSCROLLEDTEXT , 0 , 0 );*/
+					enter(this);
                     break;
             }
 			InvalidateRect(hwnd, 0, 1);

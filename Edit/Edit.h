@@ -38,6 +38,7 @@ namespace BoolApp
 		int untext_cursor = 0;
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");
+		std::function<void(Edit*)> enter = [](Edit*) -> void {};
 
 		void set_font_size(int size)
 		{
@@ -95,7 +96,7 @@ namespace BoolApp
 		}
 		std::wstring GetText()
 		{
-			return std::wstring(text.data);
+			return std::wstring(text.data).substr(untext_cursor);
 		}
 		void SetUnEditText(std::wstring atext)
 		{

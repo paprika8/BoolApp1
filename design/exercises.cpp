@@ -4,6 +4,7 @@
 #include "third.h"
 #include "eighth.h"
 #include "nineth.h"
+#include "tvelvth.h"
 
 namespace exercises_page{
 	LinearContainer* create_card(std::wstring number, std::wstring exercise, std::function<LinearContainer*()> func){
@@ -11,7 +12,7 @@ namespace exercises_page{
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
 
-	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(120), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
+	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(130), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
 	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 	exer_number->SetText(number);
 	exer_number->font = createFont(22);
@@ -62,7 +63,7 @@ namespace exercises_page{
 		firstrow_lc->add(create_card(L"Задача 3", L"вектор функции по нулевой и единичной остаточным функциям по аргументу", third_page::create_page));
 		secondrow_lc->add(create_card(L"Задача 4", L"СДНФ", eighth_page::create_page));
 		secondrow_lc->add(create_card(L"Задача 5", L"СКНФ", nineth_page::create_page));
-		secondrow_lc->add(create_card(L"Задача 6", L"ДНФ", first_page::create_page));
+		secondrow_lc->add(create_card(L"Задача 6", L"ДНФ", tvelvth_page::create_page));
 
 		main_lc->add(firstrow_lc);
 		main_lc->add(secondrow_lc);
