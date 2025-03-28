@@ -92,7 +92,7 @@ namespace task6
             out << el;
         }
         // out << L")" << endl;
-
+        out << L" ";
         wstring str;
         getline(in, str);
         wchar_t *ch = str.data();
