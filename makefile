@@ -1,4 +1,4 @@
-DIRS := button Edit component composite LinearContainer Text window design tasks/task_1 tasks/task_2
+DIRS := button Edit component composite LinearContainer Text window design tasks/task_1 tasks/task_2 tasks/task_3 tasks/task_8 tasks/task_9 tasks/task_12 terms
 
 SRC  := $(addprefix /,$(wildcard *.cpp))  $(foreach dir,$(DIRS), $(addprefix /,$(wildcard $(dir)/*.cpp)))          #$(shell find . -name '*.cpp') #$(addprefix /,$(wildcard *.cpp))
 HDR := $(wildcard *.h)  $(foreach dir,$(DIRS), $(wildcard $(dir)/*.h))                              #$(addprefix /,$(wildcard *.h)) #$(shell find . -name '*.h')
