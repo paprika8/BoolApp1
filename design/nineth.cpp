@@ -48,6 +48,14 @@ namespace nineth_page{
 		confirm_lc->add(confirm_bt);
 
 
+		// confirm_bt->click = [=](Button*)->void{
+		// 	std::wstring in = input->GetText();
+		// 	...
+
+
+		// };
+
+
 		main_lc->add(back_bt);
 		main_lc->add(input_lc);
 		main_lc->add(confirm_lc);
