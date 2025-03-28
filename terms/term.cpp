@@ -1,4 +1,4 @@
-#include "term.hpp"
+#include "term.h"
 #include <set>
 namespace BoolApp
 {

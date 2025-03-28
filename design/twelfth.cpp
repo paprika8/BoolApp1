@@ -1,5 +1,7 @@
 #include "twelfth.h"
 #include "exercises.h"
+#include "../tasks/task_1/task_1.h"
+#include "../tasks/task_12/task_12.h"
 
 namespace twelfth_page{
 	LinearContainer* create_page(){
@@ -35,8 +37,40 @@ namespace twelfth_page{
 		input_lc->background = bg;
 		input_lc->add(input);
 
+		ScrollText* table = new ScrollText(new SizeBuilder(Size(pointUI(580), pointUI(580)), Margin(5, 5, 5, 5, MarginType::RIGHT | TOP), Padding(pointUI(10, percent), 0, 0, 0)));
+		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
+		table->SetText(L"");
+		table->font = createFont(25);
+		table->background = out;
+		table->text_color = light_t;
+		table->stringFormat->SetAlignment(Gdiplus::StringAlignmentCenter);
+		table->stringFormat->SetLineAlignment(Gdiplus::StringAlignmentCenter);
+
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		confirm_bt->click = [=](Button*)->void{
+			wstring res = task12::main(input->GetText());
+			statement->SetText(res);
+			if(res == L"Bad vector\n"){
+				table->SetText(L"");
+				return;
+			}
+			else{
+				wstringstream in(input->GetText() + L" ");
+				wstringstream out;
+				wstring str;
+				getline(in, str);
+				vector<bool> f;
+				int i = 0;
+				while (str[i] != L' ')
+				{
+					// out << str[i] << endl;
+					f.push_back(bool(str[i] - L'0'));
+					i++;
+				}
+				task1::log_table(f, out);
+				table->SetText(out.str());
+			}
+		};
 		confirm_bt->text = L"Подтвердить ввод";
 		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
@@ -50,14 +84,6 @@ namespace twelfth_page{
 		random_bt->background = button;
 		random_bt->text_color = light_t;
 		random_bt->resize = left_form;
-
-		ScrollText* table = new ScrollText(new SizeBuilder(Size(pointUI(580), pointUI(580)), Margin(5, 5, 5, 5, MarginType::RIGHT | TOP), Padding(pointUI(10, percent), 0, 0, 0)));
-		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-		table->SetText(L"");
-		table->font = createFont(25);
-		table->background = out;
-		table->text_color = light_t;
-
 	
 	
 		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));

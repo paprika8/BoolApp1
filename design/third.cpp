@@ -1,5 +1,6 @@
 #include "third.h"
 #include "exercises.h"
+#include "../tasks/task_3/task_3.h"
 
 namespace third_page{
 	LinearContainer* create_page(){
@@ -56,22 +57,19 @@ namespace third_page{
 		input3->set_font_size(25);
 		input3->resize = right_form;
 
-
-		/*
-			confirm_bt->click = [=](Button*)->void{
-			std::wstring in1 = input1->GetText();
-			std::wstring in2 = input2->GetText();
-			std::wstring in3 = input3->GetText();
-			output->SetText(task1::main(in));
-		};
-		*/
-
 		ScrollText* output = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		output->SetText(L"*вывод вектора ф-ции*");
 		output->font = createFont(25);
 		output->background = out;
 		output->text_color = light_t;
 		output->resize = right_form;
+
+		confirm_bt->click = [=](Button*)->void{
+			std::wstring in1 = input1->GetText() + L" ";
+			std::wstring in2 = in1 + input2->GetText() + L" ";
+			std::wstring in3 = in2 + input3->GetText() + L"\n";
+			output->SetText(task3::main(in3));
+		};
 
 		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		statement_lc->is_vert_orientation = 0;

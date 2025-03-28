@@ -75,7 +75,10 @@ namespace BoolApp {
 			padding.right += 30;
 			padding.left += 5;
 			padding.reSize ( AbsSize );
-			int c = std::max ( pData->getAbsoluteSize ().height * AbsSize.height / f->TextHeight , 20 );
+			
+			int c = 0; 
+			if(f->TextHeight)
+				c = std::max ( pData->getAbsoluteSize ().height * AbsSize.height / f->TextHeight , 20 );
 			int a = pData->getAbsoluteSize ().height;
 			int pos = pData->padding.top + ( ( double ) f->WPos ) / f->MaxTextHeight * ( pData->getAbsoluteSize ().height - c );
 			int xPos = LOWORD ( lParam );

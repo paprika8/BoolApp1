@@ -260,7 +260,7 @@ namespace task12
         int amt_x = dis(gen);
         // auto vf =
         //  Для отладки
-        out << L"Enter a vector of function, or enter 'Generate' if you want to generate vector randomly" << endl;
+        //out << L"Enter a vector of function, or enter 'Generate' if you want to generate vector randomly" << endl;
         wstring input;
         in >> input;
         vector<bool> vf;
@@ -273,12 +273,32 @@ namespace task12
             amt_x = getPowerOfTwo(input.size());
             for (auto el : input)
             {
-                vf.push_back(el - 48);
+                if(el == L'0' || el == L'1')
+                    vf.push_back(el - L'0');
+                else if(el != L')' && el != L',' && el != L'('){
+                    out << L"Bad vector" << endl;
+                    wstring res = out.str();
+                    return res;
+                }
             }
         }
+        {
+        int a = vf.size();
+        int b = 0;
+        while(a){
+            b += a % 2;
+            a /= 2;
+        }
+        if(b > 1){
+            out << L"Bad vector" << endl;
+            wstring res = out.str();
+            return res;
+        }
+        }
+        
 
         wstring dnf_str = perfect_dnf(amt_x, vf);
-        out << L"Generated SDNF: " << dnf_str << endl;
+        //out << L"Generated SDNF: " << dnf_str << endl;
 
         // Парсим конъюнкты из строки вручную
         auto conjuncts = parse_conjuncts_from_string(dnf_str);
@@ -286,12 +306,14 @@ namespace task12
 
         // Минимизируем
         auto minimized = minimize_dnf(conjuncts, amt_x);
-        // out << L"After minimization: " << minimized.size() << L" terms\n"; // 2
+         //out << L"After minimization: " << minimized.size() << L" terms\n"; // 2
 
         // Собираем результат
         term *simplified = build_term(minimized);
 
-        out << L"After minimization: " << simplified->to_string() << endl;
+        out 
+        //<< L"After minimization: " 
+        << simplified->to_string() << endl;
 
         wstring res;
         res = out.str();

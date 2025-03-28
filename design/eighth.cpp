@@ -1,5 +1,6 @@
 #include "eighth.h"
 #include "exercises.h"
+#include "../tasks/task_8/task_8.h"
 
 namespace eighth_page{
 	LinearContainer* create_page(){
@@ -31,12 +32,15 @@ namespace eighth_page{
 		input->resize = left_form;
 
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		confirm_bt->click = [=](Button*)->void{
+			statement->SetText(task8::main(input->GetText()));
+		};
 		confirm_bt->text = L"Подтвердить ввод";
 		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
 		confirm_bt->text_color = light_t;
 		confirm_bt->resize = left_form;
+
 		LinearContainer* confirm_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		confirm_lc->is_vert_orientation = 0;
 		confirm_lc->background = bg;
