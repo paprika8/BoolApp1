@@ -1,5 +1,6 @@
 #include "fourth.h"
 #include "games.h"
+#include <map>
 
 namespace fourth_page{
 
@@ -76,10 +77,17 @@ namespace fourth_page{
 
 
 
+
+		
+
+
+
 		LinearContainer* answer_hor_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
 		answer_hor_lc->is_vert_orientation = 0;
 		answer_hor_lc->background = bg;
 
+
+		std::map <std::wstring, bool> *answers = new std::map <std::wstring, bool> ();
 		for(int i = 0; i < 4; i++){
 
 			LinearContainer* answer_ver_lc = new LinearContainer(new SizeBuilder(Size(pointUI(230, percent), pointUI(1000, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
@@ -88,7 +96,11 @@ namespace fourth_page{
 
 			for(int j = 0; j < 4; j++){
 				Button* answer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 10, 5, 10), Padding(pointUI(10, percent), 0, 0, 0)));
-				answer_bt->click = [&](Button*)->void{win->add(fourth_page::create_page());};
+				answer_bt->click = [=](Button*)->void{
+					std::wstring this_answer = answer_bt->text;
+					answer_bt->background = answer_bt->background - 30;
+					(*answers)[this_answer] = 1;
+				};
 				answer_bt->text = int_to_string(j + i*4);
 				answer_bt->set_font_size(25);
 				answer_bt->background = in;
@@ -99,6 +111,19 @@ namespace fourth_page{
 			}
 			answer_hor_lc->add(answer_ver_lc);
 		}
+
+
+		/*
+				confirm_bt->click = [=](Button*)->void{
+			// if ответ правильный{
+			//   меняем цвет соответст кнопки на зеленый
+			//}
+			// else
+			// меняем цвет на красный
+			output->SetText(task1::main(in));
+		};
+		*/
+
 
 
 		main_lc->add(upper_lc);
