@@ -7,9 +7,6 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
 int countDigits(int number)
 {
     if (number == 0)
@@ -48,42 +45,14 @@ int getPowerOfTwo(size_t n)
     return power;
 }
 
-void log_table(vector<bool> &v)
-{
-    int n = getPowerOfTwo(v.size());
-
-    out << L'|';
-    for (int i = 1; i <= n; i++)
-    {
-        out << L" x" << i << L" |";
-    }
-    out << L" f |" << L'\n';
-    for (int i = 0; i < v.size(); i++)
-    {
-        out << L'|';
-
-        for (int j = n - 1; j >= 0; j--)
-        {
-            int offs = 1 << j;
-            bool t = i & offs;
-
-            for (int k = 0; k < countDigits(n - j) + 1; k++)
-            {
-                out << L' ';
-            }
-            out << t << L" |";
-        }
-
-        out << L' ' << v[i] << L" |" << L'\n';
-    }
-}
 //| x1 | x2 | x3 | f |
 //|  0 |  0 |  0 | 0 |
 //|  0 |  0 |  0 | 0 |
 //|  0 |  0 |  1 | 0 |
 //|  0 |  0 |  1 | 0 |
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     wstring str;
     getline(in, str);
     vector<bool> f;
@@ -121,4 +90,5 @@ int main()
         out << el;
     }
     out << endl;
+    return out;
 }

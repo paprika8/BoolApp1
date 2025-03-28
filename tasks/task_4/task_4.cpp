@@ -9,11 +9,9 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
 
@@ -55,4 +53,5 @@ int main()
         }
     }
     out << L"Game over";
+    return out;
 }

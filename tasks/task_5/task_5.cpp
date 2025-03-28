@@ -10,9 +10,6 @@
 
 using namespace std;
 
-wstringstream out;
-wstringstream in;
-
 int twoInPower(int power)
 {
     return 1 << power;
@@ -104,8 +101,9 @@ bool has_dum_val(vector<bool> &vf)
     return true;
 }
 
-int main()
+wstringstream main(wstringstream in)
 {
+    wstringstream out;
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
@@ -238,9 +236,10 @@ int main()
         if (ans_vars[i] != vars[i])
         {
             out << "Wrong answer! Game over.";
-            return 0;
+            return out;
         }
     }
 
     out << "You're right! Game over.";
+    return out;
 }
