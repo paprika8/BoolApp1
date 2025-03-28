@@ -207,16 +207,22 @@ namespace task5
             }
             vf = buf;
         }
-        out << "Determine from the function vector which variables are dummy and significant:\n";
-        out << "Vector of function: (";
+        // out << "Determine from the function vector which variables are dummy and significant:\n";
+        // out << "Vector of function: (";
         for (auto el : vf)
         {
             out << el;
         }
-        out << ")" << endl;
+        out << L' ';
+        for (int i = 1; i < vars.size(); i++)
+        {
+            vars[i] = !vars[i];
+            out << vars[i];
+        }
+        // out << ")" << endl;
 
-        out << "Enter '1' if dum and '0' if significant\n";
-        vector<bool> ans_vars(vars.size());
+        // out << "Enter '1' if dum and '0' if significant\n";
+        /*vector<bool> ans_vars(vars.size());
         for (int i = 1; i < ans_vars.size(); i++)
         {
             out << "x" << i << ": ";
@@ -234,9 +240,9 @@ namespace task5
                 res = out.str();
                 return res;
             }
-        }
+        }*/
 
-        out << "You're right! Game over.";
+        // out << "You're right! Game over.";
         wstring res;
         res = out.str();
         return res;

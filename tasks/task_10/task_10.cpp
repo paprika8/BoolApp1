@@ -133,13 +133,13 @@ namespace task10
 
         vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
 
-        out << L"Vector of function: (";
+        // out << L"Vector of function: (";
         for (auto el : vf)
         {
             out << el;
         }
-        out << L")\n";
-
+        // out << L")\n";
+        out << L" ";
         // T0, T1, S, M, L - классы
         //  0,  1, 2, 3, 4 - индексы
         vector<bool> f_types(5, 0);
@@ -172,7 +172,12 @@ namespace task10
             types_cnt++;
         }
 
-        vector<bool> answers(5, 0);
+        for (auto el : f_types)
+        {
+            out << el;
+        }
+
+        /*vector<bool> answers(5, 0);
         int ans_cnt = 0;
 
         out << L"Enter in which semi-full classes the vector of function is included (T0, T1, S, M, L).\nOne class at a time" << endl;
@@ -181,7 +186,7 @@ namespace task10
         {
             if (ans_cnt == types_cnt)
             {
-                out << L"Good job! That's all.\nGame over.";
+                out << L"1"; // Верный ответ
                 wstring res;
                 res = out.str();
                 return res;
@@ -265,7 +270,7 @@ namespace task10
                 return res;
             }
             out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
-        }
+        }*/
         wstring res;
         res = out.str();
         return res;

@@ -51,6 +51,13 @@ namespace eighth_page{
 		input_lc->background = bg;
 		input_lc->add(input);
 
+		// confirm_bt->click = [=](Button*)->void{
+		// 	std::wstring in = input->GetText();
+		// 	...
+
+
+		// };
+
 
 		main_lc->add(back_bt);
 		main_lc->add(input_lc);

@@ -50,6 +50,12 @@ namespace sixth_page{
 		confirm_lc->add(confirm_bt);
 
 
+
+		// confirm_bt->click = [=](Button*)->void{
+		// 	std::wstring in = input->GetText();
+		// 	output->SetText(task1::main(in));
+		// };
+
 		main_lc->add(back_bt);
 		main_lc->add(statement_lc);
 		main_lc->add(input);

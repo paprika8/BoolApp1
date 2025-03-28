@@ -1,5 +1,6 @@
 #include "tenth.h"
 #include "games.h"
+#include <map>
 
 namespace tenth_page{
 	LinearContainer* create_page(){
@@ -24,17 +25,25 @@ namespace tenth_page{
 		statement->resize = left_form;
 
 
+		std::map <std::wstring, bool> *answers = new std::map <std::wstring, bool> ();
 
 		Button* T0_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		T0_bt->click = [&](Button*)->void{
+			T0_bt->background = T0_bt->background - 30;
+			(*answers)[L"T0"] = 1;
+		};
 		T0_bt->text = L"T0";
 		T0_bt->set_font_size(40);
 		T0_bt->background = in;
 		T0_bt->text_color = light_t;
 		T0_bt->resize = right_form;
 
+
 		Button* T1_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		T0_bt->click = [&](Button*)->void{
+			T0_bt->background = T1_bt->background - 30;
+			(*answers)[L"T1"] = 1;
+		};
 		T1_bt->text = L"T1";
 		T1_bt->set_font_size(40);
 		T1_bt->background = in;
@@ -42,7 +51,10 @@ namespace tenth_page{
 		T1_bt->resize = right_form;
 
 		Button* S_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		S_bt->click = [&](Button*)->void{
+			S_bt->background = S_bt->background - 30;
+			(*answers)[L"S"] = 1;
+		};
 		S_bt->text = L"S";
 		S_bt->set_font_size(40);
 		S_bt->background = in;
@@ -50,7 +62,10 @@ namespace tenth_page{
 		S_bt->resize = right_form;
 
 		Button* M_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		M_bt->click = [&](Button*)->void{
+			M_bt->background = M_bt->background - 30;
+			(*answers)[L"M"] = 1;
+		};
 		M_bt->text = L"M";
 		M_bt->set_font_size(40);
 		M_bt->background = in;
@@ -58,7 +73,10 @@ namespace tenth_page{
 		M_bt->resize = right_form;
 
 		Button* L_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		L_bt->click = [&](Button*)->void{
+			L_bt->background = L_bt->background - 30;
+			(*answers)[L"L"] = 1;
+		};
 		L_bt->text = L"L";
 		L_bt->set_font_size(40);
 		L_bt->background = in;
@@ -69,7 +87,6 @@ namespace tenth_page{
 
 
 		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ответ";
 		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
@@ -118,6 +135,10 @@ namespace tenth_page{
 		bottom_lc->background = bg;
 		bottom_lc->add(answers_lc);
 		bottom_lc->add(confirm_lc);
+
+		confirm_bt->click = [=](Button*)->void{
+			//map answers с нажатыми кнопками
+		};
 
 
 		main_lc->add(back_bt);

@@ -160,12 +160,13 @@ namespace task11
                 vf.push_back(el - 48);
             }*/
 
-            out << L"Vector of function: (";
+            // out << L"Vector of function: (";
             for (auto el : vf)
             {
                 out << el;
             }
-            out << L")\n";
+            // out << L")\n";
+            out << L" ";
 
             if (!is_in_T0(vf))
             {
@@ -191,15 +192,21 @@ namespace task11
 
         if (f_types[0] && f_types[1] && f_types[2] && f_types[3] && f_types[4])
         {
-            out << L"System is complete.\n";
+            // out << L"System is complete.\n"; // Система полна
+            out << L"1";
             wstring res;
             res = out.str();
             return res;
         }
         else
         {
-            bool answered = 0;
-            out << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
+            out << L"0 ";
+            for (auto el : f_types)
+            {
+                out << el;
+            }
+            /*bool answered = 0;
+            // out << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
             int miss_cnt = 0;
             while (true)
             {
@@ -259,9 +266,9 @@ namespace task11
                 }
                 out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
             }
+        }*/
+            wstring res;
+            res = out.str();
+            return res;
         }
-        wstring res;
-        res = out.str();
-        return res;
     }
-}

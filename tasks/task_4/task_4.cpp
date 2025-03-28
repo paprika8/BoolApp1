@@ -16,8 +16,8 @@ namespace task4
 
         int num = dis(gen);
 
-        out << L"Guess the name of the function by its vector. Name from 1 to 16.\nYou have three attempts\n";
-        out << L"\nVector of function: (";
+        // out << L"Guess the name of the function by its vector. Name from 1 to 16.\nYou have three attempts\n";
+        // out << L"\nVector of function: (";
 
         vector<bool> vf(4);
         for (int i = 3; i >= 0; --i)
@@ -30,7 +30,46 @@ namespace task4
         {
             out << el;
         }
-        out << L')' << endl;
+        wstring name;
+
+        switch (num)
+        {
+        case 0:
+            name = L"Нулевая";
+        case 1:
+            name = L"Конъюнкция";
+        case 2:
+            name = L"Обратная импликация";
+        case 3:
+            name = L"Переменная 1";
+        case 4:
+            name = L"Обратная коимпликация";
+        case 5:
+            name = L"Переменная 2";
+        case 6:
+            name = L"Сложение";
+        case 7:
+            name = L"Дизъюнкция";
+        case 8:
+            name = L"Стрелка Пирса";
+        case 9:
+            name = L"Эквивалентность";
+        case 10:
+            name = L"Отрицание переменной 2";
+        case 11:
+            name = L"Коимпликация";
+        case 12:
+            name = L"Отрицание переменной 1";
+        case 13:
+            name = L"Импликация";
+        case 14:
+            name = L"Штрих Шеффера";
+        case 15:
+            name = L"Единичная";
+        }
+
+        out << name;
+        /*out << L')' << endl;
         int i = 0;
         int ans;
         out << L"\nEnter the function name:\n";
@@ -48,7 +87,7 @@ namespace task4
                 break;
             }
         }
-        out << L"Game over";
+        out << L"Game over";*/
 
         wstring res;
         res = out.str();
