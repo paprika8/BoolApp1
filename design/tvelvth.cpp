@@ -24,7 +24,7 @@ namespace tvelvth_page{
 		statement->resize = left_form;
 
 		Edit* input = new Edit(new SizeBuilder(Size(pointUI(550), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		input->SetUnEditText(L"Введите вектор функции : ");
+		input->SetUnEditText(L"Введите вектор функции: ");
 		input->background = in;
 		input->text_color = light_t;
 		input->set_font_size(30);

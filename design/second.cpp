@@ -23,6 +23,18 @@ namespace second_page{
 		statement->text_color = light_t;
 		statement->resize = left_form;
 
+		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		confirm_bt->text = L"Подтвердить ввод";
+		confirm_bt->set_font_size(30);
+		confirm_bt->background = confirm;
+		confirm_bt->text_color = light_t;
+		confirm_bt->resize = left_form;
+		LinearContainer* confirm_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		confirm_lc->is_vert_orientation = 0;
+		confirm_lc->background = bg;
+		confirm_lc->add(confirm_bt);
+
 		Edit* input1 = new Edit(new SizeBuilder(Size(pointUI(350), pointUI(60)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		input1->SetUnEditText(L"Вектор функции: ");
 		input1->background = in;
@@ -51,7 +63,7 @@ namespace second_page{
 		output->text_color = light_t;
 		output->resize = right_form;
 
-		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		LinearContainer* statement_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		statement_lc->is_vert_orientation = 0;
 		statement_lc->background = bg;
 		statement_lc->add(statement);
@@ -59,6 +71,7 @@ namespace second_page{
 
 		main_lc->add(back_bt);
 		main_lc->add(statement_lc);
+		main_lc->add(confirm_lc);
 		main_lc->add(input1);
 		main_lc->add(input2);
 		main_lc->add(input3);

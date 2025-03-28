@@ -12,7 +12,7 @@ namespace exercises_page{
 	lc->is_vert_orientation = 1;
 	lc->background = bg;
 
-	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(120), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
+	ScrollText* exer_number = new ScrollText(new SizeBuilder(Size(pointUI(130), pointUI(35)), Margin(5, 0, 0, 0), Padding(0, 3, 0, 0)));
 	//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 	exer_number->SetText(number);
 	exer_number->font = createFont(22);

@@ -55,7 +55,20 @@ namespace fourth_page{
 		statement_lc->background = bg;
 		statement_lc->add(statement);
 
-		LinearContainer* upper_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		confirm_bt->text = L"Подтвердить ввод";
+		confirm_bt->set_font_size(30);
+		confirm_bt->background = confirm;
+		confirm_bt->text_color = light_t;
+		confirm_bt->resize = left_form;
+		LinearContainer* confirm_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		confirm_lc->is_vert_orientation = 0;
+		confirm_lc->background = bg;
+		confirm_lc->add(confirm_bt);
+
+
+		LinearContainer* upper_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(300, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		upper_lc->is_vert_orientation = 0;
 		upper_lc->background = bg;
 		upper_lc->add(buttons_lc);
@@ -89,6 +102,7 @@ namespace fourth_page{
 
 
 		main_lc->add(upper_lc);
+		main_lc->add(confirm_lc);
 		main_lc->add(answer_hor_lc);
 
 	
