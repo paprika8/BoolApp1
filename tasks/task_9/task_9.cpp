@@ -33,7 +33,7 @@ namespace task9
 
         if (input.size() != 1 << amt_x)
         {
-            out << L"Incorrect vector of function!" << endl;
+            out << L"Incorrect vector of function!";
             wstring res;
             res = out.str();
             return res;
@@ -47,7 +47,7 @@ namespace task9
 
         if (is_full)
         {
-            out << L"Since this is a all-ones vector, there is no CNF." << endl;
+            out << L"Since this is a all-ones vector, there is no CNF.";
             wstring res;
             res = out.str();
             return res;
