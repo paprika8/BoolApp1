@@ -3,6 +3,8 @@
 #include "fifth.h"
 #include "sixth.h"
 #include "seventh.h"
+#include "tenth.h"
+#include "eleventh.h"
 
 namespace games_page{
 	LinearContainer* create_card(std::wstring number, std::wstring game, std::function<LinearContainer*()> func){
@@ -58,8 +60,8 @@ namespace games_page{
 		firstrow_lc->add(create_card(L"Игра 2", L"существенные и фиктивные переменные", fifth_page::create_page));
 		firstrow_lc->add(create_card(L"Игра 3", L"ДНФ", sixth_page::create_page));
 		secondrow_lc->add(create_card(L"Игра 4", L"КНФ", seventh_page::create_page));
-		secondrow_lc->add(create_card(L"Игра 5", L"предполные классы", fourth_page::create_page));
-		secondrow_lc->add(create_card(L"Игра 6", L"полные системы", fourth_page::create_page));
+		secondrow_lc->add(create_card(L"Игра 5", L"предполные классы", tenth_page::create_page));
+		secondrow_lc->add(create_card(L"Игра 6", L"полные системы", eleventh_page::create_page));
 
 		main_lc->add(firstrow_lc);
 		main_lc->add(secondrow_lc);
