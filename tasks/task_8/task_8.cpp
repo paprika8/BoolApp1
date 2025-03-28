@@ -32,7 +32,7 @@ namespace task8
 
         if (input.size() != 1 << amt_x)
         {
-            out << L"Incorrect vector of function!" << endl;
+            out << L"Incorrect vector of function!";
             wstring res;
             res = out.str();
             return res;
@@ -46,7 +46,7 @@ namespace task8
 
         if (!is_not_null_vec)
         {
-            out << L"Since this is zero vector, there is no DNF." << endl;
+            out << L"Since this is zero vector, there is no СDNF.";
             wstring res;
             res = out.str();
             return res;
