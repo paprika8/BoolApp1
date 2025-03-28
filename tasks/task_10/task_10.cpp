@@ -1,11 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <sstream>
-#include <string>
+#include "task_10.h"
 namespace task10
 {
     using namespace std;
@@ -131,8 +124,9 @@ namespace task10
         return true;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         uniform_int_distribution<> dis(1, 4);
         int amt_x = dis(gen);
@@ -188,7 +182,9 @@ namespace task10
             if (ans_cnt == types_cnt)
             {
                 out << L"Good job! That's all.\nGame over.";
-                return out;
+                wstring res;
+                res = out.str();
+                return res;
             }
             wstring input;
             in >> input;
@@ -264,10 +260,14 @@ namespace task10
             if (miss_cnt >= 3)
             {
                 out << L"Wrong answer. You lose.\nGame over." << endl;
-                return out;
+                wstring res;
+                res = out.str();
+                return res;
             }
             out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
         }
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }

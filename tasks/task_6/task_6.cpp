@@ -1,22 +1,13 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <utility>
-#include <typeinfo> // Для typeid (может потребоваться)
-#include <sstream>
-#include <string>
+#include "task_6.h"
 namespace task6
 {
+    using namespace BoolApp;
+
     using namespace std;
 
     random_device rd;
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
-
-    using namespace BoolApp;
 
     bool is_literal(term *t)
     {
@@ -85,8 +76,9 @@ namespace task6
         return f;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         uniform_int_distribution<> dis(1, 4);
         int amt_x = dis(gen);
@@ -110,17 +102,21 @@ namespace task6
         if (!t)
         {
             out << L"Invalid expression." << endl;
-            return out;
+            wstring res2;
+            res2 = out.str();
+            return res2;
         }
 
         if (!is_dnf(t))
         {
             out << L"Wrong answer. Not a DNF." << endl;
-            return out;
+            wstring res2;
+            res2 = out.str();
+            return res2;
         }
 
         BoolApp::termData td;
-        set<wstring> st;
+        std::set<std::wstring> st;
         t->get_name_list(st);
 
         st.erase(wstring(L"0"));
@@ -151,7 +147,9 @@ namespace task6
         if (res.size() != v.size())
         {
             out << L"Wrong answer." << endl;
-            return out;
+            wstring res2;
+            res2 = out.str();
+            return res2;
         }
 
         /*for (auto el : res)
@@ -165,11 +163,15 @@ namespace task6
             if (res[i] != v[i])
             {
                 out << L"Wrong answer." << endl;
-                return out;
+                wstring res2;
+                res2 = out.str();
+                return res2;
             }
         }
 
         out << L"Correct answer!" << endl;
-        return out;
+        wstring res2;
+        res2 = out.str();
+        return res2;
     }
 }

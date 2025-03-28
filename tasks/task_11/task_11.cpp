@@ -1,11 +1,4 @@
-#include "..\..\terms\term.hpp"
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <random>
-#include <chrono>
-#include <sstream>
-#include <string>
+#include "task_11.h"
 namespace task11
 {
     using namespace std;
@@ -139,8 +132,9 @@ namespace task11
         return true;
     }
 
-    wstringstream main(wstringstream in)
+    wstring main(wstring in_str)
     {
+        wstringstream in(in_str);
         wstringstream out;
         uniform_int_distribution<> dis_amt_sets(1, 5);
         int amt_vec = dis_amt_sets(gen);
@@ -198,7 +192,9 @@ namespace task11
         if (f_types[0] && f_types[1] && f_types[2] && f_types[3] && f_types[4])
         {
             out << L"System is complete.\n";
-            return out;
+            wstring res;
+            res = out.str();
+            return res;
         }
         else
         {
@@ -210,7 +206,9 @@ namespace task11
                 if (answered)
                 {
                     out << L"Good job! That's all.\nGame over.";
-                    return out;
+                    wstring res;
+                    res = out.str();
+                    return res;
                 }
                 wstring input;
                 in >> input;
@@ -255,11 +253,15 @@ namespace task11
                 if (miss_cnt >= 3)
                 {
                     out << L"Wrong answer. You lose.\nGame over." << endl;
-                    return out;
+                    wstring res;
+                    res = out.str();
+                    return res;
                 }
                 out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
             }
         }
-        return out;
+        wstring res;
+        res = out.str();
+        return res;
     }
 }
