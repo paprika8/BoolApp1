@@ -56,6 +56,16 @@ namespace third_page{
 		input3->set_font_size(25);
 		input3->resize = right_form;
 
+
+		/*
+			confirm_bt->click = [=](Button*)->void{
+			std::wstring in1 = input1->GetText();
+			std::wstring in2 = input2->GetText();
+			std::wstring in3 = input3->GetText();
+			output->SetText(task1::main(in));
+		};
+		*/
+
 		ScrollText* output = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		output->SetText(L"*вывод вектора ф-ции*");
 		output->font = createFont(25);
