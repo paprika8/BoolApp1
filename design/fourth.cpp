@@ -1,5 +1,6 @@
 #include "fourth.h"
 #include "games.h"
+#include <map>
 
 namespace fourth_page{
 
@@ -37,7 +38,7 @@ namespace fourth_page{
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(850), pointUI(110)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
 		statement->SetText(L"Дан вектор функции, определите имя: ");
-		statement->font = createFont(30);
+		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
 		statement->resize = left_form;
@@ -55,7 +56,20 @@ namespace fourth_page{
 		statement_lc->background = bg;
 		statement_lc->add(statement);
 
-		LinearContainer* upper_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		Button* confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+		//confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
+		confirm_bt->text = L"Подтвердить ввод";
+		confirm_bt->set_font_size(25);
+		confirm_bt->background = confirm;
+		confirm_bt->text_color = light_t;
+		confirm_bt->resize = left_form;
+		LinearContainer* confirm_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(170, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
+		confirm_lc->is_vert_orientation = 0;
+		confirm_lc->background = bg;
+		confirm_lc->add(confirm_bt);
+
+
+		LinearContainer* upper_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(300, percent)), Margin(0, 0, 0, 0, MarginType::RIGHT | VCENTER), Padding(0)));
 		upper_lc->is_vert_orientation = 0;
 		upper_lc->background = bg;
 		upper_lc->add(buttons_lc);
@@ -63,10 +77,17 @@ namespace fourth_page{
 
 
 
+
+		
+
+
+
 		LinearContainer* answer_hor_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
 		answer_hor_lc->is_vert_orientation = 0;
 		answer_hor_lc->background = bg;
 
+
+		std::map <std::wstring, bool> *answers = new std::map <std::wstring, bool> ();
 		for(int i = 0; i < 4; i++){
 
 			LinearContainer* answer_ver_lc = new LinearContainer(new SizeBuilder(Size(pointUI(230, percent), pointUI(1000, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
@@ -75,9 +96,13 @@ namespace fourth_page{
 
 			for(int j = 0; j < 4; j++){
 				Button* answer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 10, 5, 10), Padding(pointUI(10, percent), 0, 0, 0)));
-				answer_bt->click = [&](Button*)->void{win->add(fourth_page::create_page());};
+				answer_bt->click = [=](Button*)->void{
+					std::wstring this_answer = answer_bt->text;
+					answer_bt->background = answer_bt->background - 30;
+					(*answers)[this_answer] = 1;
+				};
 				answer_bt->text = int_to_string(j + i*4);
-				answer_bt->set_font_size(35);
+				answer_bt->set_font_size(25);
 				answer_bt->background = in;
 				answer_bt->text_color = light_t;
 				answer_bt->resize = right_form;
@@ -88,7 +113,21 @@ namespace fourth_page{
 		}
 
 
+		/*
+				confirm_bt->click = [=](Button*)->void{
+			// if ответ правильный{
+			//   меняем цвет соответст кнопки на зеленый
+			//}
+			// else
+			// меняем цвет на красный
+			output->SetText(task1::main(in));
+		};
+		*/
+
+
+
 		main_lc->add(upper_lc);
+		main_lc->add(confirm_lc);
 		main_lc->add(answer_hor_lc);
 
 	

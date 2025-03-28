@@ -24,6 +24,7 @@ namespace BoolApp
 		std::function<void(Button *)> click = [](Button *) -> void {};
 		HFONT font = CreateFontA(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
 								 OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, "Times New Roman");
+		bool safe_down = 0;
 
 		Button(Builder *abuilder = new DefaultBuilder()) : View(abuilder)
 		{
@@ -114,8 +115,11 @@ namespace BoolApp
 
 				ReleaseCapture();
 
-				if (event)
+				
+				if (event){
+					safe_down = !safe_down;
 					Click();
+				}
 
 				return 1;
 				//return DefWindowProc(ahwnd, message, wparam, lparam);
