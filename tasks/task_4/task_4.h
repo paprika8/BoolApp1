@@ -11,6 +11,6 @@
 namespace task4
 {
     using namespace std;
-
-    wstring main(wstring in);
+    wstring get_name(int num);
+    wstring main(/*wstring in, */wstring& an);
 }

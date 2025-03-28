@@ -1,6 +1,7 @@
 #include "fourth.h"
 #include "games.h"
 #include <map>
+#include "../tasks/task_4/task_4.h"
 
 namespace fourth_page{
 
@@ -15,6 +16,10 @@ namespace fourth_page{
 	}
 
 	LinearContainer* create_page(){
+
+		//std::map <std::wstring, bool> *answers = new std::map <std::wstring, bool> ();
+		Button** ansxer = new Button*();
+
 		LinearContainer* main_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(1000, percent)), Margin(0), Padding(0)));
 		main_lc->is_vert_orientation = 1;
 		main_lc->background = bg;
@@ -35,9 +40,12 @@ namespace fourth_page{
 		again_bt->text_color = light_t;
 		again_bt->resize = right_form;
 
+		std::wstring *answer = new std::wstring();
+		std::wstring res = task4::main(*answer);
+
 		ScrollText* statement = new ScrollText(new SizeBuilder(Size(pointUI(850), pointUI(110)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		//SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-		statement->SetText(L"Дан вектор функции, определите имя: ");
+		statement->SetText(L"Дан вектор функции: "+res+L", определите имя: ");
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
@@ -75,19 +83,12 @@ namespace fourth_page{
 		upper_lc->add(buttons_lc);
 		upper_lc->add(statement_lc);
 
-
-
-
-		
-
-
-
 		LinearContainer* answer_hor_lc = new LinearContainer(new SizeBuilder(Size(pointUI(1000, percent), pointUI(370, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
 		answer_hor_lc->is_vert_orientation = 0;
 		answer_hor_lc->background = bg;
 
 
-		std::map <std::wstring, bool> *answers = new std::map <std::wstring, bool> ();
+		
 		for(int i = 0; i < 4; i++){
 
 			LinearContainer* answer_ver_lc = new LinearContainer(new SizeBuilder(Size(pointUI(230, percent), pointUI(1000, percent)), Margin(0, 0, 0, 0, MarginType::VCENTER | HCENTER), Padding(0)));
@@ -96,12 +97,21 @@ namespace fourth_page{
 
 			for(int j = 0; j < 4; j++){
 				Button* answer_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 10, 5, 10), Padding(pointUI(10, percent), 0, 0, 0)));
-				answer_bt->click = [=](Button*)->void{
+				answer_bt->click = [=](Button* but)->void{
 					std::wstring this_answer = answer_bt->text;
-					answer_bt->background = answer_bt->background - 30;
-					(*answers)[this_answer] = 1;
+					if(!but->safe_down)
+						answer_bt->background = answer_bt->background - 50;
+					//else
+						//answer_bt->background = answer_bt->background + 50;
+
+					//(*answers)[this_answer] = but->safe_down;
+					if(*ansxer && !(*ansxer)->safe_down){
+						(*ansxer)->background = (*ansxer)->background + 50;
+						InvalidateRect((*ansxer)->PV->hwnd, 0, 1);
+					}
+					*ansxer = but;
 				};
-				answer_bt->text = int_to_string(j + i*4);
+				answer_bt->text = task4::get_name(j + i*4);//int_to_string(j + i*4);
 				answer_bt->set_font_size(25);
 				answer_bt->background = in;
 				answer_bt->text_color = light_t;
@@ -113,18 +123,23 @@ namespace fourth_page{
 		}
 
 
-		/*
-				confirm_bt->click = [=](Button*)->void{
+		confirm_bt->click = [=](Button*)->void{
+			
 			// if ответ правильный{
 			//   меняем цвет соответст кнопки на зеленый
 			//}
 			// else
 			// меняем цвет на красный
-			output->SetText(task1::main(in));
+			if((*ansxer)){
+				if((*ansxer)->text == *answer)
+					(*ansxer)->background = confirm;
+				else
+					(*ansxer)->background = Gdiplus::Color(192,64,66);
+				(*ansxer)->safe_down = 1;
+				if((*ansxer)->PV->hwnd)
+					InvalidateRect((*ansxer)->PV->hwnd, 0, 1);
+			}
 		};
-		*/
-
-
 
 		main_lc->add(upper_lc);
 		main_lc->add(confirm_lc);
