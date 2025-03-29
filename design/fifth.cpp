@@ -27,8 +27,8 @@ namespace fifth_page
 		// Получаем вектор функции и фиктивность переменных
 		std::wstring res = task5::main();
 		// std::vector<bool> *vec_of_fun = new std::vector<bool>();
-		std::wstring vec_of_fun; //= new std::wstring();
-		std::vector<bool> vars;	 //= new std::vector<bool>();
+		std::wstring vec_of_fun;	  //= new std::wstring();
+		std::vector<bool> vars(1, 0); //= new std::vector<bool>();
 		int i = 0;
 		while (res[i] != L' ') {
 			vec_of_fun += res[i];
@@ -36,8 +36,9 @@ namespace fifth_page
 			i++;
 		}
 		i++;
-		for (int j = 0; i < res.size(); i++, j++) {
-			vars[j] = res[i];
+		for (; i < res.size(); i++)
+		{
+			vars.push_back(res[i]);
 		}
 
 		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + vec_of_fun);

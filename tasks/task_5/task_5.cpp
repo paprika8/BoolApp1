@@ -179,6 +179,7 @@ namespace task5
         }*/
         // out << endl;
         int t_amt_x = amt_x - amt_dum; // Текущее количество переменных (количество существенных)
+
         // Расширяем вектор фиктивными переменными
         vf = vf_sig;
         for (int num_x = 1; num_x < vars.size(); num_x++)
@@ -241,7 +242,6 @@ namespace task5
                 return res;
             }
         }*/
-
         // out << "You're right! Game over.";
         wstring res;
         res = out.str();
