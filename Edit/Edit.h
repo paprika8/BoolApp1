@@ -88,7 +88,8 @@ namespace BoolApp
 
 		void SetText(std::wstring atext)
 		{
-			text = atext.c_str();
+			auto tbuf = std::wstring(text.data).substr(0, untext_cursor);
+			text = (tbuf + atext).c_str();
 			if (enabled)
 			{
 				SendMessage(PV->hwnd, WM_SETSCROLLEDTEXT, 0, 0);

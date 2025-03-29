@@ -23,7 +23,7 @@ namespace BoolApp
 
     std::wstring termOR::to_string()
     {
-        return L"(" + t1->to_string() + L" | " + t2->to_string()+ L")";
+        return /*L"(" + */t1->to_string() + L" | " + t2->to_string()/*+ L")"*/;
     }
 
     bool termAND::calculate(termData &td)
@@ -44,7 +44,7 @@ namespace BoolApp
 
     std::wstring termAND::to_string()
     {
-        return L"(" + t1->to_string() + L"&" + t2->to_string()+ L")";
+        return /*L"(" + */t1->to_string() + L"&" + t2->to_string()/*+ L")"*/;
     }
 
     bool termEQUAL::calculate(termData &td)
@@ -65,7 +65,7 @@ namespace BoolApp
 
     std::wstring termEQUAL::to_string()
     {
-        return L"(" + t1->to_string() + L" = " + t2->to_string()+ L")";
+        return /*L"(" + */t1->to_string() + L" = " + t2->to_string()/*+ L")"*/;
     }
 
     bool termNOT::calculate(termData &td)
@@ -85,7 +85,7 @@ namespace BoolApp
 
     std::wstring termNOT::to_string()
     {
-        return L"(!" + t1->to_string() + L")";
+        return /*L"(!"*/L"!" + t1->to_string()/* + L")"*/;
     }
 
     bool termVAR::calculate(termData &td)

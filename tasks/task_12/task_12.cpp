@@ -8,10 +8,6 @@ namespace task12
     auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
     mt19937 gen(seed);
 
-    // Литерал: пара (имя переменной, отрицание)
-    using Literal = std::pair<std::wstring, bool>;
-    using Conjunct = std::set<Literal>;
-
     // Генерация случайного вектора функции
     vector<bool> generate_vf()
     {
@@ -32,29 +28,6 @@ namespace task12
         return f;
     }
 
-    wstring perfect_dnf(int amt_x, const vector<bool> &vf)
-    {
-        wstring result;
-        for (size_t i = 0; i < vf.size(); ++i)
-        {
-            if (vf[i])
-            {
-                wstring term;
-                for (int j = 0; j < amt_x; ++j)
-                {
-                    bool bit = (i >> (amt_x - j - 1)) & 1;
-                    if (!term.empty())
-                        term += L"&";
-                    term += bit ? L"x" + to_wstring(j + 1) : L"!x" + to_wstring(j + 1);
-                }
-                if (!result.empty())
-                    result += L" | ";
-                result += term; // Убрать лишние скобки
-            }
-        }
-        return result.empty() ? L"0" : result;
-    }
-
     int getPowerOfTwo(size_t n)
     {
         if (n == 0)
@@ -72,194 +45,184 @@ namespace task12
         return power;
     }
 
-    // Сбор конъюнктов для минимизации
-    void collect_conjunct(const term *t, Conjunct &current)
-    {
-        if (const auto and_term = dynamic_cast<const termAND *>(t))
-        {
-            collect_conjunct(and_term->t1, current);
-            collect_conjunct(and_term->t2, current);
+    vector<int> to_vector(int n, int a){
+        vector<int> res;
+        while(n--){
+            res.push_back((a & (1 << n)) >> n);
         }
-        else if (const auto var = dynamic_cast<const termVAR *>(t))
-        {
-            current.emplace(var->varname, true);
+        return res;
+    }
+    int v_to_int(vector<int> a){
+        int res;
+        int n = a.size();
+        while(--n){
+            if(a[n] != 2)
+                res += a[n] << n;
         }
-        else if (const auto not_term = dynamic_cast<const termNOT *>(t))
-        {
-            if (const auto var = dynamic_cast<const termVAR *>(not_term->t1))
-            {
-                current.emplace(var->varname, false);
-            }
+        return res;
+    }
+    bool equl(vector<int> a, vector<int> b){
+        for(int i = 0; i < a.size(); i++){
+            if(a[i] != b[i])
+                return 0;
         }
+        return 1;
     }
 
-    vector<Conjunct> collect_conjuncts(const term *t)
-    {
-        vector<Conjunct> clauses;
-        if (const auto or_term = dynamic_cast<const termOR *>(t))
-        {
-            auto left = collect_conjuncts(or_term->t1);
-            auto right = collect_conjuncts(or_term->t2);
-            clauses.insert(clauses.end(), left.begin(), left.end());
-            clauses.insert(clauses.end(), right.begin(), right.end());
+    vector<int> compare(vector<int> a, vector<int> b, bool &f){
+        int it = -1;
+        for(int i = 0; i < a.size(); i++){
+            if(a[i] != b[i])
+                if(it == -1){
+                    it = i;
+                }
+                else{
+                    f = 1;
+                    return vector<int>();
+                }
         }
-        else
-        {
-            Conjunct c;
-            collect_conjunct(t, c);
-            if (!c.empty())
-                clauses.push_back(c);
+        if(it == -1){
+            f = 1;
+            return vector<int>();
         }
-        return clauses;
+        if(a[it] == 2 || b[it] == 2){
+            f = 1;
+            return vector<int>();
+        }
+        vector<int> res(a.size());
+        for(int i = 0; i < a.size(); i++)
+            if(i == it)
+                res[i] = 2;
+            else
+                res[i] = a[i];
+        return res;
     }
 
-    // Построение терма через парсинг
-    term *build_term(const vector<Conjunct> &conjuncts)
-    {
-        if (conjuncts.empty())
-            return nullptr;
-
-        // Обработка случая "1"
-        if (conjuncts.size() == 1 && conjuncts[0].empty())
-        {
-            // out << "Popali v slucvai 1" << endl;
-            wstring str = L"1";
-            wchar_t *cstr = str.data();
-            return BoolApp::parsing(cstr);
-        }
-        wstringstream expr;
-        for (size_t i = 0; i < conjuncts.size(); ++i)
-        {
-            Conjunct c = conjuncts[i];
-            wstring term_str;
-            for (const auto &lit : c)
-            {
-                if (!term_str.empty())
-                    term_str += L"&";
-                term_str += lit.second ? lit.first : L"!" + lit.first;
-            }
-            if (i > 0)
-                expr << L"|";
-            expr << term_str; // Без скобок
-        }
-
-        wstring expr_str = expr.str();
-        // out << L"Parsing expression: " << expr_str << endl; // Отладка
-
-        vector<wchar_t> buffer(expr_str.begin(), expr_str.end());
-        buffer.push_back(L'\0');
-        wchar_t *cstr = buffer.data();
-        return BoolApp::parsing(cstr);
-    }
-
-    // Разбиваем строку СДНФ на конъюнкты вручную
-    vector<Conjunct> parse_conjuncts_from_string(const wstring &expr)
-    {
-        vector<Conjunct> conjuncts;
-        wstringstream ss(expr);
-        wstring token;
-
-        // Разделяем по '|'
-        while (getline(ss, token, L'|'))
-        {
-            Conjunct c;
-            wstringstream ss_term(token);
-            wstring lit;
-
-            // Разделяем по '&'
-            while (getline(ss_term, lit, L'&'))
-            {
-                // Удаляем пробелы и скобки
-                lit.erase(remove_if(lit.begin(), lit.end(),
-                                    [](wchar_t ch)
-                                    { return ch == L' ' || ch == L'(' || ch == L')'; }),
-                          lit.end());
-
-                // Обработка отрицаний
-                bool is_neg = (lit.find(L'!') == 0);
-                wstring var = is_neg ? lit.substr(1) : lit;
-                c.emplace(var, !is_neg);
-            }
-
-            if (!c.empty())
-            {
-                conjuncts.push_back(c);
-            }
-        }
-
-        return conjuncts;
-    }
-
-    // Функция для проверки, можно ли склеить два конъюнкта
-    bool can_merge(const Conjunct &a, const Conjunct &b, Conjunct &merged)
-    {
-        vector<Literal> diff;
-        set_symmetric_difference(
-            a.begin(), a.end(),
-            b.begin(), b.end(),
-            std::back_inserter(diff));
-
-        if (diff.size() != 2)
-            return false;
-        if (diff[0].first != diff[1].first)
-            return false;
-
-        merged = a;
-        merged.erase(diff[0]);
-        return true;
-    }
-
-    // Алгоритм Квайна-МакКласки (упрощённая версия)
-    vector<Conjunct> quine_minimization(const vector<Conjunct> &terms)
-    {
-        vector<Conjunct> prime;
-        vector<bool> used(terms.size(), false);
-
-        // Поиск склеивающихся термов
-        for (size_t i = 0; i < terms.size(); ++i)
-        {
-            for (size_t j = i + 1; j < terms.size(); ++j)
-            {
-                Conjunct merged;
-                if (can_merge(terms[i], terms[j], merged))
-                {
-                    prime.push_back(merged);
-                    used[i] = used[j] = true;
+    term* create_dnf(const vector<wstring> variables, vector<int> n){
+        term* res = 0;
+        for(int i = 0; i < n.size(); i++){
+            if(n[i] == 1){
+                termVAR* v = new termVAR();
+                v->varname = variables[i];
+                if(!res){
+                    res = v;
+                }
+                else{
+                    termAND* and_t = new termAND();
+                    and_t->t1 = res;
+                    and_t->t2 = v;
+                    res = and_t;
                 }
             }
-            if (!used[i])
-                prime.push_back(terms[i]);
+            if(n[i] == 0){
+                termNOT* t = new termNOT();
+                termVAR* v = new termVAR();
+                v->varname = variables[i];
+                t->t1 = v;
+                if(!res){
+                    res = t;
+                }
+                else{
+                    termAND* and_t = new termAND();
+                    and_t->t1 = res;
+                    and_t->t2 = t;
+                    res = and_t;
+                }
+            }
         }
-
-        // Удаление дубликатов
-        sort(prime.begin(), prime.end());
-        prime.erase(unique(prime.begin(), prime.end()), prime.end());
-
-        // Рекурсия, если были изменения
-        if (prime.size() != terms.size())
-        {
-            return quine_minimization(prime);
-        }
-        return prime;
+        return res;
     }
 
-    // Проверка, является ли ДНФ тавтологией (покрывает все 2^n комбинаций)
-    bool is_tautology(const vector<Conjunct> &minimized, int var_count)
-    {
-        return minimized.size() == (1 << var_count); // 2^var_count
-    }
+    std::wstring vec_to_wstring(vector<int> &vf)
+	{
+		std::wstring res;
+		for (auto el : vf)
+		{
+			int buf = int(el);
+			res += std::to_wstring(buf);
+		}
+		return res;
+	}
 
-    // Обновлённая функция минимизации
-    vector<Conjunct> minimize_dnf(const vector<Conjunct> &conjuncts, int var_count)
-    {
-        auto minimized = quine_minimization(conjuncts);
-
-        if (is_tautology(minimized, var_count))
+    wstring getAns(vector<bool> vf){
+        int n_arg = -1;
         {
-            return {Conjunct()}; // Пустой конъюнкт = 1
+            int a = vf.size();
+            while(a){
+                ++n_arg;
+                a/=2;
+            }
         }
-
-        return minimized;
+        int b = 0;
+        map<int, bool> bins;
+        map<int, vector<int>> minimaze;
+        int flag_null = 1;
+        for(;b < vf.size(); ++b){
+            if(vf[b]){
+                bins[b] = 1;
+                minimaze[b] = to_vector(n_arg, b);
+                flag_null = 0;
+            }
+        }
+        if(flag_null){
+            termVAR* v = new termVAR();
+            v->varname = L"0";
+            return v->to_string();
+        }
+        bool flag = 1;
+        while(flag){
+            flag = 0;
+            map<int, bool> buf(bins);
+            for(auto i : bins){
+                if(buf[i.first])
+                for(auto j : bins){
+                    if(!buf[j.first])
+                        continue;
+                    if(i.first == j.first) continue;
+                    if(equl(minimaze[i.first], minimaze[j.first])){
+                        buf[j.first] = 0;
+                        continue;
+                    }
+                    bool f = 0;
+                    auto a = compare(minimaze[i.first], minimaze[j.first], f);
+                    if(!f){
+                        buf[i.first] = 0;
+                        minimaze[j.first] = a;
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+            bins = buf;
+        }
+        vector<wstring> variables;
+        for(int i = 1; i <= n_arg; i++){
+            wstring buf = L"x" + to_wstring(i);
+            variables.push_back(buf);
+        }
+        term* res = 0;
+        for(auto a : bins){
+            if(!a.second)
+                continue;
+            term* t = create_dnf(variables, minimaze[a.first]);
+            if(!t)
+                continue;
+            if(res){
+                termOR* and_t = new termOR();
+                and_t->t1 = res;
+                and_t->t2 = t;
+                res = and_t;
+            }
+            else
+                res = t;
+        }
+        if(!res)
+        {
+            termVAR* v = new termVAR();
+            v->varname = L"1";
+            res = v;
+        }
+        return res->to_string();
     }
 
     wstring main(wstring in_str)
@@ -309,26 +272,6 @@ namespace task12
             }
         }
 
-        wstring dnf_str = perfect_dnf(amt_x, vf);
-        // out << L"Generated SDNF: " << dnf_str << endl;
-
-        // Парсим конъюнкты из строки вручную
-        auto conjuncts = parse_conjuncts_from_string(dnf_str);
-        // out << L"Collected " << conjuncts.size() << L" terms\n"; // 3
-
-        // Минимизируем
-        auto minimized = minimize_dnf(conjuncts, amt_x);
-        // out << L"After minimization: " << minimized.size() << L" terms\n"; // 2
-
-        // Собираем результат
-        term *simplified = build_term(minimized);
-
-        out
-            //<< L"After minimization: "
-            << simplified->to_string() << endl;
-
-        wstring res;
-        res = out.str();
-        return res;
+        return getAns(vf);
     }
 }
