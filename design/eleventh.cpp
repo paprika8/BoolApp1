@@ -54,7 +54,7 @@ namespace eleventh_page
 		Button *full_bt = new Button(new SizeBuilder(Size(pointUI(270), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 
 		Button *T0_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		T0_bt->click = [&](Button *) -> void
+		T0_bt->click = [=](Button *) -> void
 		{
 			if (!(T0_bt->safe_down)) // Не была нажата
 			{
@@ -85,7 +85,7 @@ namespace eleventh_page
 		T0_bt->resize = right_form;
 
 		Button *T1_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		T1_bt->click = [&](Button *) -> void
+		T1_bt->click = [=](Button *) -> void
 		{
 			if (!(T1_bt->safe_down)) // Не была нажата
 			{
@@ -115,7 +115,7 @@ namespace eleventh_page
 		T1_bt->resize = right_form;
 
 		Button *S_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		S_bt->click = [&](Button *) -> void
+		S_bt->click = [=](Button *) -> void
 		{
 			if (!(S_bt->safe_down)) // Не была нажата
 			{
@@ -145,7 +145,7 @@ namespace eleventh_page
 		S_bt->resize = right_form;
 
 		Button *M_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		M_bt->click = [&](Button *) -> void
+		M_bt->click = [=](Button *) -> void
 		{
 			if (!(M_bt->safe_down)) // Не была нажата
 			{
@@ -175,7 +175,7 @@ namespace eleventh_page
 		M_bt->resize = right_form;
 
 		Button *L_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		L_bt->click = [&](Button *) -> void
+		L_bt->click = [=](Button *) -> void
 		{
 			if (!(L_bt->safe_down)) // Не была нажата
 			{
@@ -205,7 +205,7 @@ namespace eleventh_page
 		L_bt->text_color = light_t;
 		L_bt->resize = right_form;
 
-		full_bt->click = [&](Button *) -> void
+		full_bt->click = [=](Button *) -> void
 		{
 			if (!(full_bt->safe_down))
 			{
@@ -318,16 +318,23 @@ namespace eleventh_page
 
 		confirm_bt->click = [=](Button *) -> void
 		{
-			std::wstring res = task11::main(set_of_vec);
-			if (res[0] == L'1' && (*answers)[L"full"])
+			std::vector<bool> classes;
+			bool full = 0;
+			std::wstring res = task11::main(set_of_vec, classes, full);
+			if ((*answers)[L"full"])
 			{
-				full_bt->background = confirm;
+				if(full)
+					full_bt->background = confirm;
+				else
+					full_bt->background = wrong;
+				full_bt->safe_down = 0;
+				(*answers)[L"full"] = 0;
 			}
 			else
 			{
 				if ((*answers)[L"T0"])
 				{
-					if ((*answers)[L"T0"] == res[0 + 2])
+					if ((*answers)[L"T0"] == classes[0])
 					{
 						T0_bt->background = confirm;
 					}
@@ -335,10 +342,14 @@ namespace eleventh_page
 					{
 						T0_bt->background = wrong;
 					}
+					T0_bt->safe_down = 0;
+					(*answers)[L"T0"] = 0;
 				}
+				else if((*answers)[L"T0"] != classes[0])
+					T0_bt->background = out;
 				if ((*answers)[L"T1"])
 				{
-					if ((*answers)[L"T1"] == res[1 + 2])
+					if ((*answers)[L"T1"] == classes[1])
 					{
 						T1_bt->background = confirm;
 					}
@@ -346,10 +357,14 @@ namespace eleventh_page
 					{
 						T1_bt->background = wrong;
 					}
+					T1_bt->safe_down = 0;
+					(*answers)[L"T1"] = 0;
 				}
+				else if((*answers)[L"T1"] != classes[1])
+					T1_bt->background = out;
 				if ((*answers)[L"S"])
 				{
-					if ((*answers)[L"S"] == res[2 + 2])
+					if ((*answers)[L"S"] == classes[2])
 					{
 						S_bt->background = confirm;
 					}
@@ -357,10 +372,14 @@ namespace eleventh_page
 					{
 						S_bt->background = wrong;
 					}
+					S_bt->safe_down = 0;
+					(*answers)[L"S"] = 0;
 				}
+				else if((*answers)[L"S"] != classes[2])
+					S_bt->background = out;
 				if ((*answers)[L"M"])
 				{
-					if ((*answers)[L"M"] == res[3 + 2])
+					if ((*answers)[L"M"] == classes[3])
 					{
 						M_bt->background = confirm;
 					}
@@ -368,10 +387,14 @@ namespace eleventh_page
 					{
 						M_bt->background = wrong;
 					}
+					M_bt->safe_down = 0;
+					(*answers)[L"M"] = 0;
 				}
+				else if((*answers)[L"M"] != classes[3])
+					M_bt->background = out;
 				if ((*answers)[L"L"])
 				{
-					if ((*answers)[L"L"] == res[4 + 2])
+					if ((*answers)[L"L"] == classes[4])
 					{
 						L_bt->background = confirm;
 					}
@@ -379,8 +402,18 @@ namespace eleventh_page
 					{
 						L_bt->background = wrong;
 					}
+					L_bt->safe_down = 0;
+					(*answers)[L"L"] = 0;
 				}
+				else if((*answers)[L"L"] != classes[4])
+					L_bt->background = out;
 			}
+			InvalidateRect(full_bt->PV->hwnd, 0, 1);
+			InvalidateRect(L_bt->PV->hwnd, 0, 1);
+			InvalidateRect(T0_bt->PV->hwnd, 0, 1);
+			InvalidateRect(T1_bt->PV->hwnd, 0, 1);
+			InvalidateRect(S_bt->PV->hwnd, 0, 1);
+			InvalidateRect(M_bt->PV->hwnd, 0, 1);
 		};
 
 		main_lc->add(back_bt);
