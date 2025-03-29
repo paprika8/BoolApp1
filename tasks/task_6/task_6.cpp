@@ -61,9 +61,11 @@ namespace task6
         return is_literal(t);
     }
 
-    vector<bool> generate_vf(int n)
+    vector<bool> generate_vf()
     {
-        long long k = 1LL << n;
+        uniform_int_distribution<> dis(2, 4);
+        int amt_x = dis(gen);
+        long long k = 1LL << amt_x;
         vector<bool> f(k); // 2^n
 
         uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
@@ -76,24 +78,25 @@ namespace task6
         return f;
     }
 
-    wstring main(wstring in_str)
+    wstring main(wstring in_str, const std::vector<bool> &v)
     {
-        wstringstream in(in_str);
-        wstringstream out;
-        uniform_int_distribution<> dis(1, 4);
-        int amt_x = dis(gen);
+        std::wstringstream in(in_str);
+        std::wstringstream out;
+        /*uniform_int_distribution<> dis(1, 4);
+        int amt_x = dis(gen);*/
 
-        vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
+        // vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
         // out << L"Enter a DNF, that would be suitable for this vector: (";
 
-        for (auto el : v)
+        /*for (auto el : v)
         {
             out << el;
         }
         // out << L")" << endl;
         out << L" ";
-        wstring str;
+        */
+        std::wstring str;
         getline(in, str);
         wchar_t *ch = str.data();
         BoolApp::term *t = BoolApp::parsing(ch);
@@ -101,7 +104,7 @@ namespace task6
         // Проверка на ДНФ
         if (!t)
         {
-            out << L"Invalid expression." << endl;
+            out << L"2"; // L"Invalid expression." << endl;
             wstring res2;
             res2 = out.str();
             return res2;
@@ -109,7 +112,7 @@ namespace task6
 
         if (!is_dnf(t))
         {
-            out << L"Wrong answer. Not a DNF." << endl;
+            out << L"3"; // L"Wrong answer. Not a DNF." << endl;
             wstring res2;
             res2 = out.str();
             return res2;
@@ -127,13 +130,13 @@ namespace task6
             out << el << endl;
         }*/
 
-        vector<pair<bool, wstring>> vf;
+        std::vector<std::pair<bool, std::wstring>> vf;
         for (auto el : st)
         {
             vf.push_back(pair<bool, wstring>{0, el});
         }
         BoolApp::termData data;
-        vector<bool> res;
+        std::vector<bool> res;
 
         for (int i = 0; i < (1 << vf.size()); i++)
         {
@@ -147,7 +150,7 @@ namespace task6
         if (res.size() != v.size())
         {
             out << L"0" << endl; // Неправильный ответ
-            wstring res2;
+            std::wstring res2;
             res2 = out.str();
             return res2;
         }
@@ -163,14 +166,14 @@ namespace task6
             if (res[i] != v[i])
             {
                 out << L"0" << endl; // Неправильный ответ
-                wstring res2;
+                std::wstring res2;
                 res2 = out.str();
                 return res2;
             }
         }
 
         out << L"1" << endl; // Правильный ответ
-        wstring res2;
+        std::wstring res2;
         res2 = out.str();
         return res2;
     }

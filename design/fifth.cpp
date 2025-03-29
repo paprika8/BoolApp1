@@ -1,3 +1,4 @@
+#pragma once 
 #include "fifth.h"
 #include "games.h"
 #include "../tasks/task_5/task_5.h"
@@ -11,8 +12,9 @@ namespace fifth_page
 		main_lc->background = bg;
 
 		Button *back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
-		back_bt->click = [&](Button *) -> void
-		{ win->add(games_page::create_page()); };
+		back_bt->click = [&](Button *) -> void{ 
+			win->add(games_page::create_page()); 
+		};
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
@@ -21,7 +23,28 @@ namespace fifth_page
 
 		ScrollText *statement = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		// SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: ");
+
+		// Получаем вектор функции и фиктивность переменных
+		std::wstring res = task5::main();
+		// std::vector<bool> *vec_of_fun = new std::vector<bool>();
+		std::wstring vec_of_fun;	  //= new std::wstring();
+		std::vector<bool> vars(1, 0); //= new std::vector<bool>();
+		int vars_cnt = 0;
+		int i = 0;
+		while (res[i] != L' ') {
+			vec_of_fun += res[i];
+			// vec_of_fun->push_back((*res)[i] == L'1' ? true : false);
+			i++;
+		}
+		i++;
+		for (; i < res.size(); i++)
+		{
+			int buf = int(res[i] - L'0');
+			vars_cnt += buf;
+			vars.push_back(buf);
+		}
+
+		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + vec_of_fun);
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
@@ -35,7 +58,6 @@ namespace fifth_page
 		input->resize = right_form;
 
 		Button *confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
-		// confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ответ";
 		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
@@ -52,37 +74,41 @@ namespace fifth_page
 		confirm_lc->background = bg;
 		confirm_lc->add(confirm_bt);
 
-		confirm_bt->click = [=](Button *but) -> void
-		{
+		confirm_bt->click = [=](Button *but) -> void{
 			std::wstring answer = input->GetText();
-			std::wstring res = task5::main(answer);
-			std::vector<bool> vec_of_fun;
-			std::vector<bool> vars;
-			int i = 0;
-			while (res[i] != L' ')
-			{
-				vec_of_fun.push_back(res[i] == L'1' ? true : false);
-				i++;
-			}
-			i++;
-			for (int j = 0; i < res.size(); i++, j++)
-			{
-				vars[j] = res[i];
-			}
+			// std::wstring res = task5::main();
+			int vars_cnt2 = 0;
 			bool ans_status = true;
 			for (auto ch : answer)
 			{
-				if (ch > L'9' || ch < L'1')
-				{
+				if (ch > L'9' || ch < L'1'){
 					continue;
 				}
-				if (!vars[int(ch - L'0')])
+				if (int(ch - L'0') >= vars.size())
 				{
 					ans_status = false;
 					break;
 				}
+				if (!vars[int(ch - L'0')]) // В один индексации
+				{
+					ans_status = false;
+					break;
+				}
+				else
+				{
+					vars_cnt2++;
+				}
 			}
-				};
+			if (ans_status && vars_cnt2 >= vars_cnt)
+			{
+				input->background = confirm;
+			}
+			else
+			{
+				input->background = wrong;
+			}
+			InvalidateRect(input->PV->hwnd, 0, 1);
+		};
 
 		main_lc->add(back_bt);
 		main_lc->add(statement_lc);

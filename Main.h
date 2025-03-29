@@ -12,6 +12,7 @@ const Gdiplus::Color in (230, 170, 104);
 const Gdiplus::Color button (183, 54, 34);
 const Gdiplus::Color out (29, 26, 5);
 const Gdiplus::Color trans (0, 0, 0, 0);
+const Gdiplus::Color wrong (192, 64, 66);
 
 const Gdiplus::Color dark_t = out;
 const Gdiplus::Color light_t (255, 255, 255);
