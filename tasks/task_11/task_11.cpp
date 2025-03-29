@@ -177,7 +177,8 @@ namespace task11
             // out << L"Vector of function: (";
             for (auto el : vf)
             {
-                out << el;
+                int buf = int(el);
+                out << buf;
             }
             // out << L")\n";
             out << L" ";
