@@ -117,7 +117,7 @@ namespace BoolApp
 
 				
 				if (event){
-					safe_down = !safe_down;
+					//safe_down = !safe_down;
 					Click();
 				}
 

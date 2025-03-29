@@ -4,9 +4,65 @@ namespace task4
 {
     using namespace std;
 
-    wstring main(wstring in_str)
+    wstring get_name(int num){
+        wstring name;
+        switch (num)
+        {
+        case 0:
+            name = L"Нулевая";
+            break;
+        case 1:
+            name = L"Конъюнкция";
+            break;
+        case 11:
+            name = L"Обратная импликация";
+            break;
+        case 3:
+            name = L"Переменная 1";
+            break;
+        case 4:
+            name = L"Обратная коимпликация";
+            break;
+        case 5:
+            name = L"Переменная 2";
+            break;
+        case 6:
+            name = L"Сложение";
+            break;
+        case 7:
+            name = L"Дизъюнкция";
+            break;
+        case 8:
+            name = L"Стрелка Пирса";
+            break;
+        case 9:
+            name = L"Эквивалентность";
+            break;
+        case 10:
+            name = L"Отрицание переменной 2";
+            break;
+        case 2:
+            name = L"Коимпликация";
+            break;
+        case 12:
+            name = L"Отрицание переменной 1";
+            break;
+        case 13:
+            name = L"Импликация";
+            break;
+        case 14:
+            name = L"Штрих Шеффера";
+            break;
+        case 15:
+            name = L"Единичная";
+            break;
+        }
+        return name;
+    }
+
+    wstring main(/*wstring in_str, */wstring& an)
     {
-        wstringstream in(in_str);
+        //wstringstream in(in_str);
         wstringstream out;
         random_device rd;
         auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
@@ -26,49 +82,21 @@ namespace task4
             int bit = (num >> i) & 1;
             vf[(i + 4) % 4] = bit;
         }
-        for (auto el : vf)
+        /*for (int i = 0; i < 4; ++i)
         {
-            out << el;
-        }
-        wstring name;
-
-        switch (num)
+            // Сдвигаем биты вправо и проверяем значение текущего бита
+            int bit = (num >> i) & 1;
+            vf[(i + 4) % 4] = bit;
+        }*/
+        for (int i = 3; i >= 0; --i)
         {
-        case 0:
-            name = L"Нулевая";
-        case 1:
-            name = L"Конъюнкция";
-        case 2:
-            name = L"Обратная импликация";
-        case 3:
-            name = L"Переменная 1";
-        case 4:
-            name = L"Обратная коимпликация";
-        case 5:
-            name = L"Переменная 2";
-        case 6:
-            name = L"Сложение";
-        case 7:
-            name = L"Дизъюнкция";
-        case 8:
-            name = L"Стрелка Пирса";
-        case 9:
-            name = L"Эквивалентность";
-        case 10:
-            name = L"Отрицание переменной 2";
-        case 11:
-            name = L"Коимпликация";
-        case 12:
-            name = L"Отрицание переменной 1";
-        case 13:
-            name = L"Импликация";
-        case 14:
-            name = L"Штрих Шеффера";
-        case 15:
-            name = L"Единичная";
+            out << vf[i];
         }
+        wstring name = get_name(num);
 
-        out << name;
+        an += name;
+
+        //out << name;
         /*out << L')' << endl;
         int i = 0;
         int ans;
