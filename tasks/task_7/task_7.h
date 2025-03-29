@@ -11,6 +11,8 @@
 
 namespace task7
 {
+    using namespace BoolApp;
+
     using namespace std;
 
     bool is_literal(term *t);

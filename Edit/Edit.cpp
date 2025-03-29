@@ -46,7 +46,7 @@ namespace BoolApp {
 			r.left = cursor;
 			r.right = rect.Width + rect.X;
 			r.bottom = rect.Y + rect.Height;
-			DrawTextW(hdc, it, 1, &r, 0);
+			DrawTextW(hdc, it, 1, &r, DT_NOPREFIX);
 			cursor += abc.abcB;
 			if(it - text.data == text_cursor+untext_cursor)
 			{
