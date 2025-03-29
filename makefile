@@ -5,7 +5,7 @@ HDR := $(wildcard *.h)  $(foreach dir,$(DIRS), $(wildcard $(dir)/*.h))          
 SRC_NAME := $(subst ./,/,$(SRC))
 OBJS  := $(addprefix obj, $(SRC_NAME:.cpp=.o)) 
 LIB := -lgdiplus -lgdi32
-FLAGS := -g -fpermissive -w -D UNICODE -std=c++20 -Wl,--subsystem,windows  #-fcompare-debug-second
+FLAGS := -g -fpermissive -w -D UNICODE -std=c++20 -Wl,--subsystem,windows -static-libgcc -static-libstdc++ #-fcompare-debug-second
 ARGS := $(FLAGS)
 .PHONY: all clear clear_all
 
