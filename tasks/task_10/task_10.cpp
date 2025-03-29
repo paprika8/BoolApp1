@@ -24,32 +24,34 @@ namespace task10
         return power;
     }
 
-    vector<bool> generate_vf(int n)
+    vector<bool> generate_vf()
     {
-        long long k = 1LL << n;
+        uniform_int_distribution<> dis(1, 4);
+        int amt_x = dis(gen);
+        long long k = 1LL << amt_x;
         vector<bool> f(k); // 2^n
 
-        uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
+        uniform_int_distribution<> dis2(0, 1); // Равномерное распределение для 0 и 1
 
         for (int i = 0; i < k; i++)
         {
-            f[i] = dis(gen);
+            f[i] = dis2(gen);
         }
 
         return f;
     }
 
-    bool is_in_T0(vector<bool> &vf)
+    bool is_in_T0(const vector<bool> &vf)
     {
         return !vf[0];
     }
 
-    bool is_in_T1(vector<bool> &vf)
+    bool is_in_T1(const vector<bool> &vf)
     {
         return vf[vf.size() - 1];
     }
 
-    bool is_in_S(vector<bool> &vf)
+    bool is_in_S(const vector<bool> &vf)
     {
         auto l = vf.begin();
         auto r = vf.end() - 1;
@@ -63,7 +65,7 @@ namespace task10
         return true;
     }
 
-    bool is_in_M(vector<bool> &vf)
+    bool is_in_M(const vector<bool> &vf)
     {
         int amt_x = getPowerOfTwo(vf.size());
         vector<int> compar_group(vf.size());
@@ -94,7 +96,7 @@ namespace task10
         return true;
     }
 
-    bool is_in_L(vector<bool> &vf)
+    bool is_in_L(const vector<bool> &vf)
     {
         int amt_x = getPowerOfTwo(vf.size());
         vector<bool> buf = vf;
@@ -124,22 +126,20 @@ namespace task10
         return true;
     }
 
-    wstring main(wstring in_str)
+    wstring main(const vector<bool> &vf)
     {
-        wstringstream in(in_str);
+        // wstringstream in(in_str);
         wstringstream out;
-        uniform_int_distribution<> dis(1, 4);
-        int amt_x = dis(gen);
 
-        vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
+        // vector<bool> vf = generate_vf(); // Система предлагает вектор функции
 
         // out << L"Vector of function: (";
-        for (auto el : vf)
+        /*for (auto el : vf)
         {
             out << el;
-        }
+        }*/
         // out << L")\n";
-        out << L" ";
+        // out << L" ";
         // T0, T1, S, M, L - классы
         //  0,  1, 2, 3, 4 - индексы
         vector<bool> f_types(5, 0);
