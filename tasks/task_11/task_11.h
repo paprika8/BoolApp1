@@ -14,6 +14,8 @@ namespace task11
 
     int getPowerOfTwo(size_t n);
 
+    vector<vector<bool>> gen_system_of_vecs();
+
     vector<bool> generate_vf(int n);
 
     bool is_in_T0(vector<bool> &vf);
@@ -26,5 +28,5 @@ namespace task11
 
     bool is_in_L(vector<bool> &vf);
 
-    wstring main(wstring in);
+    wstring main(const vector<vector<bool>> vectors)
 }

@@ -24,16 +24,32 @@ namespace task11
         return power;
     }
 
+    vector<vector<bool>> gen_system_of_vecs()
+    {
+        vector<vector<bool>> res;
+        uniform_int_distribution<> dis_amt_sets(1, 5);
+        int amt_vec = dis_amt_sets(gen);
+        while (amt_vec--)
+        {
+            uniform_int_distribution<> dis(1, 4);
+            int amt_x = dis(gen);
+
+            vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
+            res.push_back(vf);
+        }
+        return res;
+    }
+
     vector<bool> generate_vf(int n)
     {
         long long k = 1LL << n;
         vector<bool> f(k); // 2^n
 
-        uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
+        uniform_int_distribution<> dis2(0, 1); // Равномерное распределение для 0 и 1
 
         for (int i = 0; i < k; i++)
         {
-            f[i] = dis(gen);
+            f[i] = dis2(gen);
         }
 
         return f;
@@ -132,24 +148,22 @@ namespace task11
         return true;
     }
 
-    wstring main(wstring in_str)
+    wstring main(const vector<vector<bool>> vectors)
     {
-        wstringstream in(in_str);
+        // wstringstream in(in_str);
         wstringstream out;
-        uniform_int_distribution<> dis_amt_sets(1, 5);
-        int amt_vec = dis_amt_sets(gen);
 
         // T0, T1, S, M, L - классы
         //  0,  1, 2, 3, 4 - индексы
         vector<bool> f_types(5, 1);
 
-        while (amt_vec--)
+        for (int num_vec = 0; num_vec < vectors.size(); num_vec++)
         {
 
             uniform_int_distribution<> dis(1, 4);
             int amt_x = dis(gen);
 
-            vector<bool> vf = generate_vf(amt_x); // Система предлагает вектор функции
+            vector<bool> vf = vectors[num_vec]; // Система предлагает вектор функции
 
             // Для отладки:
             /*wstring input;
@@ -163,28 +177,29 @@ namespace task11
             // out << L"Vector of function: (";
             for (auto el : vf)
             {
-                out << el;
+                int buf = int(el);
+                out << buf;
             }
             // out << L")\n";
             out << L" ";
 
-            if (!is_in_T0(vf))
+            if (f_types[0] && !is_in_T0(vf))
             {
                 f_types[0] = false;
             }
-            if (!is_in_T1(vf))
+            if (f_types[1] && !is_in_T1(vf))
             {
                 f_types[1] = false;
             }
-            if (!is_in_S(vf))
+            if (f_types[2] && !is_in_S(vf))
             {
                 f_types[2] = false;
             }
-            if (!is_in_M(vf))
+            if (f_types[3] && !is_in_M(vf))
             {
                 f_types[3] = false;
             }
-            if (!is_in_L(vf))
+            if (f_types[4] && !is_in_L(vf))
             {
                 f_types[4] = false;
             }
@@ -203,7 +218,8 @@ namespace task11
             out << L"0 ";
             for (auto el : f_types)
             {
-                out << el;
+                int buf = int(el);
+                out << to_wstring(buf);
             }
             /*bool answered = 0;
             // out << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
@@ -272,3 +288,4 @@ namespace task11
             return res;
         }
     }
+}
