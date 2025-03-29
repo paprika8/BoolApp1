@@ -158,6 +158,11 @@ namespace second_page
 				else
 					input2->background = in;
 			}
+			if(!input2->GetText().size())
+			{
+				isWrongInput2 = true;
+				input2->background = wrong;
+			}
 
 			// Проверяем третье окно ввода
 			isWrongInput3 = !checkNumOfVar(input3->GetText(), input1->GetText().size());
@@ -175,6 +180,8 @@ namespace second_page
 			{
 				input3->background = in;
 			}
+			else
+				input3->background = wrong;
 
 			// При полном правильном вводе выполняем команду
 			if (!isWrongInput1 && !isWrongInput2 && !isWrongInput3)
