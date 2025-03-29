@@ -167,8 +167,8 @@ namespace task7
         }
 
         out << L"1"; // Правильный ответ
-        wstring res;
-        res = out.str();
-        return res;
+        wstring res2;
+        res2 = out.str();
+        return res2;
     }
 }

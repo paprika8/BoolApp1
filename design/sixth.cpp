@@ -33,8 +33,7 @@ namespace sixth_page
 				vec_of_fun += L'0';
 		}
 
-		statement->SetText(L"Дан вектор функции, определить ДНФ: ");
-		statement->SetText(vec_of_fun); // Дописали вектор функции
+		statement->SetText(L"Дан вектор функции, определить ДНФ: " + vec_of_fun); // Дописали вектор функции
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
