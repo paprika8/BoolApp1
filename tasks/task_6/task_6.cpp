@@ -120,7 +120,7 @@ namespace task6
             return res2;
         }
 
-        if (!is_dnf(t))
+        if (!t->correct() || !is_dnf(t))
         {
             out << L"3"; // L"Wrong answer. Not a DNF." << endl;
             wstring res2;

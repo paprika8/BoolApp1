@@ -10,7 +10,12 @@ namespace BoolApp
         return t1->calculate(td) || t2->calculate(td);
     }
 
-    void termOR::get_name_list(std::set<std::wstring> &v)
+	bool termOR::correct()
+	{
+		return t1 && t1->correct() && t2 && t2->correct();
+	}
+
+	void termOR::get_name_list(std::set<std::wstring> &v)
     {
         t1->get_name_list(v);
         t2->get_name_list(v);
@@ -26,7 +31,12 @@ namespace BoolApp
         return t1->calculate(td) && t2->calculate(td);
     }
 
-    void termAND::get_name_list(std::set<std::wstring> &v)
+	bool termAND::correct()
+	{
+		return t1 && t1->correct() && t2 && t2->correct();
+	}
+
+	void termAND::get_name_list(std::set<std::wstring> &v)
     {
         t1->get_name_list(v);
         t2->get_name_list(v);
@@ -42,7 +52,12 @@ namespace BoolApp
         return t1->calculate(td) == t2->calculate(td);
     }
 
-    void termEQUAL::get_name_list(std::set<std::wstring> &v)
+	bool termEQUAL::correct()
+	{
+		return t1 && t1->correct() && t2 && t2->correct();
+	}
+
+	void termEQUAL::get_name_list(std::set<std::wstring> &v)
     {
         t1->get_name_list(v);
         t2->get_name_list(v);
@@ -58,7 +73,12 @@ namespace BoolApp
         return !t1->calculate(td);
     }
 
-    void termNOT::get_name_list(std::set<std::wstring> &v)
+	bool termNOT::correct()
+	{
+		return t1 && t1->correct();
+	}
+
+	void termNOT::get_name_list(std::set<std::wstring> &v)
     {
         t1->get_name_list(v);
     }
@@ -73,7 +93,12 @@ namespace BoolApp
         return td.nametovar[varname];
     }
 
-    void termVAR::get_name_list(std::set<std::wstring> &v)
+	bool termVAR::correct()
+	{
+		return varname.size();
+	}
+
+	void termVAR::get_name_list(std::set<std::wstring> &v)
     {
         v.insert(varname);
     }
@@ -89,9 +114,11 @@ namespace BoolApp
         {
             if (dict.find(*str) != dict.end())
             {
+                str--;
+                if(!buffer.size())
+                    return 0;
                 termVAR *tvar = new termVAR();
                 tvar->varname = buffer;
-                str--;
                 return tvar;
             }
             else
@@ -99,9 +126,11 @@ namespace BoolApp
                 buffer += *str;
             }
         }
+        str--;
+        if(!buffer.size())
+            return 0;
         termVAR *tvar = new termVAR();
         tvar->varname = buffer;
-        str--;
         return tvar;
     }
 

@@ -20,6 +20,8 @@ namespace BoolApp
 
         virtual bool calculate(termData &td) = 0;
 
+        virtual bool correct() = 0;
+
         virtual std::wstring to_string() = 0;
     };
 
@@ -31,6 +33,7 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
+        bool correct() override;
         void get_name_list(std::set<std::wstring> &v) override;
 
         std::wstring to_string() override;
@@ -42,7 +45,7 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
-
+        bool correct() override;
         void get_name_list(std::set<std::wstring> &v) override;
 
         std::wstring to_string() override;
@@ -53,7 +56,7 @@ namespace BoolApp
         term *t1;
 
         bool calculate(termData &td) override;
-
+        bool correct() override;
         void get_name_list(std::set<std::wstring> &v) override;
 
         std::wstring to_string() override;
@@ -64,7 +67,7 @@ namespace BoolApp
         std::wstring varname;
 
         bool calculate(termData &td) override;
-
+        bool correct() override;
         void get_name_list(std::set<std::wstring> &v) override;
 
         std::wstring to_string() override;
@@ -76,7 +79,7 @@ namespace BoolApp
         term *t2;
 
         bool calculate(termData &td) override;
-
+        bool correct() override;
         void get_name_list(std::set<std::wstring> &v) override;
 
         std::wstring to_string() override;

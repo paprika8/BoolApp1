@@ -131,11 +131,13 @@ namespace second_page
 				input1->background = wrong;
 				isWrongInput1 = true;
 			}
+			else
+				input1->background = in;
 			if (!isWrongInput1)
 			{
 				for (int i = 0; i < input1->GetText().size(); i++)
 				{
-					if (input1->GetText()[i] != L'1' || input1->GetText()[i] != L'0' || input1->GetText()[i] != L' ')
+					if (input1->GetText()[i] != L'1' && input1->GetText()[i] != L'0' && input1->GetText()[i] != L' ')
 					{
 						isWrongInput1 = true;
 						input1->background = wrong;
@@ -147,12 +149,14 @@ namespace second_page
 			// Проверяем второе окно ввода
 			for (int i = 0; i < input2->GetText().size(); i++)
 			{
-				if (input2->GetText()[i] != L'1' || input2->GetText()[i] != L'0' || input2->GetText()[i] != L' ')
+				if (input2->GetText()[i] != L'1' && input2->GetText()[i] != L'0' && input2->GetText()[i] != L' ')
 				{
 					isWrongInput2 = true;
 					input2->background = wrong;
 					break;
 				}
+				else
+					input2->background = in;
 			}
 
 			// Проверяем третье окно ввода
