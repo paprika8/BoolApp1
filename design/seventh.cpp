@@ -33,8 +33,7 @@ namespace seventh_page
 				vec_of_fun += L'0';
 		}
 
-		statement->SetText(L"Дан вектор функции, определить КНФ: ");
-		statement->SetText(vec_of_fun); // Дописываем вектор функции
+		statement->SetText(L"Дан вектор функции, определить КНФ: " + vec_of_fun); // Дописываем вектор функции
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
