@@ -218,7 +218,8 @@ namespace task5
         for (int i = 1; i < vars.size(); i++)
         {
             vars[i] = !vars[i];
-            out << vars[i];
+            int buf = int(vars[i]);
+            out << buf;
         }
         // out << ")" << endl;
 
