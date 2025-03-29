@@ -151,7 +151,7 @@ namespace task11
     wstring main(const vector<vector<bool>> vectors, vector<bool> &classes, bool &full)
     {
         // wstringstream in(in_str);
-        wstringstream out;
+        // wstringstream out;
 
         // T0, T1, S, M, L - классы
         //  0,  1, 2, 3, 4 - индексы
@@ -159,10 +159,6 @@ namespace task11
 
         for (int num_vec = 0; num_vec < vectors.size(); num_vec++)
         {
-
-            uniform_int_distribution<> dis(1, 4);
-            int amt_x = dis(gen);
-
             vector<bool> vf = vectors[num_vec]; // Система предлагает вектор функции
 
             // Для отладки:
@@ -175,13 +171,13 @@ namespace task11
             }*/
 
             // out << L"Vector of function: (";
-            for (auto el : vf)
+            /*for (auto el : vf)
             {
                 int buf = int(el);
                 out << buf;
             }
             // out << L")\n";
-            out << L" ";
+            out << L" ";*/
 
             if (f_types[0] && !is_in_T0(vf))
             {
@@ -205,24 +201,25 @@ namespace task11
             }
         }
 
-        classes.push_back(f_types[0]);
-        classes.push_back(f_types[1]);
-        classes.push_back(f_types[2]);
-        classes.push_back(f_types[3]);
-        classes.push_back(f_types[4]);
+        // Записываем принадлежность к классам
+        for (int i = 0; i < 5; i++)
+        {
+            classes.push_back(f_types[i]);
+        }
 
         if (!f_types[0] && !f_types[1] && !f_types[2] && !f_types[3] && !f_types[4])
         {
-            // out << L"System is complete.\n"; // Система полна
-            out << L"1";
             full = 1;
-            wstring res;
+
+            // out << L"System is complete.\n"; // Система полна
+            // out << L"1";
+            /*wstring res;
             res = out.str();
-            return res;
+            return res;*/
         }
-        else
+        /*else
         {
-            out << L"0 ";
+             out << L"0 ";
             for (auto el : f_types)
             {
                 int buf = int(el);
@@ -290,10 +287,10 @@ namespace task11
                 }
                 out << L"Wrong answer, you have " << 3 - miss_cnt << L" attemps.\nTry again." << endl;
             }
-        }*/
+        }
             wstring res;
             res = out.str();
             return res;
-        }
+        }*/
     }
 }
