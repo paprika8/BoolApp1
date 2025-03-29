@@ -26,7 +26,7 @@ namespace second_page
 		return power;
 	}
 
-	bool hasOnlyOneNumber(const std::wstring &wstr, size_t sz)
+	bool checkNumOfVar(const std::wstring &wstr, size_t sz)
 	{
 		std::wistringstream wiss(wstr);
 		double num;
@@ -124,6 +124,8 @@ namespace second_page
 			bool isWrongInput1 = false;
 			bool isWrongInput2 = false;
 			bool isWrongInput3 = false;
+
+			// Проверяем первое окно ввода
 			if (!isPowerOfTwo(input1->GetText().size()))
 			{
 				input1->background = wrong;
@@ -141,6 +143,8 @@ namespace second_page
 					}
 				}
 			}
+
+			// Проверяем второе окно ввода
 			for (int i = 0; i < input2->GetText().size(); i++)
 			{
 				if (input2->GetText()[i] != L'1' || input2->GetText()[i] != L'0' || input2->GetText()[i] != L' ')
@@ -150,8 +154,25 @@ namespace second_page
 					break;
 				}
 			}
-			isWrongInput3 = !hasOnlyOneNumber(input3->GetText(), input1->GetText().size());
 
+			// Проверяем третье окно ввода
+			isWrongInput3 = !checkNumOfVar(input3->GetText(), input1->GetText().size());
+
+			// Меняем цвет на нормальный при правильном вводе
+			if (!isWrongInput1)
+			{
+				input1->background = in;
+			}
+			if (!isWrongInput2)
+			{
+				input2->background = in;
+			}
+			if (!isWrongInput3)
+			{
+				input3->background = in;
+			}
+
+			// При полном правильном вводе выполняем команду
 			if (!isWrongInput1 && !isWrongInput2 && !isWrongInput3)
 			{
 				input1->background = in;

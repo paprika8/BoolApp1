@@ -21,6 +21,8 @@ namespace task12
 
     int getPowerOfTwo(size_t n);
 
+    vector<bool> generate_vf();
+
     vector<bool> generate_vf(int n);
 
     wstring perfect_dnf(int amt_x, const vector<bool> &vf);
