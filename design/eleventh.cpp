@@ -325,45 +325,60 @@ namespace eleventh_page
 			}
 			else
 			{
-				if ((*answers)[L"T0"] == res[0 + 2])
+				if ((*answers)[L"T0"])
 				{
-					T0_bt->background = confirm;
+					if ((*answers)[L"T0"] == res[0 + 2])
+					{
+						T0_bt->background = confirm;
+					}
+					else
+					{
+						T0_bt->background = wrong;
+					}
 				}
-				else
+				if ((*answers)[L"T1"])
 				{
-					T0_bt->background = wrong;
+					if ((*answers)[L"T1"] == res[1 + 2])
+					{
+						T1_bt->background = confirm;
+					}
+					else
+					{
+						T1_bt->background = wrong;
+					}
 				}
-				if ((*answers)[L"T1"] == res[1 + 2])
+				if ((*answers)[L"S"])
 				{
-					T1_bt->background = confirm;
+					if ((*answers)[L"S"] == res[2 + 2])
+					{
+						S_bt->background = confirm;
+					}
+					else
+					{
+						S_bt->background = wrong;
+					}
 				}
-				else
+				if ((*answers)[L"M"])
 				{
-					T1_bt->background = wrong;
+					if ((*answers)[L"M"] == res[3 + 2])
+					{
+						M_bt->background = confirm;
+					}
+					else
+					{
+						M_bt->background = wrong;
+					}
 				}
-				if ((*answers)[L"S"] == res[2 + 2])
+				if ((*answers)[L"L"])
 				{
-					S_bt->background = confirm;
-				}
-				else
-				{
-					S_bt->background = wrong;
-				}
-				if ((*answers)[L"M"] == res[3 + 2])
-				{
-					M_bt->background = confirm;
-				}
-				else
-				{
-					M_bt->background = wrong;
-				}
-				if ((*answers)[L"L"] == res[4 + 2])
-				{
-					L_bt->background = confirm;
-				}
-				else
-				{
-					L_bt->background = wrong;
+					if ((*answers)[L"L"] == res[4 + 2])
+					{
+						L_bt->background = confirm;
+					}
+					else
+					{
+						L_bt->background = wrong;
+					}
 				}
 			}
 		};
