@@ -86,6 +86,7 @@ namespace sixth_page
 				// Действия при вводе не днф
 				input->background = wrong;
 			}
+			InvalidateRect(input->PV->hwnd, 0, 1);
 		};
 
 		main_lc->add(back_bt);
