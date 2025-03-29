@@ -20,7 +20,7 @@ namespace task6
 
     bool is_and_child_dnf(term *t);
 
-    vector<bool> generate_vf(int n);
+    vector<bool> generate_vf();
 
-    wstring main(wstring in);
+    wstring main(wstring in, const vector<bool> &v);
 }
