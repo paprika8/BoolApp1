@@ -23,6 +23,15 @@ namespace task6
         }
         return false;
     }
+    bool is_and(term *t){
+        if (!t)
+            return false;
+        if (auto and_term = dynamic_cast<termAND *>(t))
+        {
+            return is_literal(and_term->t1) && is_and(and_term->t2);
+        }
+        return is_literal(t);
+    }
 
     bool is_dnf(term *t)
     {
@@ -35,31 +44,24 @@ namespace task6
         }
         else if (auto or_term = dynamic_cast<termOR *>(t))
         {
-            return is_dnf(or_term->t1) && is_dnf(or_term->t2);
+            return is_and(or_term->t1) && is_dnf(or_term->t2);
         }
         else if (auto and_term = dynamic_cast<termAND *>(t))
         {
-            return is_and_child_dnf(and_term->t1) && is_and_child_dnf(and_term->t2);
+            return is_and(t);
         }
-        else if (auto not_term = dynamic_cast<termNOT *>(t))
-        {
-            return is_literal(not_term->t1);
-        }
-        else if (dynamic_cast<termVAR *>(t))
-        {
-            return true;
-        }
-        return false;
+
+        return is_literal(t);
     }
 
-    bool is_and_child_dnf(term *t)
+    /*bool is_and_child_dnf(term *t)
     {
         if (auto and_term = dynamic_cast<termAND *>(t))
         {
             return is_dnf(and_term);
         }
         return is_literal(t);
-    }
+    }*/
 
     vector<bool> generate_vf()
     {
@@ -68,11 +70,11 @@ namespace task6
         long long k = 1LL << amt_x;
         vector<bool> f(k); // 2^n
 
-        uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
+        uniform_int_distribution<> dis2(0, 1); // Равномерное распределение для 0 и 1
 
         for (int i = 0; i < k; i++)
         {
-            f[i] = dis(gen);
+            f[i] = dis2(gen);
         }
 
         return f;
@@ -98,6 +100,14 @@ namespace task6
         */
         std::wstring str;
         getline(in, str);
+        int n_arg = -1;
+        {
+            int a = v.size();
+            while(a){
+                ++n_arg;
+                a/=2;
+            }
+        }
         wchar_t *ch = str.data();
         BoolApp::term *t = BoolApp::parsing(ch);
 
@@ -125,6 +135,10 @@ namespace task6
         st.erase(wstring(L"0"));
         st.erase(wstring(L"1"));
 
+        for(int i = 1; i <= n_arg; i++){
+            st.insert(wstring(L"x") + to_wstring(i));
+        }
+
         /*for (auto el : st)
         {
             out << el << endl;
@@ -142,14 +156,14 @@ namespace task6
         {
             for (int j = 0; j < vf.size(); j++)
             {
-                data.nametovar[vf[j].second] = i & (1 << j);
+                data.nametovar[vf[vf.size() - j - 1].second] = i & (1 << j);
             }
             res.push_back(t->calculate(data));
         }
-        out << endl;
+        //out << endl;
         if (res.size() != v.size())
         {
-            out << L"0" << endl; // Неправильный ответ
+            out << L"0";// << endl; // Неправильный ответ
             std::wstring res2;
             res2 = out.str();
             return res2;
@@ -165,14 +179,14 @@ namespace task6
         {
             if (res[i] != v[i])
             {
-                out << L"0" << endl; // Неправильный ответ
+                out << L"0";// << endl; // Неправильный ответ
                 std::wstring res2;
                 res2 = out.str();
                 return res2;
             }
         }
 
-        out << L"1" << endl; // Правильный ответ
+        out << L"1";// << endl; // Правильный ответ
         std::wstring res2;
         res2 = out.str();
         return res2;

@@ -1,6 +1,7 @@
 #pragma once
 #include "../oopWin.h"
 #include <functional>
+#include "../positioner.h"
 namespace BoolApp
 {
 
@@ -87,6 +88,11 @@ namespace BoolApp
 			{
 				pButton->isDown = true;
 				background = background - 30;
+				ptr->margin.right -= 5;
+				ptr->margin.top += 5;
+				ptr->margin.left += 5;
+				ptr->margin.bottom -= 5;
+				Positioning(ptr->parent);
 				InvalidateRect(ahwnd, 0, 0);
 
 				SetCapture(ahwnd);
@@ -110,6 +116,11 @@ namespace BoolApp
 				bool event = pButton->isDown;
 				
 				pButton->isDown = false;
+				ptr->margin.right += 5;
+				ptr->margin.top -= 5;
+				ptr->margin.left -= 5;
+				ptr->margin.bottom += 5;
+				Positioning(ptr->parent);
 				background = background + 30;
 				InvalidateRect(ahwnd, 0, 0);
 

@@ -157,6 +157,8 @@ namespace BoolApp {
 			graph.MeasureString ( text.c_str () , -1 , font , rect1 , stringFormat , &rect2 , 0 , 0 );
 			f->MaxTextHeight = rect2.Height - buff.height;
 			f->TextHeight = rect2.Height;
+			if(f->MaxTextHeight > 0) f->padding.right = 20;
+			else f->padding.right = 0;
 			if ( f->WPos > f->MaxTextHeight )
 			{
 				f->WPos = f->MaxTextHeight;

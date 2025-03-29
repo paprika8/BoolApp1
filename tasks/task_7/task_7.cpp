@@ -1,4 +1,5 @@
 #include "task_7.h"
+
 namespace task7
 {
     using namespace std;
@@ -22,15 +23,14 @@ namespace task7
         }
         return false;
     }
-
-    bool is_clause(term *t)
-    {
+    bool is_or(term *t){
+        if (!t)
+            return false;
         if (auto or_term = dynamic_cast<termOR *>(t))
         {
-            // Дизъюнкт: OR литералов или вложенных дизъюнктов
-            return is_clause(or_term->t1) && is_clause(or_term->t2);
+            return is_literal(or_term->t1) && is_or(or_term->t2);
         }
-        return is_literal(t); // Литерал — тривиальный дизъюнкт
+        return is_literal(t);
     }
 
     bool is_cnf(term *t)
@@ -48,13 +48,13 @@ namespace task7
             return is_cnf(and_term->t1) && is_cnf(and_term->t2);
         }
 
-        // Если текущий узел — OR, проверяем, что это допустимый дизъюнкт
+        // Если текущий узел — OR, проверяем, что это допустимый коньюнкт
         if (auto or_term = dynamic_cast<termOR *>(t))
         {
-            return is_clause(or_term);
+            return is_or(or_term);
         }
 
-        // Литералы разрешены (тривиальная КНФ: один дизъюнкт)
+        // Литералы разрешены (тривиальная КНФ: один коньюнкт)
         return is_literal(t);
     }
 
@@ -65,11 +65,11 @@ namespace task7
         long long k = 1LL << amt_x;
         vector<bool> f(k); // 2^n
 
-        uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
+        uniform_int_distribution<> dis2(0, 1); // Равномерное распределение для 0 и 1
 
         for (int i = 0; i < k; i++)
         {
-            f[i] = dis(gen);
+            f[i] = dis2(gen);
         }
 
         return f;
@@ -92,6 +92,14 @@ namespace task7
         out << L" ";*/
         wstring str;
         getline(in, str);
+        int n_arg = -1;
+        {
+            int a = v.size();
+            while(a){
+                ++n_arg;
+                a/=2;
+            }
+        }
         wchar_t *ch = str.data();
         BoolApp::term *t = BoolApp::parsing(ch);
 
@@ -119,6 +127,10 @@ namespace task7
         st.erase(wstring(L"0"));
         st.erase(wstring(L"1"));
 
+        for(int i = 1; i <= n_arg; i++){
+            st.insert(wstring(L"x") + to_wstring(i));
+        }
+
         /*for (auto el : st)
         {
             out << el << endl;
@@ -136,7 +148,7 @@ namespace task7
         {
             for (int j = 0; j < vf.size(); j++)
             {
-                data.nametovar[vf[j].second] = i & (1 << j);
+                data.nametovar[vf[vf.size() - j - 1].second] = i & (1 << j);
             }
             res.push_back(t->calculate(data));
         }

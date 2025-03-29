@@ -148,7 +148,7 @@ namespace task11
         return true;
     }
 
-    wstring main(const vector<vector<bool>> vectors)
+    wstring main(const vector<vector<bool>> vectors, vector<bool> &classes, bool &full)
     {
         // wstringstream in(in_str);
         wstringstream out;
@@ -205,10 +205,17 @@ namespace task11
             }
         }
 
-        if (f_types[0] && f_types[1] && f_types[2] && f_types[3] && f_types[4])
+        classes.push_back(f_types[0]);
+        classes.push_back(f_types[1]);
+        classes.push_back(f_types[2]);
+        classes.push_back(f_types[3]);
+        classes.push_back(f_types[4]);
+
+        if (!f_types[0] && !f_types[1] && !f_types[2] && !f_types[3] && !f_types[4])
         {
             // out << L"System is complete.\n"; // Система полна
             out << L"1";
+            full = 1;
             wstring res;
             res = out.str();
             return res;
@@ -221,6 +228,7 @@ namespace task11
                 int buf = int(el);
                 out << to_wstring(buf);
             }
+
             /*bool answered = 0;
             // out << L"System is incomplete.\nEnter the enclosed class which the function is in.\n";
             int miss_cnt = 0;

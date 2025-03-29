@@ -28,5 +28,5 @@ namespace task11
 
     bool is_in_L(vector<bool> &vf);
 
-    wstring main(const vector<vector<bool>> vectors)
+    wstring main(const vector<vector<bool>> vectors, vector<bool> &classes, bool &full);
 }

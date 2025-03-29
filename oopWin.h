@@ -178,7 +178,7 @@ namespace BoolApp
 		CombineRgn(rgn, rgn, round_rgn, RGN_AND);
 		CombineRgn(rgn, rgn, rgn2, RGN_OR);
 		DeleteObject(round_rgn);
-		pv->padding.right = s.width / 8;
+		pv->padding.right = s.height / 5;
 		//HRGN rgn = CreateRectRgn(0, 0, 0 + s.width, 0 + s.height);
 		SetWindowRgn(pv->hwnd, rgn, 1);
 	};
@@ -189,7 +189,7 @@ namespace BoolApp
 		CombineRgn(rgn, rgn, round_rgn, RGN_AND);
 		CombineRgn(rgn, rgn, rgn2, RGN_OR);
 		DeleteObject(round_rgn);
-		pv->padding.right = s.width / 8;
+		pv->padding.right = s.height / 5;
 		//HRGN rgn = CreateRectRgn(0, 0, 0 + s.width, 0 + s.height);
 		SetWindowRgn(pv->hwnd, rgn, 1);
 	};
