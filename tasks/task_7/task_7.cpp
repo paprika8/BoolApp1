@@ -112,7 +112,7 @@ namespace task7
             return res;
         }
 
-        if (!is_cnf(t))
+        if (!t->correct() || !is_cnf(t))
         {
             out << L"3"; // L"Wrong answer. Not a CNF." << endl;
             wstring res;
