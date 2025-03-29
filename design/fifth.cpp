@@ -89,6 +89,14 @@ namespace fifth_page
 					break;
 				}
 			}
+			if (ans_status)
+			{
+				input->background = confirm;
+			}
+			else
+			{
+				input->background = (192, 164, 66);
+			}
 		};
 
 		main_lc->add(back_bt);
