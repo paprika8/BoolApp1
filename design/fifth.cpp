@@ -29,6 +29,7 @@ namespace fifth_page
 		// std::vector<bool> *vec_of_fun = new std::vector<bool>();
 		std::wstring vec_of_fun;	  //= new std::wstring();
 		std::vector<bool> vars(1, 0); //= new std::vector<bool>();
+		int vars_cnt = 0;
 		int i = 0;
 		while (res[i] != L' ') {
 			vec_of_fun += res[i];
@@ -38,7 +39,9 @@ namespace fifth_page
 		i++;
 		for (; i < res.size(); i++)
 		{
-			vars.push_back(res[i]);
+			int buf = int(res[i] - L'0');
+			vars_cnt += buf;
+			vars.push_back(buf);
 		}
 
 		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + vec_of_fun);
@@ -74,19 +77,29 @@ namespace fifth_page
 		confirm_bt->click = [=](Button *but) -> void{
 			std::wstring answer = input->GetText();
 			// std::wstring res = task5::main();
-
+			int vars_cnt2 = 0;
 			bool ans_status = true;
 			for (auto ch : answer)
 			{
 				if (ch > L'9' || ch < L'1'){
 					continue;
 				}
-				if (!vars[int(ch - L'0')]){
+				if (int(ch - L'0') >= vars.size())
+				{
 					ans_status = false;
 					break;
 				}
+				if (!vars[int(ch - L'0')]) // В один индексации
+				{
+					ans_status = false;
+					break;
+				}
+				else
+				{
+					vars_cnt2++;
+				}
 			}
-			if (ans_status)
+			if (ans_status && vars_cnt2 >= vars_cnt)
 			{
 				input->background = confirm;
 			}
