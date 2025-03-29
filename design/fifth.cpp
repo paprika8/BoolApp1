@@ -12,12 +12,7 @@ namespace fifth_page
 
 		Button *back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
 		back_bt->click = [&](Button *) -> void
-		{
-			win->add(games_page::create_page());
-			// Удаление переменных, созданных в куче
-			delete vars;
-			delete vec_of_fun;
-		};
+		{ win->add(games_page::create_page()); };
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
@@ -45,7 +40,7 @@ namespace fifth_page
 			vars[j] = res[i];
 		}
 
-		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + *vec_of_fun);
+		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + vec_of_fun);
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
