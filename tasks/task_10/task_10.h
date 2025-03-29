@@ -14,7 +14,7 @@ namespace task10
 
     int getPowerOfTwo(size_t n);
 
-    vector<bool> generate_vf(int n);
+    vector<bool> generate_vf();
 
     bool is_in_T0(vector<bool> &vf);
 
@@ -26,5 +26,5 @@ namespace task10
 
     bool is_in_L(vector<bool> &vf);
 
-    wstring main(wstring in);
+    wstring main(const vector<bool> &vf);
 }
