@@ -1,3 +1,4 @@
+#pragma once 
 #include "fifth.h"
 #include "games.h"
 #include "../tasks/task_5/task_5.h"
@@ -11,8 +12,9 @@ namespace fifth_page
 		main_lc->background = bg;
 
 		Button *back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
-		back_bt->click = [&](Button *) -> void
-		{ win->add(games_page::create_page()); };
+		back_bt->click = [&](Button *) -> void{ 
+			win->add(games_page::create_page()); 
+		};
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
@@ -29,8 +31,7 @@ namespace fifth_page
 		std::vector<bool> vars(1, 0); //= new std::vector<bool>();
 		int vars_cnt = 0;
 		int i = 0;
-		while (res[i] != L' ')
-		{
+		while (res[i] != L' ') {
 			vec_of_fun += res[i];
 			// vec_of_fun->push_back((*res)[i] == L'1' ? true : false);
 			i++;
@@ -57,7 +58,6 @@ namespace fifth_page
 		input->resize = right_form;
 
 		Button *confirm_bt = new Button(new SizeBuilder(Size(pointUI(300), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
-		// confirm_bt->click = [&](Button*)->void{win->add(exercises_page::create_page());};   ПРАВИЛЬНО НЕПРАВИЛЬНО ПОДСВЕТКА КНОПКИ
 		confirm_bt->text = L"Подтвердить ответ";
 		confirm_bt->set_font_size(25);
 		confirm_bt->background = confirm;
