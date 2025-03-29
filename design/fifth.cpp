@@ -71,20 +71,17 @@ namespace fifth_page
 		confirm_lc->background = bg;
 		confirm_lc->add(confirm_bt);
 
-		confirm_bt->click = [=](Button *but) -> void
-		{
+		confirm_bt->click = [=](Button *but) -> void{
 			std::wstring answer = input->GetText();
 			// std::wstring res = task5::main();
 
 			bool ans_status = true;
 			for (auto ch : answer)
 			{
-				if (ch > L'9' || ch < L'1')
-				{
+				if (ch > L'9' || ch < L'1'){
 					continue;
 				}
-				if (!vars[int(ch - L'0')]) // В один индексации
-				{
+				if (!vars[int(ch - L'0')]){
 					ans_status = false;
 					break;
 				}
@@ -95,7 +92,7 @@ namespace fifth_page
 			}
 			else
 			{
-				input->background = (192, 164, 66);
+				input->background = (192, 64, 66);
 			}
 		};
 
