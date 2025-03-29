@@ -105,8 +105,9 @@ namespace fifth_page
 			}
 			else
 			{
-				input->background = (192, 64, 66);
+				input->background = wrong;
 			}
+			InvalidateRect(input->PV->hwnd, 0, 1);
 		};
 
 		main_lc->add(back_bt);
