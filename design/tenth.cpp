@@ -48,7 +48,7 @@ namespace tenth_page
 		std::map<std::wstring, bool> *answers = new std::map<std::wstring, bool>();
 
 		Button *T0_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		T0_bt->click = [&](Button *) -> void
+		T0_bt->click = [=](Button *) -> void
 		{
 			if (!(T0_bt->safe_down)) // Не была нажата
 			{
@@ -71,7 +71,7 @@ namespace tenth_page
 		T0_bt->resize = right_form;
 
 		Button *T1_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		T1_bt->click = [&](Button *) -> void
+		T1_bt->click = [=](Button *) -> void
 		{
 			if (!(T1_bt->safe_down)) // Не была нажата
 			{
@@ -94,7 +94,7 @@ namespace tenth_page
 		T1_bt->resize = right_form;
 
 		Button *S_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		S_bt->click = [&](Button *) -> void
+		S_bt->click = [=](Button *) -> void
 		{
 			if (!(S_bt->safe_down)) // Не была нажата
 			{
@@ -117,7 +117,7 @@ namespace tenth_page
 		S_bt->resize = right_form;
 
 		Button *M_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		M_bt->click = [&](Button *) -> void
+		M_bt->click = [=](Button *) -> void
 		{
 			if (!(M_bt->safe_down)) // Не была нажата
 			{
@@ -140,7 +140,7 @@ namespace tenth_page
 		M_bt->resize = right_form;
 
 		Button *L_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
-		L_bt->click = [&](Button *) -> void
+		L_bt->click = [=](Button *) -> void
 		{
 			if (!(L_bt->safe_down)) // Не была нажата
 			{
@@ -210,10 +210,10 @@ namespace tenth_page
 		confirm_bt->click = [=](Button *) -> void
 		{
 			// map answers с нажатыми кнопками
-			std::wstring res = task10::main(vf);
+			std::vector<bool> res = task10::main(vf);
 			if ((*answers)[L"T0"])
 			{
-				if ((*answers)[L"T0"] == res[0 + 2])
+				if ((*answers)[L"T0"] == res[0])
 				{
 					T0_bt->background = confirm;
 				}
@@ -222,9 +222,11 @@ namespace tenth_page
 					T0_bt->background = wrong;
 				}
 			}
+			else if(res[0])
+				T0_bt->background = out;
 			if ((*answers)[L"T1"])
 			{
-				if ((*answers)[L"T1"] == res[1 + 2])
+				if ((*answers)[L"T1"] == res[1])
 				{
 					T1_bt->background = confirm;
 				}
@@ -233,9 +235,11 @@ namespace tenth_page
 					T1_bt->background = wrong;
 				}
 			}
+			else if(res[1])
+				T1_bt->background = out;
 			if ((*answers)[L"S"])
 			{
-				if ((*answers)[L"S"] == res[2 + 2])
+				if ((*answers)[L"S"] == res[2])
 				{
 					S_bt->background = confirm;
 				}
@@ -244,9 +248,11 @@ namespace tenth_page
 					S_bt->background = wrong;
 				}
 			}
+			else if(res[2])
+				S_bt->background = out;
 			if ((*answers)[L"M"])
 			{
-				if ((*answers)[L"M"] == res[3 + 2])
+				if ((*answers)[L"M"] == res[3])
 				{
 					M_bt->background = confirm;
 				}
@@ -255,9 +261,11 @@ namespace tenth_page
 					M_bt->background = wrong;
 				}
 			}
+			else if(res[3])
+				M_bt->background = out;
 			if ((*answers)[L"L"])
 			{
-				if ((*answers)[L"L"] == res[4 + 2])
+				if ((*answers)[L"L"] == res[4])
 				{
 					L_bt->background = confirm;
 				}
@@ -266,6 +274,13 @@ namespace tenth_page
 					L_bt->background = wrong;
 				}
 			}
+			else if(res[4])
+				L_bt->background = out;
+			InvalidateRect(L_bt->PV->hwnd, 0, 1);
+			InvalidateRect(T0_bt->PV->hwnd, 0, 1);
+			InvalidateRect(T1_bt->PV->hwnd, 0, 1);
+			InvalidateRect(S_bt->PV->hwnd, 0, 1);
+			InvalidateRect(M_bt->PV->hwnd, 0, 1);
 		};
 
 		main_lc->add(back_bt);

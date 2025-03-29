@@ -26,5 +26,5 @@ namespace task10
 
     bool is_in_L(vector<bool> &vf);
 
-    wstring main(const vector<bool> &vf);
+    vector<bool> main(const vector<bool> &vf);
 }

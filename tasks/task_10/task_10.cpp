@@ -126,7 +126,7 @@ namespace task10
         return true;
     }
 
-    wstring main(const vector<bool> &vf)
+    vector<bool> main(const vector<bool> &vf)
     {
         // wstringstream in(in_str);
         wstringstream out;
@@ -273,6 +273,6 @@ namespace task10
         }*/
         wstring res;
         res = out.str();
-        return res;
+        return f_types;
     }
 }

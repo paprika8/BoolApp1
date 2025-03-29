@@ -321,9 +321,9 @@ namespace eleventh_page
 			std::vector<bool> classes;
 			bool full = 0;
 			std::wstring res = task11::main(set_of_vec, classes, full);
-			if ((*answers)[L"full"])
+			if (full)
 			{
-				if(full)
+				if((*answers)[L"full"])
 					full_bt->background = confirm;
 				else
 					full_bt->background = wrong;
