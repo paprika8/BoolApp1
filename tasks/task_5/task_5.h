@@ -21,5 +21,5 @@ namespace task5
 
     bool has_dum_val(vector<bool> &vf);
 
-    wstring main(wstring in);
+    wstring main();
 }

@@ -94,15 +94,14 @@ namespace task5
         return true;
     }
 
-    wstring main(wstring in_str)
+    wstring main()
     {
-        wstringstream in(in_str);
         wstringstream out;
         random_device rd;
         auto seed = rd() ^ chrono::system_clock::now().time_since_epoch().count();
         mt19937 gen(seed);
 
-        uniform_int_distribution<> dis_x(2, 3); // количество переменных
+        uniform_int_distribution<> dis_x(2, 4); // количество переменных
         int amt_x = dis_x(gen);
 
         // Для отладки
@@ -110,7 +109,7 @@ namespace task5
         in >> amt_x;
         out << "Amt of vars: " << amt_x << endl;*/
 
-        uniform_int_distribution<> dis_of_dum(0, amt_x); // количество фиктивных переменных
+        uniform_int_distribution<> dis_of_dum(0, amt_x - 1); // количество фиктивных переменных
         int amt_dum = dis_of_dum(gen);
 
         // Для отладки
@@ -178,7 +177,7 @@ namespace task5
         {
             out << el << ' ';
         }*/
-        out << endl;
+        // out << endl;
         int t_amt_x = amt_x - amt_dum; // Текущее количество переменных (количество существенных)
         // Расширяем вектор фиктивными переменными
         vf = vf_sig;
@@ -214,6 +213,7 @@ namespace task5
             out << el;
         }
         out << L' ';
+        // Выводим фиктивность\существенность переменных
         for (int i = 1; i < vars.size(); i++)
         {
             vars[i] = !vars[i];

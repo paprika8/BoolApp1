@@ -12,7 +12,12 @@ namespace fifth_page
 
 		Button *back_bt = new Button(new SizeBuilder(Size(pointUI(250), pointUI(80)), Margin(5, 5, 5, pointUI(200, percent)), Padding(pointUI(10, percent), 0, 0, 0)));
 		back_bt->click = [&](Button *) -> void
-		{ win->add(games_page::create_page()); };
+		{
+			win->add(games_page::create_page());
+			// Удаление переменных, созданных в куче
+			delete vars;
+			delete vec_of_fun;
+		};
 		back_bt->text = L"НАЗАД";
 		back_bt->set_font_size(35);
 		back_bt->background = button;
@@ -21,7 +26,26 @@ namespace fifth_page
 
 		ScrollText *statement = new ScrollText(new SizeBuilder(Size(pointUI(800), pointUI(100)), Margin(5, 5, 5, 5, MarginType::RIGHT | VCENTER), Padding(pointUI(10, percent), 0, 0, 0)));
 		// SetWindowLongPtr(app_name->PV->hwnd, GWL_STYLE, WS_VISIBLE + WS_CHILD + BS_OWNERDRAW);
-		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: ");
+
+		// Получаем вектор функции и фиктивность переменных
+		std::wstring res = task5::main();
+		// std::vector<bool> *vec_of_fun = new std::vector<bool>();
+		std::wstring vec_of_fun; //= new std::wstring();
+		std::vector<bool> vars;	 //= new std::vector<bool>();
+		int i = 0;
+		while (res[i] != L' ')
+		{
+			vec_of_fun += res[i];
+			// vec_of_fun->push_back((*res)[i] == L'1' ? true : false);
+			i++;
+		}
+		i++;
+		for (int j = 0; i < res.size(); i++, j++)
+		{
+			vars[j] = res[i];
+		}
+
+		statement->SetText(L"Дан вектор функции, определить существенные и фиктивные переменные: " + *vec_of_fun);
 		statement->font = createFont(25);
 		statement->background = out;
 		statement->text_color = light_t;
@@ -55,20 +79,8 @@ namespace fifth_page
 		confirm_bt->click = [=](Button *but) -> void
 		{
 			std::wstring answer = input->GetText();
-			std::wstring res = task5::main(answer);
-			std::vector<bool> vec_of_fun;
-			std::vector<bool> vars;
-			int i = 0;
-			while (res[i] != L' ')
-			{
-				vec_of_fun.push_back(res[i] == L'1' ? true : false);
-				i++;
-			}
-			i++;
-			for (int j = 0; i < res.size(); i++, j++)
-			{
-				vars[j] = res[i];
-			}
+			// std::wstring res = task5::main();
+
 			bool ans_status = true;
 			for (auto ch : answer)
 			{
@@ -76,13 +88,13 @@ namespace fifth_page
 				{
 					continue;
 				}
-				if (!vars[int(ch - L'0')])
+				if (!vars[int(ch - L'0')]) // В один индексации
 				{
 					ans_status = false;
 					break;
 				}
 			}
-				};
+		};
 
 		main_lc->add(back_bt);
 		main_lc->add(statement_lc);
