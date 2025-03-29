@@ -27,7 +27,10 @@ namespace sixth_page
 		std::wstring vec_of_fun;
 		for (auto el : vf)
 		{
-			vec_of_fun += to_wstring(el);
+			if (el)
+				vec_of_fun += L'1';
+			else
+				vec_of_fun += L'0';
 		}
 
 		statement->SetText(L"Дан вектор функции, определить ДНФ: ");

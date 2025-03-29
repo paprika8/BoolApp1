@@ -19,7 +19,7 @@ namespace task7
 
     bool is_cnf(term *t);
 
-    vector<bool> generate_vf(int n);
+    vector<bool> generate_vf();
 
-    wstring main(wstring in);
+    wstring main(wstring in, const vector<bool> &v);
 }

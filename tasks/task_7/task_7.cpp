@@ -58,9 +58,11 @@ namespace task7
         return is_literal(t);
     }
 
-    vector<bool> generate_vf(int n)
+    vector<bool> generate_vf()
     {
-        long long k = 1LL << n;
+        uniform_int_distribution<> dis(1, 4);
+        int amt_x = dis(gen);
+        long long k = 1LL << amt_x;
         vector<bool> f(k); // 2^n
 
         uniform_int_distribution<> dis(0, 1); // Равномерное распределение для 0 и 1
@@ -73,23 +75,21 @@ namespace task7
         return f;
     }
 
-    wstring main(wstring in_str)
+    wstring main(wstring in_str, const std::vector<bool> &v)
     {
         wstringstream in(in_str);
         wstringstream out;
-        uniform_int_distribution<> dis(1, 4);
-        int amt_x = dis(gen);
 
-        vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
+        // vector<bool> v = generate_vf(amt_x); // Система предлагает вектор функции
 
         // out << L"Enter a CNF, that would be suitable for this vector: (";
 
-        for (auto el : v)
+        /*for (auto el : v)
         {
             out << el;
         }
         // out << L")" << endl;
-        out << L" ";
+        out << L" ";*/
         wstring str;
         getline(in, str);
         wchar_t *ch = str.data();
@@ -98,7 +98,7 @@ namespace task7
         // Проверка на КНФ
         if (!t)
         {
-            out << L"Invalid expression." << endl;
+            out << L"2"; // L"Invalid expression." << endl;
             wstring res;
             res = out.str();
             return res;
@@ -106,7 +106,7 @@ namespace task7
 
         if (!is_cnf(t))
         {
-            out << L"Wrong answer. Not a CNF." << endl;
+            out << L"3"; // L"Wrong answer. Not a CNF." << endl;
             wstring res;
             res = out.str();
             return res;
@@ -143,7 +143,7 @@ namespace task7
         // out << endl;
         if (res.size() != v.size())
         {
-            out << L"0" << endl; // Неправильный ответ
+            out << L"0"; // Неправильный ответ
             wstring res;
             res = out.str();
             return res;
@@ -159,14 +159,14 @@ namespace task7
         {
             if (res[i] != v[i])
             {
-                out << L"0" << endl; // Неправильный ответ
+                out << L"0"; // Неправильный ответ
                 wstring res;
                 res = out.str();
                 return res;
             }
         }
 
-        out << L"1" << endl; // Правильный ответ
+        out << L"1"; // Правильный ответ
         wstring res;
         res = out.str();
         return res;
