@@ -51,6 +51,8 @@ namespace eleventh_page
 
 		std::map<std::wstring, bool> *answers = new std::map<std::wstring, bool>();
 
+		Button *full_bt = new Button(new SizeBuilder(Size(pointUI(270), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
+
 		Button *T0_bt = new Button(new SizeBuilder(Size(pointUI(120), pointUI(100)), Margin(5, 5, 25, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		T0_bt->click = [&](Button *) -> void
 		{
@@ -203,7 +205,6 @@ namespace eleventh_page
 		L_bt->text_color = light_t;
 		L_bt->resize = right_form;
 
-		Button *full_bt = new Button(new SizeBuilder(Size(pointUI(270), pointUI(80)), Margin(5, 5, 5, 5), Padding(pointUI(10, percent), 0, 0, 0)));
 		full_bt->click = [&](Button *) -> void
 		{
 			if (!(full_bt->safe_down))
