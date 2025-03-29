@@ -346,7 +346,7 @@ namespace eleventh_page
 					(*answers)[L"T0"] = 0;
 				}
 				else if((*answers)[L"T0"] != classes[0])
-					T0_bt->background = out;
+					T0_bt->background = wrong;
 				if ((*answers)[L"T1"])
 				{
 					if ((*answers)[L"T1"] == classes[1])
@@ -361,7 +361,7 @@ namespace eleventh_page
 					(*answers)[L"T1"] = 0;
 				}
 				else if((*answers)[L"T1"] != classes[1])
-					T1_bt->background = out;
+					T1_bt->background = wrong;
 				if ((*answers)[L"S"])
 				{
 					if ((*answers)[L"S"] == classes[2])
@@ -376,7 +376,7 @@ namespace eleventh_page
 					(*answers)[L"S"] = 0;
 				}
 				else if((*answers)[L"S"] != classes[2])
-					S_bt->background = out;
+					S_bt->background = wrong;
 				if ((*answers)[L"M"])
 				{
 					if ((*answers)[L"M"] == classes[3])
@@ -391,7 +391,7 @@ namespace eleventh_page
 					(*answers)[L"M"] = 0;
 				}
 				else if((*answers)[L"M"] != classes[3])
-					M_bt->background = out;
+					M_bt->background = wrong;
 				if ((*answers)[L"L"])
 				{
 					if ((*answers)[L"L"] == classes[4])
@@ -406,7 +406,7 @@ namespace eleventh_page
 					(*answers)[L"L"] = 0;
 				}
 				else if((*answers)[L"L"] != classes[4])
-					L_bt->background = out;
+					L_bt->background = wrong;
 			}
 			InvalidateRect(full_bt->PV->hwnd, 0, 1);
 			InvalidateRect(L_bt->PV->hwnd, 0, 1);
